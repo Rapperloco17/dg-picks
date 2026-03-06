@@ -1,0 +1,8210 @@
+[
+  {
+    "fixture": {
+      "id": 1232068,
+      "referee": "A. Calzavara",
+      "timezone": "UTC",
+      "date": "2024-08-03T16:00:00+00:00",
+      "timestamp": 1722700800,
+      "periods": {
+        "first": 1722700800,
+        "second": 1722704400
+      },
+      "venue": {
+        "id": 872,
+        "name": "Stadio Comunale Chiavari",
+        "city": "Chiavari"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Preliminary Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1581,
+        "name": "Carrarese",
+        "logo": "https://media.api-sports.io/football/teams/1581.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1580,
+        "name": "Catania",
+        "logo": "https://media.api-sports.io/football/teams/1580.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 1581
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 5
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 1580
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 5,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232069,
+      "referee": "A. Zanotti",
+      "timezone": "UTC",
+      "date": "2024-08-03T18:30:00+00:00",
+      "timestamp": 1722709800,
+      "periods": {
+        "first": 1722709800,
+        "second": 1722713400
+      },
+      "venue": {
+        "id": 6630,
+        "name": "Stadio Vanni Sanna",
+        "city": "Sassari"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Preliminary Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 9534,
+        "name": "Torres",
+        "logo": "https://media.api-sports.io/football/teams/9534.png",
+        "winner": false
+      },
+      "away": {
+        "id": 1693,
+        "name": "Mantova",
+        "logo": "https://media.api-sports.io/football/teams/1693.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 9534
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 1693
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232070,
+      "referee": "L. De Angeli",
+      "timezone": "UTC",
+      "date": "2024-08-04T18:30:00+00:00",
+      "timestamp": 1722796200,
+      "periods": {
+        "first": 1722796200,
+        "second": 1722799800
+      },
+      "venue": {
+        "id": 2758,
+        "name": "Orogel Stadium-Dino Manuzzi",
+        "city": "Cesena"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Preliminary Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 509,
+        "name": "Cesena",
+        "logo": "https://media.api-sports.io/football/teams/509.png",
+        "winner": true
+      },
+      "away": {
+        "id": 870,
+        "name": "Padova",
+        "logo": "https://media.api-sports.io/football/teams/870.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 509
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 870
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232067,
+      "referee": "R. Lovison",
+      "timezone": "UTC",
+      "date": "2024-08-04T18:45:00+00:00",
+      "timestamp": 1722797100,
+      "periods": {
+        "first": 1722797100,
+        "second": 1722800700
+      },
+      "venue": {
+        "id": 2756,
+        "name": "Stadio Partenio-Adriano Lombardi",
+        "city": "Avellino"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Preliminary Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 528,
+        "name": "Avellino",
+        "logo": "https://media.api-sports.io/football/teams/528.png",
+        "winner": true
+      },
+      "away": {
+        "id": 863,
+        "name": "Juve Stabia",
+        "logo": "https://media.api-sports.io/football/teams/863.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 528
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 863
+        },
+        "statistics": [
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 3,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232055,
+      "referee": "A. Prontera",
+      "timezone": "UTC",
+      "date": "2024-08-09T16:00:00+00:00",
+      "timestamp": 1723219200,
+      "periods": {
+        "first": 1723219200,
+        "second": 1723222800
+      },
+      "venue": {
+        "id": 935,
+        "name": "MAPEI Stadium - Città del Tricolore",
+        "city": "Reggio Emilia"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 488,
+        "name": "Sassuolo",
+        "logo": "https://media.api-sports.io/football/teams/488.png",
+        "winner": true
+      },
+      "away": {
+        "id": 510,
+        "name": "Cittadella",
+        "logo": "https://media.api-sports.io/football/teams/510.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 488
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 15
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 9
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "54%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 482
+          },
+          {
+            "type": "Passes accurate",
+            "value": 404
+          },
+          {
+            "type": "Passes %",
+            "value": "84%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 510
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 9
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 2
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 8
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "46%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 409
+          },
+          {
+            "type": "Passes accurate",
+            "value": 339
+          },
+          {
+            "type": "Passes %",
+            "value": "83%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 2,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "54%",
+      "away": "46%"
+    },
+    "shots": {
+      "home": {
+        "total": 15,
+        "on": 6
+      },
+      "away": {
+        "total": 9,
+        "on": 2
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1279552,
+      "referee": "G. Scatena",
+      "timezone": "UTC",
+      "date": "2024-08-09T16:30:00+00:00",
+      "timestamp": 1723221000,
+      "periods": {
+        "first": 1723221000,
+        "second": 1723224600
+      },
+      "venue": {
+        "id": 20416,
+        "name": "Bluenergy Stadium",
+        "city": "Udine"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 494,
+        "name": "Udinese",
+        "logo": "https://media.api-sports.io/football/teams/494.png",
+        "winner": true
+      },
+      "away": {
+        "id": 528,
+        "name": "Avellino",
+        "logo": "https://media.api-sports.io/football/teams/528.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 494
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "60%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 546
+          },
+          {
+            "type": "Passes accurate",
+            "value": 492
+          },
+          {
+            "type": "Passes %",
+            "value": "90%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 528
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 1
+          },
+          {
+            "type": "Total Shots",
+            "value": 2
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 1
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 1
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "40%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 344
+          },
+          {
+            "type": "Passes accurate",
+            "value": 282
+          },
+          {
+            "type": "Passes %",
+            "value": "82%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 4,
+      "away": 6
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "60%",
+      "away": "40%"
+    },
+    "shots": {
+      "home": {
+        "total": 14,
+        "on": 7
+      },
+      "away": {
+        "total": 2,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232056,
+      "referee": "D. Di Marco",
+      "timezone": "UTC",
+      "date": "2024-08-09T18:45:00+00:00",
+      "timestamp": 1723229100,
+      "periods": {
+        "first": 1723229100,
+        "second": 1723232700
+      },
+      "venue": {
+        "id": 905,
+        "name": "Stadio Comunale Luigi Ferraris",
+        "city": "Genova"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 495,
+        "name": "Genoa",
+        "logo": "https://media.api-sports.io/football/teams/495.png",
+        "winner": true
+      },
+      "away": {
+        "id": 880,
+        "name": "Reggiana",
+        "logo": "https://media.api-sports.io/football/teams/880.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 495
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 12
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 9
+          },
+          {
+            "type": "Total Shots",
+            "value": 30
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 9
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 18
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 12
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "54%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 446
+          },
+          {
+            "type": "Passes accurate",
+            "value": 377
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 880
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "46%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 11
+          },
+          {
+            "type": "Total passes",
+            "value": 402
+          },
+          {
+            "type": "Passes accurate",
+            "value": 309
+          },
+          {
+            "type": "Passes %",
+            "value": "77%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "54%",
+      "away": "46%"
+    },
+    "shots": {
+      "home": {
+        "total": 30,
+        "on": 12
+      },
+      "away": {
+        "total": 13,
+        "on": 5
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1279553,
+      "referee": "V. Crezzini",
+      "timezone": "UTC",
+      "date": "2024-08-10T16:30:00+00:00",
+      "timestamp": 1723307400,
+      "periods": {
+        "first": 1723307400,
+        "second": 1723311000
+      },
+      "venue": {
+        "id": null,
+        "name": "Stadio Marcantonio Bentegodi",
+        "city": "Verona"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 504,
+        "name": "Hellas Verona",
+        "logo": "https://media.api-sports.io/football/teams/504.png",
+        "winner": false
+      },
+      "away": {
+        "id": 509,
+        "name": "Cesena",
+        "logo": "https://media.api-sports.io/football/teams/509.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 504
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 19
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 10
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 8
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "56%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 5
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 478
+          },
+          {
+            "type": "Passes accurate",
+            "value": 403
+          },
+          {
+            "type": "Passes %",
+            "value": "84%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 509
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 7
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "44%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 372
+          },
+          {
+            "type": "Passes accurate",
+            "value": 289
+          },
+          {
+            "type": "Passes %",
+            "value": "78%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 3,
+      "away": 7
+    },
+    "cards": {
+      "yellow": {
+        "home": 5,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "56%",
+      "away": "44%"
+    },
+    "shots": {
+      "home": {
+        "total": 19,
+        "on": 6
+      },
+      "away": {
+        "total": 13,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232059,
+      "referee": "A. Arena",
+      "timezone": "UTC",
+      "date": "2024-08-10T18:45:00+00:00",
+      "timestamp": 1723315500,
+      "periods": {
+        "first": 1723315500,
+        "second": 1723319100
+      },
+      "venue": {
+        "id": 20109,
+        "name": "Stadio Carlo Castellani – Computer Gross Arena",
+        "city": "Empoli"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 511,
+        "name": "Empoli",
+        "logo": "https://media.api-sports.io/football/teams/511.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1687,
+        "name": "Catanzaro",
+        "logo": "https://media.api-sports.io/football/teams/1687.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 511
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 8
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 11
+          },
+          {
+            "type": "Total Shots",
+            "value": 21
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 16
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "57%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 474
+          },
+          {
+            "type": "Passes accurate",
+            "value": 415
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 1687
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 1
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 2
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "43%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 362
+          },
+          {
+            "type": "Passes accurate",
+            "value": 303
+          },
+          {
+            "type": "Passes %",
+            "value": "84%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 8,
+      "away": 2
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "57%",
+      "away": "43%"
+    },
+    "shots": {
+      "home": {
+        "total": 21,
+        "on": 8
+      },
+      "away": {
+        "total": 7,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232061,
+      "referee": "M. Ferrieri Caputi",
+      "timezone": "UTC",
+      "date": "2024-08-11T16:00:00+00:00",
+      "timestamp": 1723392000,
+      "periods": {
+        "first": 1723392000,
+        "second": 1723395600
+      },
+      "venue": {
+        "id": 882,
+        "name": "Stadio Mario Rigamonti",
+        "city": "Brescia"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 518,
+        "name": "Brescia",
+        "logo": "https://media.api-sports.io/football/teams/518.png",
+        "winner": true
+      },
+      "away": {
+        "id": 517,
+        "name": "Venezia",
+        "logo": "https://media.api-sports.io/football/teams/517.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 518
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 9
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 1
+          },
+          {
+            "type": "Fouls",
+            "value": 13
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 1
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "36%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 8
+          },
+          {
+            "type": "Total passes",
+            "value": 300
+          },
+          {
+            "type": "Passes accurate",
+            "value": 242
+          },
+          {
+            "type": "Passes %",
+            "value": "81%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 517
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 17
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 9
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "64%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 507
+          },
+          {
+            "type": "Passes accurate",
+            "value": 437
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 1,
+      "away": 9
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "36%",
+      "away": "64%"
+    },
+    "shots": {
+      "home": {
+        "total": 9,
+        "on": 5
+      },
+      "away": {
+        "total": 17,
+        "on": 7
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232062,
+      "referee": "D. Perenzoni",
+      "timezone": "UTC",
+      "date": "2024-08-11T16:30:00+00:00",
+      "timestamp": 1723393800,
+      "periods": {
+        "first": 1723393800,
+        "second": 1723397400
+      },
+      "venue": {
+        "id": 921,
+        "name": "Stadio Ennio Tardini",
+        "city": "Parma"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 523,
+        "name": "Parma",
+        "logo": "https://media.api-sports.io/football/teams/523.png",
+        "winner": false
+      },
+      "away": {
+        "id": 522,
+        "name": "Palermo",
+        "logo": "https://media.api-sports.io/football/teams/522.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 523
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 17
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 10
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 7
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 10
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "47%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 361
+          },
+          {
+            "type": "Passes accurate",
+            "value": 289
+          },
+          {
+            "type": "Passes %",
+            "value": "80%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 522
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "53%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 428
+          },
+          {
+            "type": "Passes accurate",
+            "value": 363
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 10,
+      "away": 5
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "47%",
+      "away": "53%"
+    },
+    "shots": {
+      "home": {
+        "total": 17,
+        "on": 4
+      },
+      "away": {
+        "total": 13,
+        "on": 4
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232064,
+      "referee": "D. Ghersini",
+      "timezone": "UTC",
+      "date": "2024-08-11T19:15:00+00:00",
+      "timestamp": 1723403700,
+      "periods": {
+        "first": 1723403700,
+        "second": 1723407300
+      },
+      "venue": {
+        "id": 943,
+        "name": "Stadio Olimpico Grande Torino",
+        "city": "Torino"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 503,
+        "name": "Torino",
+        "logo": "https://media.api-sports.io/football/teams/503.png",
+        "winner": true
+      },
+      "away": {
+        "id": 10137,
+        "name": "Cosenza",
+        "logo": "https://media.api-sports.io/football/teams/10137.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 503
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 8
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 0
+          },
+          {
+            "type": "Fouls",
+            "value": 6
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "60%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 537
+          },
+          {
+            "type": "Passes accurate",
+            "value": 474
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 10137
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 10
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "40%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 4
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 359
+          },
+          {
+            "type": "Passes accurate",
+            "value": 302
+          },
+          {
+            "type": "Passes %",
+            "value": "84%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 6,
+      "away": 5
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 4
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "60%",
+      "away": "40%"
+    },
+    "shots": {
+      "home": {
+        "total": 8,
+        "on": 1
+      },
+      "away": {
+        "total": 14,
+        "on": 4
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1232065,
+      "referee": "F. Fourneau",
+      "timezone": "UTC",
+      "date": "2024-08-12T16:00:00+00:00",
+      "timestamp": 1723478400,
+      "periods": {
+        "first": 1723478400,
+        "second": 1723482000
+      },
+      "venue": {
+        "id": 904,
+        "name": "Stadio Benito Stirpe",
+        "city": "Frosinone"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 512,
+        "name": "Frosinone",
+        "logo": "https://media.api-sports.io/football/teams/512.png",
+        "winner": false
+      },
+      "away": {
+        "id": 801,
+        "name": "Pisa",
+        "logo": "https://media.api-sports.io/football/teams/801.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 512
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 5
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 1
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "60%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 484
+          },
+          {
+            "type": "Passes accurate",
+            "value": 406
+          },
+          {
+            "type": "Passes %",
+            "value": "84%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 801
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 9
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 19
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "40%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 320
+          },
+          {
+            "type": "Passes accurate",
+            "value": 250
+          },
+          {
+            "type": "Passes %",
+            "value": "78%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 5
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "60%",
+      "away": "40%"
+    },
+    "shots": {
+      "home": {
+        "total": 5,
+        "on": 2
+      },
+      "away": {
+        "total": 16,
+        "on": 4
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1279554,
+      "referee": "M. Perri",
+      "timezone": "UTC",
+      "date": "2024-08-12T16:30:00+00:00",
+      "timestamp": 1723480200,
+      "periods": {
+        "first": 1723480200,
+        "second": 1723483800
+      },
+      "venue": {
+        "id": null,
+        "name": "Stadio Ettore Giardiniero - Via del Mare",
+        "city": "Lecce"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 867,
+        "name": "Lecce",
+        "logo": "https://media.api-sports.io/football/teams/867.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1693,
+        "name": "Mantova",
+        "logo": "https://media.api-sports.io/football/teams/1693.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 867
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 9
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 9
+          },
+          {
+            "type": "Total Shots",
+            "value": 23
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 14
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 9
+          },
+          {
+            "type": "Fouls",
+            "value": 20
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 4
+          },
+          {
+            "type": "Ball Possession",
+            "value": "36%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 336
+          },
+          {
+            "type": "Passes accurate",
+            "value": 289
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 1693
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 3
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 3
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 0
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "64%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 7
+          },
+          {
+            "type": "Total passes",
+            "value": 605
+          },
+          {
+            "type": "Passes accurate",
+            "value": 532
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 8,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "36%",
+      "away": "64%"
+    },
+    "shots": {
+      "home": {
+        "total": 23,
+        "on": 9
+      },
+      "away": {
+        "total": 3,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1279555,
+      "referee": "I. Pezzuto",
+      "timezone": "UTC",
+      "date": "2024-08-12T19:15:00+00:00",
+      "timestamp": 1723490100,
+      "periods": {
+        "first": 1723490100,
+        "second": 1723493700
+      },
+      "venue": {
+        "id": 12275,
+        "name": "Unipol Domus",
+        "city": "Cagliari"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "1st Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 490,
+        "name": "Cagliari",
+        "logo": "https://media.api-sports.io/football/teams/490.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1581,
+        "name": "Carrarese",
+        "logo": "https://media.api-sports.io/football/teams/1581.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 490
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 8
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 10
+          },
+          {
+            "type": "Total Shots",
+            "value": 20
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 15
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 15
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "53%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 453
+          },
+          {
+            "type": "Passes accurate",
+            "value": 375
+          },
+          {
+            "type": "Passes %",
+            "value": "83%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 1581
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 6
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "47%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 419
+          },
+          {
+            "type": "Passes accurate",
+            "value": 321
+          },
+          {
+            "type": "Passes %",
+            "value": "77%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 4
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "53%",
+      "away": "47%"
+    },
+    "shots": {
+      "home": {
+        "total": 20,
+        "on": 8
+      },
+      "away": {
+        "total": 6,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286331,
+      "referee": "D. Perenzoni",
+      "timezone": "UTC",
+      "date": "2024-09-24T14:00:00+00:00",
+      "timestamp": 1727186400,
+      "periods": {
+        "first": 1727186400,
+        "second": 1727190000
+      },
+      "venue": {
+        "id": null,
+        "name": "Stadio Ettore Giardiniero - Via del Mare",
+        "city": "Lecce"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 867,
+        "name": "Lecce",
+        "logo": "https://media.api-sports.io/football/teams/867.png",
+        "winner": false
+      },
+      "away": {
+        "id": 488,
+        "name": "Sassuolo",
+        "logo": "https://media.api-sports.io/football/teams/488.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 867
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 10
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "65%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 571
+          },
+          {
+            "type": "Passes accurate",
+            "value": 497
+          },
+          {
+            "type": "Passes %",
+            "value": "87%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 488
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 12
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "35%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 4
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 7
+          },
+          {
+            "type": "Total passes",
+            "value": 314
+          },
+          {
+            "type": "Passes accurate",
+            "value": 242
+          },
+          {
+            "type": "Passes %",
+            "value": "77%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 8,
+      "away": 4
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 4
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "65%",
+      "away": "35%"
+    },
+    "shots": {
+      "home": {
+        "total": 14,
+        "on": 7
+      },
+      "away": {
+        "total": 12,
+        "on": 5
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286329,
+      "referee": "K. Bonacina",
+      "timezone": "UTC",
+      "date": "2024-09-24T16:30:00+00:00",
+      "timestamp": 1727195400,
+      "periods": {
+        "first": 1727195400,
+        "second": 1727199000
+      },
+      "venue": {
+        "id": 12275,
+        "name": "Unipol Domus",
+        "city": "Cagliari"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 490,
+        "name": "Cagliari",
+        "logo": "https://media.api-sports.io/football/teams/490.png",
+        "winner": true
+      },
+      "away": {
+        "id": 520,
+        "name": "Cremonese",
+        "logo": "https://media.api-sports.io/football/teams/520.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 490
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 16
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 11
+          },
+          {
+            "type": "Offsides",
+            "value": 4
+          },
+          {
+            "type": "Ball Possession",
+            "value": "49%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 440
+          },
+          {
+            "type": "Passes accurate",
+            "value": 373
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 520
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 12
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 5
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 5
+          },
+          {
+            "type": "Ball Possession",
+            "value": "51%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 476
+          },
+          {
+            "type": "Passes accurate",
+            "value": 422
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 11,
+      "away": 2
+    },
+    "cards": {
+      "yellow": {
+        "home": 3,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "49%",
+      "away": "51%"
+    },
+    "shots": {
+      "home": {
+        "total": 13,
+        "on": 4
+      },
+      "away": {
+        "total": 12,
+        "on": 5
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286187,
+      "referee": "D. Ghersini",
+      "timezone": "UTC",
+      "date": "2024-09-24T19:00:00+00:00",
+      "timestamp": 1727204400,
+      "periods": {
+        "first": 1727204400,
+        "second": 1727208000
+      },
+      "venue": {
+        "id": 943,
+        "name": "Stadio Olimpico Grande Torino",
+        "city": "Torino"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 503,
+        "name": "Torino",
+        "logo": "https://media.api-sports.io/football/teams/503.png",
+        "winner": false
+      },
+      "away": {
+        "id": 511,
+        "name": "Empoli",
+        "logo": "https://media.api-sports.io/football/teams/511.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 503
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 15
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 15
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "56%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 463
+          },
+          {
+            "type": "Passes accurate",
+            "value": 381
+          },
+          {
+            "type": "Passes %",
+            "value": "82%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 511
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 5
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "44%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 369
+          },
+          {
+            "type": "Passes accurate",
+            "value": 290
+          },
+          {
+            "type": "Passes %",
+            "value": "79%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 5,
+      "away": 4
+    },
+    "cards": {
+      "yellow": {
+        "home": 3,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "56%",
+      "away": "44%"
+    },
+    "shots": {
+      "home": {
+        "total": 15,
+        "on": 5
+      },
+      "away": {
+        "total": 7,
+        "on": 2
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286330,
+      "referee": "D. Rutella",
+      "timezone": "UTC",
+      "date": "2024-09-25T14:00:00+00:00",
+      "timestamp": 1727272800,
+      "periods": {
+        "first": 1727272800,
+        "second": 1727276400
+      },
+      "venue": {
+        "id": 925,
+        "name": "Arena Garibaldi - Stadio Romeo Anconetani",
+        "city": "Pisa"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 801,
+        "name": "Pisa",
+        "logo": "https://media.api-sports.io/football/teams/801.png",
+        "winner": false
+      },
+      "away": {
+        "id": 509,
+        "name": "Cesena",
+        "logo": "https://media.api-sports.io/football/teams/509.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 801
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 12
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 13
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "52%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 456
+          },
+          {
+            "type": "Passes accurate",
+            "value": 357
+          },
+          {
+            "type": "Passes %",
+            "value": "78%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 509
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 5
+          },
+          {
+            "type": "Ball Possession",
+            "value": "48%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 4
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 430
+          },
+          {
+            "type": "Passes accurate",
+            "value": 324
+          },
+          {
+            "type": "Passes %",
+            "value": "75%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 2,
+      "away": 4
+    },
+    "cards": {
+      "yellow": {
+        "home": 3,
+        "away": 4
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "52%",
+      "away": "48%"
+    },
+    "shots": {
+      "home": {
+        "total": 12,
+        "on": 4
+      },
+      "away": {
+        "total": 14,
+        "on": 6
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286332,
+      "referee": "F. Cosso",
+      "timezone": "UTC",
+      "date": "2024-09-25T16:30:00+00:00",
+      "timestamp": 1727281800,
+      "periods": {
+        "first": 1727281800,
+        "second": 1727285400
+      },
+      "venue": {
+        "id": 20416,
+        "name": "Bluenergy Stadium",
+        "city": "Udine"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 494,
+        "name": "Udinese",
+        "logo": "https://media.api-sports.io/football/teams/494.png",
+        "winner": true
+      },
+      "away": {
+        "id": 514,
+        "name": "Salernitana",
+        "logo": "https://media.api-sports.io/football/teams/514.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 494
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 7
+          },
+          {
+            "type": "Total Shots",
+            "value": 15
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 8
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "52%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 492
+          },
+          {
+            "type": "Passes accurate",
+            "value": 433
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 514
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 12
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 7
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 13
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "48%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Red Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 453
+          },
+          {
+            "type": "Passes accurate",
+            "value": 390
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 6,
+      "away": 6
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 1
+      }
+    },
+    "possession": {
+      "home": "52%",
+      "away": "48%"
+    },
+    "shots": {
+      "home": {
+        "total": 15,
+        "on": 4
+      },
+      "away": {
+        "total": 12,
+        "on": 2
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286188,
+      "referee": "F. Dionisi",
+      "timezone": "UTC",
+      "date": "2024-09-26T16:30:00+00:00",
+      "timestamp": 1727368200,
+      "periods": {
+        "first": 1727368200,
+        "second": 1727371800
+      },
+      "venue": {
+        "id": 12086,
+        "name": "U-Power Stadium",
+        "city": "Monza"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1579,
+        "name": "Monza",
+        "logo": "https://media.api-sports.io/football/teams/1579.png",
+        "winner": true
+      },
+      "away": {
+        "id": 518,
+        "name": "Brescia",
+        "logo": "https://media.api-sports.io/football/teams/518.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 3,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 1579
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 8
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 19
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 15
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "58%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 581
+          },
+          {
+            "type": "Passes accurate",
+            "value": 531
+          },
+          {
+            "type": "Passes %",
+            "value": "91%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 518
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 7
+          },
+          {
+            "type": "Total Shots",
+            "value": 11
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "42%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 413
+          },
+          {
+            "type": "Passes accurate",
+            "value": 359
+          },
+          {
+            "type": "Passes %",
+            "value": "87%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 7
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "58%",
+      "away": "42%"
+    },
+    "shots": {
+      "home": {
+        "total": 19,
+        "on": 8
+      },
+      "away": {
+        "total": 11,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1286190,
+      "referee": "G. Collu",
+      "timezone": "UTC",
+      "date": "2024-09-26T19:00:00+00:00",
+      "timestamp": 1727377200,
+      "periods": {
+        "first": 1727377200,
+        "second": 1727380800
+      },
+      "venue": {
+        "id": 11904,
+        "name": "Stadio Diego Armando Maradona",
+        "city": "Napoli"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 1
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "2nd Round",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 492,
+        "name": "Napoli",
+        "logo": "https://media.api-sports.io/football/teams/492.png",
+        "winner": true
+      },
+      "away": {
+        "id": 522,
+        "name": "Palermo",
+        "logo": "https://media.api-sports.io/football/teams/522.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 5,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 3,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 5,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 492
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 10
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 1
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "65%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 591
+          },
+          {
+            "type": "Passes accurate",
+            "value": 549
+          },
+          {
+            "type": "Passes %",
+            "value": "93%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 522
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 10
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "35%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Red Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 302
+          },
+          {
+            "type": "Passes accurate",
+            "value": 243
+          },
+          {
+            "type": "Passes %",
+            "value": "80%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 1,
+      "away": 4
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 1
+      }
+    },
+    "possession": {
+      "home": "65%",
+      "away": "35%"
+    },
+    "shots": {
+      "home": {
+        "total": 16,
+        "on": 7
+      },
+      "away": {
+        "total": 10,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1309294,
+      "referee": "M. Ferrieri Caputi",
+      "timezone": "UTC",
+      "date": "2024-12-03T17:30:00+00:00",
+      "timestamp": 1733247000,
+      "periods": {
+        "first": 1733247000,
+        "second": 1733250600
+      },
+      "venue": {
+        "id": 881,
+        "name": "Stadio Renato Dall'Ara",
+        "city": "Bologna"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 500,
+        "name": "Bologna",
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1579,
+        "name": "Monza",
+        "logo": "https://media.api-sports.io/football/teams/1579.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 500
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 9
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 15
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "53%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 531
+          },
+          {
+            "type": "Passes accurate",
+            "value": 453
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 1579
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 6
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 6
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 0
+          },
+          {
+            "type": "Fouls",
+            "value": 12
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "47%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 458
+          },
+          {
+            "type": "Passes accurate",
+            "value": 370
+          },
+          {
+            "type": "Passes %",
+            "value": "81%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 5,
+      "away": 5
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "53%",
+      "away": "47%"
+    },
+    "shots": {
+      "home": {
+        "total": 16,
+        "on": 9
+      },
+      "away": {
+        "total": 6,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1308637,
+      "referee": "K. Bonacina",
+      "timezone": "UTC",
+      "date": "2024-12-03T20:00:00+00:00",
+      "timestamp": 1733256000,
+      "periods": {
+        "first": 1733256000,
+        "second": 1733259600
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 1
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "winner": true
+      },
+      "away": {
+        "id": 488,
+        "name": "Sassuolo",
+        "logo": "https://media.api-sports.io/football/teams/488.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 6,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 4,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 6,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 489
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 8
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 15
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 6
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "70%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 711
+          },
+          {
+            "type": "Passes accurate",
+            "value": 649
+          },
+          {
+            "type": "Passes %",
+            "value": "91%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 488
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 1
+          },
+          {
+            "type": "Total Shots",
+            "value": 4
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 2
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 0
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "30%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 302
+          },
+          {
+            "type": "Passes accurate",
+            "value": 242
+          },
+          {
+            "type": "Passes %",
+            "value": "80%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "70%",
+      "away": "30%"
+    },
+    "shots": {
+      "home": {
+        "total": 15,
+        "on": 8
+      },
+      "away": {
+        "total": 4,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1309295,
+      "referee": "L. Pairetto",
+      "timezone": "UTC",
+      "date": "2024-12-05T20:00:00+00:00",
+      "timestamp": 1733428800,
+      "periods": {
+        "first": 1733428800,
+        "second": 1733432400
+      },
+      "venue": {
+        "id": 910,
+        "name": "Stadio Olimpico",
+        "city": "Roma"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 487,
+        "name": "Lazio",
+        "logo": "https://media.api-sports.io/football/teams/487.png",
+        "winner": true
+      },
+      "away": {
+        "id": 492,
+        "name": "Napoli",
+        "logo": "https://media.api-sports.io/football/teams/492.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 487
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 11
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 8
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "51%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 481
+          },
+          {
+            "type": "Passes accurate",
+            "value": 413
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 492
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 9
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 6
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 15
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "49%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 460
+          },
+          {
+            "type": "Passes accurate",
+            "value": 394
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 7,
+      "away": 7
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "51%",
+      "away": "49%"
+    },
+    "shots": {
+      "home": {
+        "total": 11,
+        "on": 5
+      },
+      "away": {
+        "total": 9,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1308634,
+      "referee": "E. Feliciani",
+      "timezone": "UTC",
+      "date": "2024-12-17T20:00:00+00:00",
+      "timestamp": 1734465600,
+      "periods": {
+        "first": 1734465600,
+        "second": 1734469200
+      },
+      "venue": {
+        "id": 909,
+        "name": "Allianz Stadium",
+        "city": "Torino"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 3
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 496,
+        "name": "Juventus",
+        "logo": "https://media.api-sports.io/football/teams/496.png",
+        "winner": true
+      },
+      "away": {
+        "id": 490,
+        "name": "Cagliari",
+        "logo": "https://media.api-sports.io/football/teams/490.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 496
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 11
+          },
+          {
+            "type": "Total Shots",
+            "value": 27
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 10
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 18
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 9
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 4
+          },
+          {
+            "type": "Ball Possession",
+            "value": "55%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 509
+          },
+          {
+            "type": "Passes accurate",
+            "value": 455
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 490
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 7
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "45%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 412
+          },
+          {
+            "type": "Passes accurate",
+            "value": 350
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 5,
+      "away": 2
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "55%",
+      "away": "45%"
+    },
+    "shots": {
+      "home": {
+        "total": 27,
+        "on": 6
+      },
+      "away": {
+        "total": 13,
+        "on": 2
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1308636,
+      "referee": "D. Perenzoni",
+      "timezone": "UTC",
+      "date": "2024-12-18T17:30:00+00:00",
+      "timestamp": 1734543000,
+      "periods": {
+        "first": 1734543000,
+        "second": 1734546600
+      },
+      "venue": {
+        "id": 879,
+        "name": "Gewiss Stadium",
+        "city": "Bergamo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 2
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 499,
+        "name": "Atalanta",
+        "logo": "https://media.api-sports.io/football/teams/499.png",
+        "winner": true
+      },
+      "away": {
+        "id": 509,
+        "name": "Cesena",
+        "logo": "https://media.api-sports.io/football/teams/509.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 6,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 4,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 6,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 499
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 10
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 17
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 15
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "59%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 654
+          },
+          {
+            "type": "Passes accurate",
+            "value": 591
+          },
+          {
+            "type": "Passes %",
+            "value": "90%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 509
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 5
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 2
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 7
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "41%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 459
+          },
+          {
+            "type": "Passes accurate",
+            "value": 381
+          },
+          {
+            "type": "Passes %",
+            "value": "83%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 8,
+      "away": 2
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "59%",
+      "away": "41%"
+    },
+    "shots": {
+      "home": {
+        "total": 17,
+        "on": 10
+      },
+      "away": {
+        "total": 5,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1308638,
+      "referee": "F. Dionisi",
+      "timezone": "UTC",
+      "date": "2024-12-18T20:00:00+00:00",
+      "timestamp": 1734552000,
+      "periods": {
+        "first": 1734552000,
+        "second": 1734555600
+      },
+      "venue": {
+        "id": 910,
+        "name": "Stadio Olimpico",
+        "city": "Roma"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 497,
+        "name": "AS Roma",
+        "logo": "https://media.api-sports.io/football/teams/497.png",
+        "winner": true
+      },
+      "away": {
+        "id": 498,
+        "name": "Sampdoria",
+        "logo": "https://media.api-sports.io/football/teams/498.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 3,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 497
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 13
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "60%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 649
+          },
+          {
+            "type": "Passes accurate",
+            "value": 589
+          },
+          {
+            "type": "Passes %",
+            "value": "91%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 498
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 6
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 18
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 0
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "40%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 429
+          },
+          {
+            "type": "Passes accurate",
+            "value": 378
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 2,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "60%",
+      "away": "40%"
+    },
+    "shots": {
+      "home": {
+        "total": 14,
+        "on": 7
+      },
+      "away": {
+        "total": 6,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1308639,
+      "referee": "L. Massimi",
+      "timezone": "UTC",
+      "date": "2024-12-19T20:00:00+00:00",
+      "timestamp": 1734638400,
+      "periods": {
+        "first": 1734638400,
+        "second": 1734642000
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 5
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Round of 16",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 505,
+        "name": "Inter",
+        "logo": "https://media.api-sports.io/football/teams/505.png",
+        "winner": true
+      },
+      "away": {
+        "id": 494,
+        "name": "Udinese",
+        "logo": "https://media.api-sports.io/football/teams/494.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 505
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 5
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 5
+          },
+          {
+            "type": "Ball Possession",
+            "value": "57%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 513
+          },
+          {
+            "type": "Passes accurate",
+            "value": 458
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 494
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 8
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 5
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "43%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 376
+          },
+          {
+            "type": "Passes accurate",
+            "value": 320
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 3,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "57%",
+      "away": "43%"
+    },
+    "shots": {
+      "home": {
+        "total": 7,
+        "on": 3
+      },
+      "away": {
+        "total": 8,
+        "on": 1
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1323909,
+      "referee": "L. Marinelli",
+      "timezone": "UTC",
+      "date": "2025-02-04T20:00:00+00:00",
+      "timestamp": 1738699200,
+      "periods": {
+        "first": 1738699200,
+        "second": 1738702800
+      },
+      "venue": {
+        "id": 879,
+        "name": "Gewiss Stadium",
+        "city": "Bergamo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Quarter-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 499,
+        "name": "Atalanta",
+        "logo": "https://media.api-sports.io/football/teams/499.png",
+        "winner": false
+      },
+      "away": {
+        "id": 500,
+        "name": "Bologna",
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 499
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "55%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 483
+          },
+          {
+            "type": "Passes accurate",
+            "value": 385
+          },
+          {
+            "type": "Passes %",
+            "value": "80%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 500
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 9
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 9
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 15
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "45%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 399
+          },
+          {
+            "type": "Passes accurate",
+            "value": 320
+          },
+          {
+            "type": "Passes %",
+            "value": "80%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 4,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "55%",
+      "away": "45%"
+    },
+    "shots": {
+      "home": {
+        "total": 13,
+        "on": 5
+      },
+      "away": {
+        "total": 13,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1323910,
+      "referee": "M. Piccinini",
+      "timezone": "UTC",
+      "date": "2025-02-05T20:00:00+00:00",
+      "timestamp": 1738785600,
+      "periods": {
+        "first": 1738785600,
+        "second": 1738789200
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 4
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Quarter-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "winner": true
+      },
+      "away": {
+        "id": 497,
+        "name": "AS Roma",
+        "logo": "https://media.api-sports.io/football/teams/497.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 489
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 9
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "51%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 6
+          },
+          {
+            "type": "Total passes",
+            "value": 491
+          },
+          {
+            "type": "Passes accurate",
+            "value": 435
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 497
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 7
+          },
+          {
+            "type": "Total Shots",
+            "value": 19
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 8
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "49%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 471
+          },
+          {
+            "type": "Passes accurate",
+            "value": 418
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 4,
+      "away": 8
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 1
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "51%",
+      "away": "49%"
+    },
+    "shots": {
+      "home": {
+        "total": 13,
+        "on": 6
+      },
+      "away": {
+        "total": 19,
+        "on": 7
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1325897,
+      "referee": "M. Fabbri",
+      "timezone": "UTC",
+      "date": "2025-02-25T20:00:00+00:00",
+      "timestamp": 1740513600,
+      "periods": {
+        "first": 1740513600,
+        "second": 1740517200
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 5
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Quarter-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 505,
+        "name": "Inter",
+        "logo": "https://media.api-sports.io/football/teams/505.png",
+        "winner": true
+      },
+      "away": {
+        "id": 487,
+        "name": "Lazio",
+        "logo": "https://media.api-sports.io/football/teams/487.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 505
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 4
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 2
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 5
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "51%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 6
+          },
+          {
+            "type": "Total passes",
+            "value": 489
+          },
+          {
+            "type": "Passes accurate",
+            "value": 428
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 487
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 13
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 8
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "49%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 5
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 452
+          },
+          {
+            "type": "Passes accurate",
+            "value": 400
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 3,
+      "away": 8
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 5
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "51%",
+      "away": "49%"
+    },
+    "shots": {
+      "home": {
+        "total": 4,
+        "on": 2
+      },
+      "away": {
+        "total": 13,
+        "on": 6
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1355083,
+      "referee": "L. Zufferli",
+      "timezone": "UTC",
+      "date": "2025-04-01T19:00:00+00:00",
+      "timestamp": 1743534000,
+      "periods": {
+        "first": 1743534000,
+        "second": 1743537600
+      },
+      "venue": {
+        "id": 20109,
+        "name": "Stadio Carlo Castellani – Computer Gross Arena",
+        "city": "Empoli"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 5
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Semi-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 511,
+        "name": "Empoli",
+        "logo": "https://media.api-sports.io/football/teams/511.png",
+        "winner": false
+      },
+      "away": {
+        "id": 500,
+        "name": "Bologna",
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 511
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 1
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 3
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 3
+          },
+          {
+            "type": "Fouls",
+            "value": 18
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 0
+          },
+          {
+            "type": "Offsides",
+            "value": 5
+          },
+          {
+            "type": "Ball Possession",
+            "value": "33%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 309
+          },
+          {
+            "type": "Passes accurate",
+            "value": 217
+          },
+          {
+            "type": "Passes %",
+            "value": "70%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 500
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 14
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 12
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 13
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "67%"
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 1
+          },
+          {
+            "type": "Total passes",
+            "value": 626
+          },
+          {
+            "type": "Passes accurate",
+            "value": 530
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "33%",
+      "away": "67%"
+    },
+    "shots": {
+      "home": {
+        "total": 7,
+        "on": 1
+      },
+      "away": {
+        "total": 14,
+        "on": 7
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1355085,
+      "referee": "M. Fabbri",
+      "timezone": "UTC",
+      "date": "2025-04-02T19:00:00+00:00",
+      "timestamp": 1743620400,
+      "periods": {
+        "first": 1743620400,
+        "second": 1743624000
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 3
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Semi-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "winner": null
+      },
+      "away": {
+        "id": 505,
+        "name": "Inter",
+        "logo": "https://media.api-sports.io/football/teams/505.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 489
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 12
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 8
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 4
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 4
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "38%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 7
+          },
+          {
+            "type": "Total passes",
+            "value": 317
+          },
+          {
+            "type": "Passes accurate",
+            "value": 274
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 505
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 7
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 8
+          },
+          {
+            "type": "Total Shots",
+            "value": 18
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 10
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 8
+          },
+          {
+            "type": "Fouls",
+            "value": 7
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "62%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 521
+          },
+          {
+            "type": "Passes accurate",
+            "value": 466
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 4,
+      "away": 7
+    },
+    "cards": {
+      "yellow": {
+        "home": 2,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "38%",
+      "away": "62%"
+    },
+    "shots": {
+      "home": {
+        "total": 12,
+        "on": 4
+      },
+      "away": {
+        "total": 18,
+        "on": 7
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1355086,
+      "referee": "D. Doveri",
+      "timezone": "UTC",
+      "date": "2025-04-23T19:00:00+00:00",
+      "timestamp": 1745434800,
+      "periods": {
+        "first": 1745434800,
+        "second": 1745438400
+      },
+      "venue": {
+        "id": 907,
+        "name": "Stadio Giuseppe Meazza",
+        "city": "Milano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Semi-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 505,
+        "name": "Inter",
+        "logo": "https://media.api-sports.io/football/teams/505.png",
+        "winner": false
+      },
+      "away": {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 505
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 11
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 9
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 7
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "56%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 0
+          },
+          {
+            "type": "Total passes",
+            "value": 487
+          },
+          {
+            "type": "Passes accurate",
+            "value": 433
+          },
+          {
+            "type": "Passes %",
+            "value": "89%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 489
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 2
+          },
+          {
+            "type": "Total Shots",
+            "value": 8
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 3
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 1
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 7
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "44%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 391
+          },
+          {
+            "type": "Passes accurate",
+            "value": 335
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 6,
+      "away": 7
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "56%",
+      "away": "44%"
+    },
+    "shots": {
+      "home": {
+        "total": 16,
+        "on": 3
+      },
+      "away": {
+        "total": 8,
+        "on": 3
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1355084,
+      "referee": "M. Marcenaro",
+      "timezone": "UTC",
+      "date": "2025-04-24T19:00:00+00:00",
+      "timestamp": 1745521200,
+      "periods": {
+        "first": 1745521200,
+        "second": 1745524800
+      },
+      "venue": {
+        "id": 881,
+        "name": "Stadio Renato Dall'Ara",
+        "city": "Bologna"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 2
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Semi-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 500,
+        "name": "Bologna",
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "winner": true
+      },
+      "away": {
+        "id": 511,
+        "name": "Empoli",
+        "logo": "https://media.api-sports.io/football/teams/511.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 500
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 6
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 5
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 10
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 6
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Ball Possession",
+            "value": "70%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 552
+          },
+          {
+            "type": "Passes accurate",
+            "value": 476
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 511
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 4
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 1
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 2
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 5
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 2
+          },
+          {
+            "type": "Fouls",
+            "value": 23
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "30%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 241
+          },
+          {
+            "type": "Passes accurate",
+            "value": 173
+          },
+          {
+            "type": "Passes %",
+            "value": "72%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 6,
+      "away": 2
+    },
+    "cards": {
+      "yellow": {
+        "home": 1,
+        "away": 3
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "70%",
+      "away": "30%"
+    },
+    "shots": {
+      "home": {
+        "total": 16,
+        "on": 5
+      },
+      "away": {
+        "total": 7,
+        "on": 4
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1373026,
+      "referee": "M. Mariani",
+      "timezone": "UTC",
+      "date": "2025-05-14T19:00:00+00:00",
+      "timestamp": 1747249200,
+      "periods": {
+        "first": 1747249200,
+        "second": 1747252800
+      },
+      "venue": {
+        "id": 910,
+        "name": "Stadio Olimpico",
+        "city": "Roma"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 137,
+      "name": "Coppa Italia",
+      "country": "Italy",
+      "logo": "https://media.api-sports.io/football/leagues/137.png",
+      "flag": "https://media.api-sports.io/flags/it.svg",
+      "season": 2024,
+      "round": "Final",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "winner": false
+      },
+      "away": {
+        "id": 500,
+        "name": "Bologna",
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 489
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 11
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 4
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 7
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "46%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 3
+          },
+          {
+            "type": "Total passes",
+            "value": 428
+          },
+          {
+            "type": "Passes accurate",
+            "value": 375
+          },
+          {
+            "type": "Passes %",
+            "value": "88%"
+          }
+        ]
+      },
+      {
+        "team": {
+          "id": 500
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 2
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 5
+          },
+          {
+            "type": "Total Shots",
+            "value": 7
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 0
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 7
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 0
+          },
+          {
+            "type": "Fouls",
+            "value": 11
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 3
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "54%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 496
+          },
+          {
+            "type": "Passes accurate",
+            "value": 424
+          },
+          {
+            "type": "Passes %",
+            "value": "85%"
+          }
+        ]
+      }
+    ],
+    "corners": {
+      "home": 3,
+      "away": 3
+    },
+    "cards": {
+      "yellow": {
+        "home": 3,
+        "away": 2
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "46%",
+      "away": "54%"
+    },
+    "shots": {
+      "home": {
+        "total": 11,
+        "on": 5
+      },
+      "away": {
+        "total": 7,
+        "on": 2
+      }
+    }
+  }
+]

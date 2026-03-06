@@ -1,0 +1,1122 @@
+[
+  {
+    "fixture": {
+      "id": 1197288,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-26T15:00:00+00:00",
+      "timestamp": 1714143600,
+      "periods": {
+        "first": null,
+        "second": null
+      },
+      "venue": {
+        "id": null,
+        "name": "Krytyj Futbol'nyy Manezh",
+        "city": "Grodno"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "West - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 23436,
+        "name": "Neman Grodno II",
+        "logo": "https://media.api-sports.io/football/teams/23436.png",
+        "winner": true
+      },
+      "away": {
+        "id": 23432,
+        "name": "Arsenal II",
+        "logo": "https://media.api-sports.io/football/teams/23432.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 23436
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 23432
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197279,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-27T10:00:00+00:00",
+      "timestamp": 1714212000,
+      "periods": {
+        "first": 1714212000,
+        "second": 1714215600
+      },
+      "venue": {
+        "id": 7529,
+        "name": "CSK Vitebskiy Iskusstvennoe pole",
+        "city": "Vitebsk"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "East - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 16638,
+        "name": "Gazovik",
+        "logo": "https://media.api-sports.io/football/teams/16638.png",
+        "winner": true
+      },
+      "away": {
+        "id": 23433,
+        "name": "Gomel II",
+        "logo": "https://media.api-sports.io/football/teams/23433.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 16638
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 23433
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197278,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-27T11:00:00+00:00",
+      "timestamp": 1714215600,
+      "periods": {
+        "first": 1714215600,
+        "second": 1714219200
+      },
+      "venue": {
+        "id": 168,
+        "name": "Stadyen Spartak",
+        "city": "Mozyr"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "East - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 23437,
+        "name": "Slavia II",
+        "logo": "https://media.api-sports.io/football/teams/23437.png",
+        "winner": true
+      },
+      "away": {
+        "id": 23435,
+        "name": "Naftan II",
+        "logo": "https://media.api-sports.io/football/teams/23435.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 23437
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 23435
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197291,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-27T12:00:00+00:00",
+      "timestamp": 1714219200,
+      "periods": {
+        "first": 1714219200,
+        "second": 1714222800
+      },
+      "venue": {
+        "id": null,
+        "name": "Stadyen Haradski Kopyl",
+        "city": "Kapyl"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "West - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 13970,
+        "name": "Stroitel Kapyl",
+        "logo": "https://media.api-sports.io/football/teams/13970.png",
+        "winner": true
+      },
+      "away": {
+        "id": 23438,
+        "name": "Slutsk II",
+        "logo": "https://media.api-sports.io/football/teams/23438.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 13970
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 23438
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197290,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-27T13:00:00+00:00",
+      "timestamp": 1714222800,
+      "periods": {
+        "first": 1714222800,
+        "second": 1714226400
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "West - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 19663,
+        "name": "Dinamo Brest II",
+        "logo": "https://media.api-sports.io/football/teams/19663.png",
+        "winner": null
+      },
+      "away": {
+        "id": 16709,
+        "name": "Partizan Salihorsk",
+        "logo": "https://media.api-sports.io/football/teams/16709.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 19663
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 16709
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197280,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-27T14:00:00+00:00",
+      "timestamp": 1714226400,
+      "periods": {
+        "first": 1714226400,
+        "second": 1714230000
+      },
+      "venue": {
+        "id": 7521,
+        "name": "Stadyen Atlant Iskusstvennoe pole",
+        "city": "Novopolotsk"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "East - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 11250,
+        "name": "Polotsk",
+        "logo": "https://media.api-sports.io/football/teams/11250.png",
+        "winner": false
+      },
+      "away": {
+        "id": 18856,
+        "name": "Traktor Minsk",
+        "logo": "https://media.api-sports.io/football/teams/18856.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 11250
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 18856
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197287,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-28T11:00:00+00:00",
+      "timestamp": 1714302000,
+      "periods": {
+        "first": null,
+        "second": null
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "West - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 23434,
+        "name": "Isloch II",
+        "logo": "https://media.api-sports.io/football/teams/23434.png",
+        "winner": false
+      },
+      "away": {
+        "id": 21252,
+        "name": "Smorgon II",
+        "logo": "https://media.api-sports.io/football/teams/21252.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 23434
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 21252
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197277,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-28T12:00:00+00:00",
+      "timestamp": 1714305600,
+      "periods": {
+        "first": null,
+        "second": null
+      },
+      "venue": {
+        "id": 172,
+        "name": "Stadyen RTsOP-BGU",
+        "city": "Minsk"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "East - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 3389,
+        "name": "NFK Minsk",
+        "logo": "https://media.api-sports.io/football/teams/3389.png",
+        "winner": true
+      },
+      "away": {
+        "id": 11249,
+        "name": "Minsk II",
+        "logo": "https://media.api-sports.io/football/teams/11249.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 3389
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 11249
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197289,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-28T14:45:00+00:00",
+      "timestamp": 1714315500,
+      "periods": {
+        "first": null,
+        "second": null
+      },
+      "venue": {
+        "id": 172,
+        "name": "Stadyen RTsOP-BGU",
+        "city": "Minsk"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "West - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 13144,
+        "name": "BGU Minsk",
+        "logo": "https://media.api-sports.io/football/teams/13144.png",
+        "winner": null
+      },
+      "away": {
+        "id": 7793,
+        "name": "DYuSSh-3 Pinsk",
+        "logo": "https://media.api-sports.io/football/teams/7793.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 13144
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 7793
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1197281,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2024-04-28T15:30:00+00:00",
+      "timestamp": 1714318200,
+      "periods": {
+        "first": null,
+        "second": null
+      },
+      "venue": {
+        "id": null,
+        "name": "Krytyj Maniež Mogilev",
+        "city": "Mogilev"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": null
+      }
+    },
+    "league": {
+      "id": 118,
+      "name": "2. Division",
+      "country": "Belarus",
+      "logo": "https://media.api-sports.io/football/leagues/118.png",
+      "flag": "https://media.api-sports.io/flags/by.svg",
+      "season": 2024,
+      "round": "East - 1",
+      "standings": true
+    },
+    "teams": {
+      "home": {
+        "id": 11267,
+        "name": "Dnepr Mogilev II",
+        "logo": "https://media.api-sports.io/football/teams/11267.png",
+        "winner": false
+      },
+      "away": {
+        "id": 18857,
+        "name": "Uni Minsk",
+        "logo": "https://media.api-sports.io/football/teams/18857.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": null,
+        "away": null
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    },
+    "estadisticas": [
+      {
+        "team": {
+          "id": 11267
+        },
+        "statistics": []
+      },
+      {
+        "team": {
+          "id": 18857
+        },
+        "statistics": []
+      }
+    ],
+    "corners": {
+      "home": 0,
+      "away": 0
+    },
+    "cards": {
+      "yellow": {
+        "home": 0,
+        "away": 0
+      },
+      "red": {
+        "home": 0,
+        "away": 0
+      }
+    },
+    "possession": {
+      "home": "0%",
+      "away": "0%"
+    },
+    "shots": {
+      "home": {
+        "total": 0,
+        "on": 0
+      },
+      "away": {
+        "total": 0,
+        "on": 0
+      }
+    }
+  }
+]

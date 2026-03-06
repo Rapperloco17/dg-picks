@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Match {
+  id          String   @id @default(uuid())
+  fixtureId   Int      @unique
+  leagueId    Int
+  leagueName  String
+  season      Int
+  round       String?
+  date        DateTime
+  timestamp   Int
+  timezone    String
+  status      String
+  
+  homeTeamId   Int
+  homeTeamName String
+  awayTeamId   Int
+  awayTeamName String
+  
+  homeGoals    Int?
+  awayGoals    Int?
+  homeScoreHT  Int?
+  awayScoreHT  Int?
+  homeScoreFT  Int?
+  awayScoreFT  Int?
+  homeScoreET  Int?
+  awayScoreET  Int?
+  homeScoreP   Int?
+  awayScoreP   Int?
+  
+  // Estadísticas enriquecidas
+  homeCorners  Int?     @default(0)
+  awayCorners  Int?     @default(0)
+  homeYellowCards Int?  @default(0)
+  awayYellowCards Int?  @default(0)
+  homeRedCards    Int?  @default(0)
+  awayRedCards    Int?  @default(0)
+  homePossession  Float? @default(50)
+  awayPossession  Float? @default(50)
+  homeShots       Int?   @default(0)
+  awayShots       Int?   @default(0)
+  homeShotsOnTarget Int? @default(0)
+  awayShotsOnTarget Int? @default(0)
+  
+  // Raw data completo
+  rawData     Json
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([leagueId])
+  @@index([date])
+  @@index([status])
+  @@index([homeTeamId])
+  @@index([awayTeamId])
+}
+
+model ModelStats {
+  id            String   @id @default(uuid())
+  version       String   @unique
+  trainedAt     DateTime @default(now())
+  matchesCount  Int
+  accuracy      Float
+  rmse          Float
+  features      Json
+  weights       Json
+  
+  @@index([trainedAt])
+}
+
+model SyncLog {
+  id          String   @id @default(uuid())
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  status      String   // running, completed, error
+  newMatches  Int      @default(0)
+  errors      String?
+  
+  @@index([startedAt])
+}

@@ -1,0 +1,1122 @@
+[
+  {
+    "fixture": {
+      "id": 1499252,
+      "referee": "Paulo Cesar Zanovelli da Silva, Brazil",
+      "timezone": "UTC",
+      "date": "2026-02-04T00:30:00+00:00",
+      "timestamp": 1770165000,
+      "periods": {
+        "first": 1770165000,
+        "second": 1770168600
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Hernando Siles",
+        "city": "La Paz"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 1",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 3711,
+        "name": "The Strongest",
+        "logo": "https://media.api-sports.io/football/teams/3711.png",
+        "winner": true
+      },
+      "away": {
+        "id": 2807,
+        "name": "Deportivo Tachira FC",
+        "logo": "https://media.api-sports.io/football/teams/2807.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494503,
+      "referee": "Jose Burgos, Uruguay",
+      "timezone": "UTC",
+      "date": "2026-02-05T00:30:00+00:00",
+      "timestamp": 1770251400,
+      "periods": {
+        "first": 1770251400,
+        "second": 1770255000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Monumental Rio Parapiti",
+        "city": "Pedro Juan Caballero"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 1",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2140,
+        "name": "2 de Mayo",
+        "logo": "https://media.api-sports.io/football/teams/2140.png",
+        "winner": true
+      },
+      "away": {
+        "id": 2553,
+        "name": "Alianza Lima",
+        "logo": "https://media.api-sports.io/football/teams/2553.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494504,
+      "referee": "Gery Vargas, Bolivia",
+      "timezone": "UTC",
+      "date": "2026-02-06T00:30:00+00:00",
+      "timestamp": 1770337800,
+      "periods": {
+        "first": 1770337800,
+        "second": 1770341400
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Centenario",
+        "city": "Montevideo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 1",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2353,
+        "name": "Juventud",
+        "logo": "https://media.api-sports.io/football/teams/2353.png",
+        "winner": false
+      },
+      "away": {
+        "id": 1157,
+        "name": "Universidad Catolica",
+        "logo": "https://media.api-sports.io/football/teams/1157.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494505,
+      "referee": "Flavio Rodrigues De Souza, Brazil",
+      "timezone": "UTC",
+      "date": "2026-02-12T00:30:00+00:00",
+      "timestamp": 1770856200,
+      "periods": {
+        "first": 1770856200,
+        "second": 1770859800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Alejandro Villanueva",
+        "city": "Lima"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 12
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 1",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2553,
+        "name": "Alianza Lima",
+        "logo": "https://media.api-sports.io/football/teams/2553.png",
+        "winner": null
+      },
+      "away": {
+        "id": 2140,
+        "name": "2 de Mayo",
+        "logo": "https://media.api-sports.io/football/teams/2140.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494507,
+      "referee": "Andres Rojas, Colombia",
+      "timezone": "UTC",
+      "date": "2026-02-17T22:00:00+00:00",
+      "timestamp": 1771365600,
+      "periods": {
+        "first": 1771365600,
+        "second": 1771369200
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Misael Delgado",
+        "city": "Valencia"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2810,
+        "name": "Carabobo FC",
+        "logo": "https://media.api-sports.io/football/teams/2810.png",
+        "winner": true
+      },
+      "away": {
+        "id": 2328,
+        "name": "Huachipato",
+        "logo": "https://media.api-sports.io/football/teams/2328.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1522251,
+      "referee": "C. A. Betancur Gutierrez",
+      "timezone": "UTC",
+      "date": "2026-02-18T00:30:00+00:00",
+      "timestamp": 1771374600,
+      "periods": {
+        "first": 1771374600,
+        "second": 1771378200
+      },
+      "venue": {
+        "id": 0,
+        "name": null,
+        "city": "Pedro Juan Caballero"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2140,
+        "name": "2 de Mayo",
+        "logo": "https://media.api-sports.io/football/teams/2140.png",
+        "winner": null
+      },
+      "away": {
+        "id": 2546,
+        "name": "Sporting Cristal",
+        "logo": "https://media.api-sports.io/football/teams/2546.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494508,
+      "referee": "B. Arleu",
+      "timezone": "UTC",
+      "date": "2026-02-18T00:30:00+00:00",
+      "timestamp": 1771374600,
+      "periods": {
+        "first": 1771374600,
+        "second": 1771378200
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Belvedere",
+        "city": "Montevideo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2358,
+        "name": "Liverpool Montevideo",
+        "logo": "https://media.api-sports.io/football/teams/2358.png",
+        "winner": false
+      },
+      "away": {
+        "id": 1128,
+        "name": "Independiente Medellin",
+        "logo": "https://media.api-sports.io/football/teams/1128.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494509,
+      "referee": "Javier Feres, Uruguay",
+      "timezone": "UTC",
+      "date": "2026-02-18T22:00:00+00:00",
+      "timestamp": 1771452000,
+      "periods": {
+        "first": 1771452000,
+        "second": 1771455600
+      },
+      "venue": {
+        "id": null,
+        "name": "El Teniente",
+        "city": "Rancagua"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2320,
+        "name": "O'Higgins",
+        "logo": "https://media.api-sports.io/football/teams/2320.png",
+        "winner": true
+      },
+      "away": {
+        "id": 118,
+        "name": "Bahia",
+        "logo": "https://media.api-sports.io/football/teams/118.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1497767,
+      "referee": "F. Vejar",
+      "timezone": "UTC",
+      "date": "2026-02-19T00:30:00+00:00",
+      "timestamp": 1771461000,
+      "periods": {
+        "first": 1771461000,
+        "second": 1771464600
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Monumental Banco Pichincha",
+        "city": "Guayaquil"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1152,
+        "name": "Barcelona SC",
+        "logo": "https://media.api-sports.io/football/teams/1152.png",
+        "winner": false
+      },
+      "away": {
+        "id": 458,
+        "name": "Argentinos JRS",
+        "logo": "https://media.api-sports.io/football/teams/458.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1497768,
+      "referee": "A. Aragon",
+      "timezone": "UTC",
+      "date": "2026-02-19T00:30:00+00:00",
+      "timestamp": 1771461000,
+      "periods": {
+        "first": 1771461000,
+        "second": 1771464600
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Victor Agustín Ugarte",
+        "city": "Potosi"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 3706,
+        "name": "Nacional Potosí",
+        "logo": "https://media.api-sports.io/football/teams/3706.png",
+        "winner": true
+      },
+      "away": {
+        "id": 120,
+        "name": "Botafogo",
+        "logo": "https://media.api-sports.io/football/teams/120.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1522507,
+      "referee": "Rafael Rodrigo Klein, Brazil",
+      "timezone": "UTC",
+      "date": "2026-02-19T22:00:00+00:00",
+      "timestamp": 1771538400,
+      "periods": {
+        "first": 1771538400,
+        "second": 1771542000
+      },
+      "venue": {
+        "id": 0,
+        "name": "Parque Artigas",
+        "city": "Montevideo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2353,
+        "name": "Juventud",
+        "logo": "https://media.api-sports.io/football/teams/2353.png",
+        "winner": null
+      },
+      "away": {
+        "id": 1174,
+        "name": "Club Guarani",
+        "logo": "https://media.api-sports.io/football/teams/1174.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1521522,
+      "referee": "Hernan Heras, Uruguay",
+      "timezone": "UTC",
+      "date": "2026-02-20T00:30:00+00:00",
+      "timestamp": 1771547400,
+      "periods": {
+        "first": 1771547400,
+        "second": 1771551000
+      },
+      "venue": {
+        "id": null,
+        "name": "Polideportivo de Pueblo Nuevo",
+        "city": "San Cristóbal"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2807,
+        "name": "Deportivo Tachira FC",
+        "logo": "https://media.api-sports.io/football/teams/2807.png",
+        "winner": false
+      },
+      "away": {
+        "id": 1142,
+        "name": "Deportes Tolima",
+        "logo": "https://media.api-sports.io/football/teams/1142.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494511,
+      "referee": "Rodrigo Jose Pereira de Lima, Brazil",
+      "timezone": "UTC",
+      "date": "2026-02-24T22:00:00+00:00",
+      "timestamp": 1771970400,
+      "periods": {
+        "first": 1771970400,
+        "second": 1771974000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Huachipato",
+        "city": "Talcahuano"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2328,
+        "name": "Huachipato",
+        "logo": "https://media.api-sports.io/football/teams/2328.png",
+        "winner": false
+      },
+      "away": {
+        "id": 2810,
+        "name": "Carabobo FC",
+        "logo": "https://media.api-sports.io/football/teams/2810.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1494512,
+      "referee": "A. Daronco",
+      "timezone": "UTC",
+      "date": "2026-02-25T00:30:00+00:00",
+      "timestamp": 1771979400,
+      "periods": {
+        "first": 1771979400,
+        "second": 1771983000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Atanasio Girardot",
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1128,
+        "name": "Independiente Medellin",
+        "logo": "https://media.api-sports.io/football/teams/1128.png",
+        "winner": null
+      },
+      "away": {
+        "id": 2358,
+        "name": "Liverpool Montevideo",
+        "logo": "https://media.api-sports.io/football/teams/2358.png",
+        "winner": null
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1497770,
+      "referee": "P. Maza",
+      "timezone": "UTC",
+      "date": "2026-02-26T00:30:00+00:00",
+      "timestamp": 1772065800,
+      "periods": {
+        "first": 1772065800,
+        "second": 1772069400
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Olimpico Nilton Santos",
+        "city": "Rio de Janeiro"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 120,
+        "name": "Botafogo",
+        "logo": "https://media.api-sports.io/football/teams/120.png",
+        "winner": true
+      },
+      "away": {
+        "id": 3706,
+        "name": "Nacional Potosí",
+        "logo": "https://media.api-sports.io/football/teams/3706.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1522508,
+      "referee": "Cristian Garay, Chile",
+      "timezone": "UTC",
+      "date": "2026-02-26T22:00:00+00:00",
+      "timestamp": 1772143200,
+      "periods": {
+        "first": 1772143200,
+        "second": 1772146800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Defensores del Chaco",
+        "city": "Asuncion"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 13,
+      "name": "CONMEBOL Libertadores",
+      "country": "World",
+      "logo": "https://media.api-sports.io/football/leagues/13.png",
+      "flag": null,
+      "season": 2026,
+      "round": "Qualification Round 2",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1174,
+        "name": "Club Guarani",
+        "logo": "https://media.api-sports.io/football/teams/1174.png",
+        "winner": false
+      },
+      "away": {
+        "id": 2353,
+        "name": "Juventud",
+        "logo": "https://media.api-sports.io/football/teams/2353.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  }
+]

@@ -1,0 +1,25 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instalar dependencias necesarias para Prisma
+RUN apk add --no-cache openssl
+
+# Copiar package files
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Instalar dependencias
+RUN npm ci
+
+# Generar Prisma client
+RUN npx prisma generate
+
+# Copiar el resto del código
+COPY . .
+
+# Compilar TypeScript del worker
+RUN npx tsc src/worker/cron.ts --outDir dist/worker --esModuleInterop --module commonjs --target es2020 --resolveJsonModule --baseUrl . --paths '{"@/*": ["./src/*"]}' || true
+
+# Comando del worker
+CMD ["node", "dist/worker/cron.js"]

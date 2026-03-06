@@ -1,0 +1,2032 @@
+[
+  {
+    "fixture": {
+      "id": 1515249,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T19:00:00+00:00",
+      "timestamp": 1771441200,
+      "periods": {
+        "first": 1771441200,
+        "second": 1771444800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Municipal Agnaldo Bento dos Santos",
+        "city": "Porto Seguro"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 10
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 23591,
+        "name": "Porto BA",
+        "logo": "https://media.api-sports.io/football/teams/23591.png",
+        "winner": true
+      },
+      "away": {
+        "id": 20710,
+        "name": "Serra Branca",
+        "logo": "https://media.api-sports.io/football/teams/20710.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515248,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T19:30:00+00:00",
+      "timestamp": 1771443000,
+      "periods": {
+        "first": 1771443000,
+        "second": 1771446600
+      },
+      "venue": {
+        "id": null,
+        "name": "Stadium Arthur Tavares de Melo",
+        "city": "Bonito"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 20781,
+        "name": "Maguary PE",
+        "logo": "https://media.api-sports.io/football/teams/20781.png",
+        "winner": true
+      },
+      "away": {
+        "id": 25123,
+        "name": "Laguna",
+        "logo": "https://media.api-sports.io/football/teams/25123.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515242,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T20:00:00+00:00",
+      "timestamp": 1771444800,
+      "periods": {
+        "first": 1771444800,
+        "second": 1771448400
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Boa Vista"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7840,
+        "name": "Baré",
+        "logo": "https://media.api-sports.io/football/teams/7840.png",
+        "winner": false
+      },
+      "away": {
+        "id": 7780,
+        "name": "Madureira",
+        "logo": "https://media.api-sports.io/football/teams/7780.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515241,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T22:30:00+00:00",
+      "timestamp": 1771453800,
+      "periods": {
+        "first": 1771453800,
+        "second": 1771457400
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 12290,
+        "name": "Araguaína",
+        "logo": "https://media.api-sports.io/football/teams/12290.png",
+        "winner": false
+      },
+      "away": {
+        "id": 10039,
+        "name": "Primavera SP",
+        "logo": "https://media.api-sports.io/football/teams/10039.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515245,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T23:00:00+00:00",
+      "timestamp": 1771455600,
+      "periods": {
+        "first": 1771455600,
+        "second": 1771459200
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Gama"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1222,
+        "name": "Gama",
+        "logo": "https://media.api-sports.io/football/teams/1222.png",
+        "winner": true
+      },
+      "away": {
+        "id": 23158,
+        "name": "Monte Roraima",
+        "logo": "https://media.api-sports.io/football/teams/23158.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515243,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T23:00:00+00:00",
+      "timestamp": 1771455600,
+      "periods": {
+        "first": 1771455600,
+        "second": 1771459200
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Betim"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 13086,
+        "name": "Betim",
+        "logo": "https://media.api-sports.io/football/teams/13086.png",
+        "winner": true
+      },
+      "away": {
+        "id": 13094,
+        "name": "Piauí",
+        "logo": "https://media.api-sports.io/football/teams/13094.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515252,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T23:00:00+00:00",
+      "timestamp": 1771455600,
+      "periods": {
+        "first": 1771455600,
+        "second": 1771459200
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Municipal Alfredo Joao Krieck",
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 21207,
+        "name": "Santa Catarina",
+        "logo": "https://media.api-sports.io/football/teams/21207.png",
+        "winner": true
+      },
+      "away": {
+        "id": 15606,
+        "name": "IAPE",
+        "logo": "https://media.api-sports.io/football/teams/15606.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515247,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T23:30:00+00:00",
+      "timestamp": 1771457400,
+      "periods": {
+        "first": 1771457400,
+        "second": 1771461000
+      },
+      "venue": {
+        "id": null,
+        "name": "Jose de Abreu Bianco",
+        "city": "Ji-Parana"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 10675,
+        "name": "Ji-Paraná",
+        "logo": "https://media.api-sports.io/football/teams/10675.png",
+        "winner": true
+      },
+      "away": {
+        "id": 22828,
+        "name": "Pantanal",
+        "logo": "https://media.api-sports.io/football/teams/22828.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515246,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-18T23:30:00+00:00",
+      "timestamp": 1771457400,
+      "periods": {
+        "first": 1771457400,
+        "second": 1771461000
+      },
+      "venue": {
+        "id": null,
+        "name": "Luiz Saraiva Vieira",
+        "city": "Ivinhema"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 10687,
+        "name": "Ivinhema",
+        "logo": "https://media.api-sports.io/football/teams/10687.png",
+        "winner": true
+      },
+      "away": {
+        "id": 10861,
+        "name": "Independente AP",
+        "logo": "https://media.api-sports.io/football/teams/10861.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515250,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-19T23:00:00+00:00",
+      "timestamp": 1771542000,
+      "periods": {
+        "first": 1771542000,
+        "second": 1771545600
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Primavera do Leste"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/256-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 22825,
+        "name": "Primavera MG",
+        "logo": "https://media.api-sports.io/football/teams/22825.png",
+        "winner": true
+      },
+      "away": {
+        "id": 2207,
+        "name": "Bragantino PA",
+        "logo": "https://media.api-sports.io/football/teams/2207.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515259,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-24T19:30:00+00:00",
+      "timestamp": 1771961400,
+      "periods": {
+        "first": 1771961400,
+        "second": 1771965000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Elcyr Resende de Mendonça",
+        "city": "Saquarema"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 11
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2206,
+        "name": "Boavista SC",
+        "logo": "https://media.api-sports.io/football/teams/2206.png",
+        "winner": false
+      },
+      "away": {
+        "id": 7833,
+        "name": "Maringá",
+        "logo": "https://media.api-sports.io/football/teams/7833.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515265,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-24T22:00:00+00:00",
+      "timestamp": 1771970400,
+      "periods": {
+        "first": 1771970400,
+        "second": 1771974000
+      },
+      "venue": {
+        "id": null,
+        "name": "Arena Joinville",
+        "city": "Joinville"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 795,
+        "name": "Joinville",
+        "logo": "https://media.api-sports.io/football/teams/795.png",
+        "winner": true
+      },
+      "away": {
+        "id": 150,
+        "name": "CSA",
+        "logo": "https://media.api-sports.io/football/teams/150.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1525514,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T00:30:00+00:00",
+      "timestamp": 1771979400,
+      "periods": {
+        "first": 1771979400,
+        "second": 1771983000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Governador Plácido Castelo",
+        "city": "Fortaleza"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 154,
+        "name": "Fortaleza EC",
+        "logo": "https://media.api-sports.io/football/teams/154.png",
+        "winner": true
+      },
+      "away": {
+        "id": 20781,
+        "name": "Maguary PE",
+        "logo": "https://media.api-sports.io/football/teams/20781.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 2
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515255,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T00:30:00+00:00",
+      "timestamp": 1771979400,
+      "periods": {
+        "first": 1771979400,
+        "second": 1771983000
+      },
+      "venue": {
+        "id": null,
+        "name": "Arena das Dunas",
+        "city": "Natal"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 5
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2233,
+        "name": "America-RN",
+        "logo": "https://media.api-sports.io/football/teams/2233.png",
+        "winner": true
+      },
+      "away": {
+        "id": 12916,
+        "name": "GAS",
+        "logo": "https://media.api-sports.io/football/teams/12916.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1525515,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T19:00:00+00:00",
+      "timestamp": 1772046000,
+      "periods": {
+        "first": 1772046000,
+        "second": 1772049600
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 144,
+        "name": "Atletico Goianiense",
+        "logo": "https://media.api-sports.io/football/teams/144.png",
+        "winner": true
+      },
+      "away": {
+        "id": 22825,
+        "name": "Primavera MG",
+        "logo": "https://media.api-sports.io/football/teams/22825.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1525513,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T21:00:00+00:00",
+      "timestamp": 1772053200,
+      "periods": {
+        "first": 1772053200,
+        "second": 1772056800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Conselheiro Galvão",
+        "city": "Rio de Janeiro"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7780,
+        "name": "Madureira",
+        "logo": "https://media.api-sports.io/football/teams/7780.png",
+        "winner": true
+      },
+      "away": {
+        "id": 754,
+        "name": "ABC",
+        "logo": "https://media.api-sports.io/football/teams/754.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515271,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T21:00:00+00:00",
+      "timestamp": 1772053200,
+      "periods": {
+        "first": 1772053200,
+        "second": 1772056800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Dr. Jorge Ismael de Biasi",
+        "city": "Novo Horizonte"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 6
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7834,
+        "name": "Novorizontino",
+        "logo": "https://media.api-sports.io/football/teams/7834.png",
+        "winner": true
+      },
+      "away": {
+        "id": 7781,
+        "name": "Nacional AM",
+        "logo": "https://media.api-sports.io/football/teams/7781.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 4,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 4,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515267,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T22:00:00+00:00",
+      "timestamp": 1772056800,
+      "periods": {
+        "first": 1772056800,
+        "second": 1772060400
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Londrina"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 148,
+        "name": "Londrina",
+        "logo": "https://media.api-sports.io/football/teams/148.png",
+        "winner": true
+      },
+      "away": {
+        "id": 22822,
+        "name": "Penedense",
+        "logo": "https://media.api-sports.io/football/teams/22822.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515279,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T22:00:00+00:00",
+      "timestamp": 1772056800,
+      "periods": {
+        "first": 1772056800,
+        "second": 1772060400
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 11
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 10004,
+        "name": "São Luiz",
+        "logo": "https://media.api-sports.io/football/teams/10004.png",
+        "winner": false
+      },
+      "away": {
+        "id": 7832,
+        "name": "Maranhão",
+        "logo": "https://media.api-sports.io/football/teams/7832.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515275,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T22:00:00+00:00",
+      "timestamp": 1772056800,
+      "periods": {
+        "first": 1772056800,
+        "second": 1772060400
+      },
+      "venue": {
+        "id": null,
+        "name": "Arena de Pernambuco",
+        "city": "São Lourenço da Mata"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 10
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 13098,
+        "name": "Retrô",
+        "logo": "https://media.api-sports.io/football/teams/13098.png",
+        "winner": false
+      },
+      "away": {
+        "id": 1196,
+        "name": "Uberlandia",
+        "logo": "https://media.api-sports.io/football/teams/1196.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515264,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T22:30:00+00:00",
+      "timestamp": 1772058600,
+      "periods": {
+        "first": 1772058600,
+        "second": 1772062200
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Frei Epifânio D'Abadia",
+        "city": "Imperatriz"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 2213,
+        "name": "Imperatriz",
+        "logo": "https://media.api-sports.io/football/teams/2213.png",
+        "winner": false
+      },
+      "away": {
+        "id": 10862,
+        "name": "Amazonas",
+        "logo": "https://media.api-sports.io/football/teams/10862.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 3
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 3
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515256,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T22:30:00+00:00",
+      "timestamp": 1772058600,
+      "periods": {
+        "first": 1772058600,
+        "second": 1772062200
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Jonas Duarte",
+        "city": "Anápolis"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7852,
+        "name": "Anápolis",
+        "logo": "https://media.api-sports.io/football/teams/7852.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1194,
+        "name": "Cianorte",
+        "logo": "https://media.api-sports.io/football/teams/1194.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 3,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 3,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515257,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T23:00:00+00:00",
+      "timestamp": 1772060400,
+      "periods": {
+        "first": 1772060400,
+        "second": 1772064000
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Arapiraca"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 10
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1207,
+        "name": "ASA",
+        "logo": "https://media.api-sports.io/football/teams/1207.png",
+        "winner": false
+      },
+      "away": {
+        "id": 2217,
+        "name": "Operario Ferroviario",
+        "logo": "https://media.api-sports.io/football/teams/2217.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 1,
+      "away": 2
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 1
+      },
+      "fulltime": {
+        "home": 1,
+        "away": 2
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1525517,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T23:00:00+00:00",
+      "timestamp": 1772060400,
+      "periods": {
+        "first": 1772060400,
+        "second": 1772064000
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "city": "Erechim"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 7
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1221,
+        "name": "Ypiranga-RS",
+        "logo": "https://media.api-sports.io/football/teams/1221.png",
+        "winner": true
+      },
+      "away": {
+        "id": 10675,
+        "name": "Ji-Paraná",
+        "logo": "https://media.api-sports.io/football/teams/10675.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 2,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515280,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T23:00:00+00:00",
+      "timestamp": 1772060400,
+      "periods": {
+        "first": 1772060400,
+        "second": 1772064000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Francisco Stedile",
+        "city": "Caxias do Sul"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7770,
+        "name": "Caxias",
+        "logo": "https://media.api-sports.io/football/teams/7770.png",
+        "winner": false
+      },
+      "away": {
+        "id": 10049,
+        "name": "Guarany de Bagé",
+        "logo": "https://media.api-sports.io/football/teams/10049.png",
+        "winner": true
+      }
+    },
+    "goals": {
+      "home": 0,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 0,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515278,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T23:00:00+00:00",
+      "timestamp": 1772060400,
+      "periods": {
+        "first": 1772060400,
+        "second": 1772064000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Primeiro de Maio",
+        "city": "São Bernardo do Campo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 8
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7865,
+        "name": "São Bernardo",
+        "logo": "https://media.api-sports.io/football/teams/7865.png",
+        "winner": true
+      },
+      "away": {
+        "id": 9997,
+        "name": "Atlético Alagoinhas",
+        "logo": "https://media.api-sports.io/football/teams/9997.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515254,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-25T23:00:00+00:00",
+      "timestamp": 1772060400,
+      "periods": {
+        "first": 1772060400,
+        "second": 1772064000
+      },
+      "venue": {
+        "id": null,
+        "name": "Estadio Municipal Zinho de Oliveira",
+        "city": null
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 9
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 7879,
+        "name": "Águia de Marabá",
+        "logo": "https://media.api-sports.io/football/teams/7879.png",
+        "winner": true
+      },
+      "away": {
+        "id": 10853,
+        "name": "Independência",
+        "logo": "https://media.api-sports.io/football/teams/10853.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 0
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 0
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1525518,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-26T23:00:00+00:00",
+      "timestamp": 1772146800,
+      "periods": {
+        "first": 1772146800,
+        "second": 1772150400
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Governador Plácido Castelo",
+        "city": "Fortaleza"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 10
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 129,
+        "name": "Ceara",
+        "logo": "https://media.api-sports.io/football/teams/129.png",
+        "winner": true
+      },
+      "away": {
+        "id": 10039,
+        "name": "Primavera SP",
+        "logo": "https://media.api-sports.io/football/teams/10039.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 2,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 1,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 2,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  },
+  {
+    "fixture": {
+      "id": 1515273,
+      "referee": null,
+      "timezone": "UTC",
+      "date": "2026-02-27T00:30:00+00:00",
+      "timestamp": 1772152200,
+      "periods": {
+        "first": 1772152200,
+        "second": 1772155800
+      },
+      "venue": {
+        "id": null,
+        "name": "Estádio Doutor Oswaldo Teixeira Duarte",
+        "city": "São Paulo"
+      },
+      "status": {
+        "long": "Match Finished",
+        "short": "FT",
+        "elapsed": 90,
+        "extra": 5
+      }
+    },
+    "league": {
+      "id": 73,
+      "name": "Copa Do Brasil",
+      "country": "Brazil",
+      "logo": "https://media.api-sports.io/football/leagues/73.png",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "season": 2026,
+      "round": "1/128-finals",
+      "standings": false
+    },
+    "teams": {
+      "home": {
+        "id": 1214,
+        "name": "Portuguesa",
+        "logo": "https://media.api-sports.io/football/teams/1214.png",
+        "winner": true
+      },
+      "away": {
+        "id": 1203,
+        "name": "Altos",
+        "logo": "https://media.api-sports.io/football/teams/1203.png",
+        "winner": false
+      }
+    },
+    "goals": {
+      "home": 5,
+      "away": 1
+    },
+    "score": {
+      "halftime": {
+        "home": 0,
+        "away": 0
+      },
+      "fulltime": {
+        "home": 5,
+        "away": 1
+      },
+      "extratime": {
+        "home": null,
+        "away": null
+      },
+      "penalty": {
+        "home": null,
+        "away": null
+      }
+    }
+  }
+]
