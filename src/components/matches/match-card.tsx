@@ -196,19 +196,17 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
               </Button>
               
               {/* Full Stats Button */}
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-slate-400 hover:text-slate-100 h-8 px-2"
-                onClick={() => {
-                  setActiveTab('estadisticas');
-                  setStatsOpen(true);
-                }}
-              >
-                <TrendingUp className="w-4 h-4 mr-1" />
-                Stats
-                {isCached && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-green-500" />}
-              </Button>
+              <Link href={`/match/${fixture.id}/stats`}>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="text-slate-400 hover:text-slate-100 h-8 px-2"
+                >
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                  Stats
+                  {isCached && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-green-500" />}
+                </Button>
+              </Link>
               
               <Link href={`/picks/new?match=${fixture.id}`}>
                 <Button 

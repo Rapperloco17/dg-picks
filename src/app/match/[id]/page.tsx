@@ -194,11 +194,17 @@ function MatchPage({ params }: MatchPageProps) {
         </div>
 
         {/* Quick Actions */}
-        <div className="flex items-center justify-center gap-3 mt-6">
+        <div className="flex items-center justify-center gap-3 mt-6 flex-wrap">
           <Link href={`/picks/new?match=${fixture.id}`}>
             <Button className="bg-green-500 hover:bg-green-600">
               <Zap className="w-4 h-4 mr-2" />
               Crear Pick
+            </Button>
+          </Link>
+          <Link href={`/match/${fixture.id}/stats`}>
+            <Button variant="outline" className="border-emerald-500/30 hover:bg-emerald-500/10">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Ver Estadísticas Completas
             </Button>
           </Link>
         </div>
