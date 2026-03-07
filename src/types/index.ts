@@ -79,7 +79,7 @@ export interface MatchResponse {
 
 export type MarketType = 
   | '1X2' 
-  | 'DOUBLE_CHANCE' 
+  | 'DOUBLE_CHANCE'
   | 'OVER_UNDER'
   | 'OVER_UNDER_25'
   | 'OVER_UNDER_15'
@@ -205,4 +205,57 @@ export interface FilterState {
   minProbability: number;
   maxProbability: number;
   searchQuery: string;
+}
+
+// ==================== HISTORICAL MATCH TYPES ====================
+
+export interface HistoricalMatch {
+  fixture: {
+    id: number;
+    date: string;
+    timestamp: number;
+    status: {
+      long: string;
+      short: string;
+      elapsed: number | null;
+    };
+    venue?: {
+      id: number;
+      name: string;
+      city: string;
+    };
+    referee?: string;
+  };
+  league: {
+    id: number;
+    name: string;
+    country: string;
+    season: number;
+    round?: string;
+  };
+  teams: {
+    home: {
+      id: number;
+      name: string;
+      logo?: string;
+      winner: boolean | null;
+    };
+    away: {
+      id: number;
+      name: string;
+      logo?: string;
+      winner: boolean | null;
+    };
+  };
+  goals: {
+    home: number | null;
+    away: number | null;
+  };
+  score: {
+    halftime?: { home: number | null; away: number | null };
+    fulltime?: { home: number | null; away: number | null };
+    extratime?: { home: number | null; away: number | null };
+    penalty?: { home: number | null; away: number | null };
+  };
+  estadisticas?: any[];
 }

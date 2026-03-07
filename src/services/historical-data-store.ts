@@ -1,56 +1,8 @@
 // Historical Data Store
 // Indexa y almacena datos de partidos históricos para acceso rápido
 
-export interface HistoricalMatch {
-  fixture: {
-    id: number;
-    date: string;
-    timestamp: number;
-    status: {
-      long: string;
-      short: string;
-      elapsed: number | null;
-    };
-    venue?: {
-      id: number;
-      name: string;
-      city: string;
-    };
-    referee?: string;
-  };
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    season: number;
-    round?: string;
-  };
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo?: string;
-      winner: boolean | null;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo?: string;
-      winner: boolean | null;
-    };
-  };
-  goals: {
-    home: number | null;
-    away: number | null;
-  };
-  score: {
-    halftime?: { home: number | null; away: number | null };
-    fulltime?: { home: number | null; away: number | null };
-    extratime?: { home: number | null; away: number | null };
-    penalty?: { home: number | null; away: number | null };
-  };
-  estadisticas?: any[];
-}
+import { HistoricalMatch } from '@/types';
+export type { HistoricalMatch };
 
 // Estructura de índices para búsqueda rápida
 class HistoricalDataStore {
