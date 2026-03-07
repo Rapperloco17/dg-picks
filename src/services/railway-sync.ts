@@ -1,4 +1,3 @@
-import { syncRecentMatches } from './enriched-sync';
 import { saveMatches, getExistingFixtureIds, getLastSyncDate } from './db-service';
 import { prisma } from '@/lib/prisma';
 import { HistoricalMatch } from '@/types';
