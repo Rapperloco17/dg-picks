@@ -81,8 +81,7 @@ export async function saveMatches(matches: HistoricalMatch[]) {
 
   return await prisma.$transaction(operations, { 
     isolationLevel: 'Serializable',
-    maxWait: 60000,
-    timeout: 120000 
+    maxWait: 60000
   });
 }
 
