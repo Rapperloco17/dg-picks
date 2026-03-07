@@ -19,8 +19,8 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_API_FOOTBALL_URL: process.env.NEXT_PUBLIC_API_FOOTBALL_URL,
   },
   
-  // Output standalone for deployment
-  output: 'standalone',
+  // Note: Standalone mode disabled for Railway compatibility
+  // Railway uses 'next start' which works better without standalone
 };
 
 export default nextConfig;
