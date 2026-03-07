@@ -9,8 +9,8 @@ RUN apk add --no-cache openssl
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Instalar dependencias
-RUN npm install
+# Limpiar caché e instalar dependencias
+RUN npm cache clean --force && npm install
 
 # Generar Prisma client
 RUN npx prisma generate
@@ -24,5 +24,5 @@ RUN npm run build
 # Puerto
 EXPOSE 3000
 
-# Comando por defecto (Next.js)
+# Comando por defecto
 CMD ["npm", "start"]
