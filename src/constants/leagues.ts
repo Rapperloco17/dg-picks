@@ -118,6 +118,10 @@ export const getLeaguesByTier = (tier: 1 | 2 | 3): LeagueTier[] => {
   return ALL_LEAGUES.filter(league => league.tier === tier);
 };
 
+export const getAllLeagueIds = (): number[] => {
+  return ALL_LEAGUES.map(league => league.id);
+};
+
 export const getLeaguesByContinent = (continent: Continent): LeagueTier[] => {
   return ALL_LEAGUES.filter(league => league.continent === continent);
 };
@@ -125,7 +129,6 @@ export const getLeaguesByContinent = (continent: Continent): LeagueTier[] => {
 export const getTier1LeagueIds = (): number[] => TIER_1_LEAGUES.map(l => l.id);
 export const getTier2LeagueIds = (): number[] => TIER_2_LEAGUES.map(l => l.id);
 export const getTier3LeagueIds = (): number[] => TIER_3_LEAGUES.map(l => l.id);
-export const getAllLeagueIds = (): number[] => ALL_LEAGUES.map(l => l.id);
 
 // Countries list for filtering
 export const COUNTRIES = Array.from(new Set(ALL_LEAGUES.map(l => l.country))).sort();

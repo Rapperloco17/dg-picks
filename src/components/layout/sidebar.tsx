@@ -15,6 +15,7 @@ import {
   User,
   Wallet,
   Brain,
+  Clock,
   TrendingUp as TrendingUpIcon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -26,6 +27,7 @@ import { Badge } from '@/components/ui/badge';
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Partidos', href: '/matches', icon: Calendar },
+  { name: 'Historial', href: '/matches/history', icon: Clock },
   { name: 'Picks', href: '/picks', icon: Target },
   { name: 'Ligas', href: '/leagues', icon: Trophy },
   { name: 'Estadísticas', href: '/stats', icon: BarChart3 },
