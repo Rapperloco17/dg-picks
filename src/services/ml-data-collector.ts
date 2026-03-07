@@ -366,16 +366,16 @@ async function getTeamStatsBeforeMatch(
       };
     }
     
-    const played = standing.all.played || 1;
+    const played = standing.all?.played || 1;
     
     return {
       position: standing.rank,
       points: standing.points,
-      goalsFor: standing.all.goals.for,
-      goalsAgainst: standing.all.goals.against,
-      cleanSheets: standing.clean_sheet?.total || 0,
-      avgGoalsScored: standing.all.goals.for / played,
-      avgGoalsConceded: standing.all.goals.against / played,
+      goalsFor: standing.all?.goals?.for || 0,
+      goalsAgainst: standing.all?.goals?.against || 0,
+      cleanSheets: (standing as any).clean_sheet?.total || 0,
+      avgGoalsScored: (standing.all?.goals?.for || 0) / played,
+      avgGoalsConceded: (standing.all?.goals?.against || 0) / played,
     };
   } catch (error) {
     return {

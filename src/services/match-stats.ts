@@ -266,16 +266,16 @@ export async function getTeamDetailedStats(
     return {
       leaguePosition: standing.rank,
       points: standing.points,
-      played: standing.all.played,
-      won: standing.all.win,
-      drawn: standing.all.draw,
-      lost: standing.all.lose,
-      goalsFor: standing.all.goals.for,
-      goalsAgainst: standing.all.goals.against,
-      goalDifference: standing.all.goals.for - standing.all.goals.against,
-      form: standing.form || '',
-      cleanSheets: standing.clean_sheet?.total || 0,
-      failedToScore: standing.failed_to_score?.total || 0,
+      played: standing.all?.played || 0,
+      won: (standing.all as any)?.win || 0,
+      drawn: (standing.all as any)?.draw || 0,
+      lost: (standing.all as any)?.lose || 0,
+      goalsFor: standing.all?.goals?.for || 0,
+      goalsAgainst: standing.all?.goals?.against || 0,
+      goalDifference: (standing.all?.goals?.for || 0) - (standing.all?.goals?.against || 0),
+      form: (standing as any).form || '',
+      cleanSheets: (standing as any).clean_sheet?.total || 0,
+      failedToScore: (standing as any).failed_to_score?.total || 0,
       over15: 0,
       over25: 0,
       over35: 0,
@@ -612,10 +612,10 @@ export async function getLeagueTable(leagueId: number, season: number) {
 
     return result.map(s => ({
       rank: s.rank,
-      team: s.team.name,
+      team: s.team?.name || 'Unknown',
       points: s.points,
-      played: s.all.played,
-      goalsDiff: s.all.goals.for - s.all.goals.against,
+      played: s.all?.played || 0,
+      goalsDiff: (s.all?.goals?.for || 0) - (s.all?.goals?.against || 0),
     }));
   } catch (error) {
     console.error('Error fetching league table:', error);
@@ -655,6 +655,6 @@ export async function getCompleteMatchAnalysis(match: Match): Promise<CompleteMa
     h2h,
     odds,
     mlPrediction,
-    leagueTable,
+    leagueTable: leagueTable || [],
   };
 }

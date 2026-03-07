@@ -76,7 +76,7 @@ export function useLiveMatches(tier: 1 | 2 | 3 | 'all' = 'all') {
         ? [...getTier1LeagueIds(), ...getTier2LeagueIds(), ...getTier3LeagueIds()]
         : getAllLeagueIds();
   
-  const { data, error, isLoading, mutate, dataUpdatedAt } = useSWR<Match[]>(
+  const { data, error, isLoading, mutate } = useSWR<Match[]>(
     ['live-matches', tier],
     () => fetcher(() => getLiveFixtures(leagueIds)),
     {
@@ -92,7 +92,6 @@ export function useLiveMatches(tier: 1 | 2 | 3 | 'all' = 'all') {
     isError: !!error,
     error,
     mutate,
-    lastUpdated: dataUpdatedAt,
   };
 }
 

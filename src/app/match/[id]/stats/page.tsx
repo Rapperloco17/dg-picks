@@ -76,9 +76,10 @@ export default function MatchStatsPage({ params }: StatsPageProps) {
     let cancelled = false;
     
     async function loadStats() {
+      if (!match) return;
       setLoading(true);
       try {
-        const result = await getCompleteMatchAnalysisProgressive(match, (stage) => {
+        const result = await getCompleteMatchAnalysisProgressive(match as Match, (_data, stage) => {
           if (!cancelled) setLoadingStage(stage);
         });
         if (!cancelled) {
@@ -120,7 +121,7 @@ export default function MatchStatsPage({ params }: StatsPageProps) {
     );
   }
 
-  const safeStats = stats || {
+  const safeStats = (stats || {
     match,
     homeForm: defaultForm,
     awayForm: defaultForm,
@@ -130,7 +131,7 @@ export default function MatchStatsPage({ params }: StatsPageProps) {
     odds: { matchWinner: null, overUnder: {}, btts: {}, asianHandicap: null, corners: null, cards: null },
     mlPrediction: null,
     leagueTable: []
-  };
+  }) as CompleteMatchStats;
 
   const isLive = match.fixture.status.short === '1H' || match.fixture.status.short === '2H';
   const isFinished = match.fixture.status.short === 'FT' || match.fixture.status.short === 'AET';
@@ -326,9 +327,9 @@ function MatchSummaryCard({ match, isLive, isFinished }: {
 function ResumenTab({ stats, match }: { stats: CompleteMatchStats; match: Match }) {
   const { homeForm, awayForm, h2h, mlPrediction, odds } = stats;
   
-  const homeWinProb = mlPrediction?.probabilities?.homeWin || 0;
-  const drawProb = mlPrediction?.probabilities?.draw || 0;
-  const awayWinProb = mlPrediction?.probabilities?.awayWin || 0;
+  const homeWinProb = mlPrediction?.homeWin || 0;
+  const drawProb = mlPrediction?.draw || 0;
+  const awayWinProb = mlPrediction?.awayWin || 0;
   const pick = mlPrediction?.recommendedPick;
 
   return (
@@ -370,9 +371,9 @@ function ResumenTab({ stats, match }: { stats: CompleteMatchStats; match: Match 
                   </div>
                   <div className="text-right">
                     <Badge className="bg-purple-500/20 text-purple-400">
-                      Confianza {pick.confidence}/10
+                      Confianza: {pick.confidence === 'high' ? 'Alta' : pick.confidence === 'medium' ? 'Media' : 'Baja'}
                     </Badge>
-                    <p className="text-xs text-slate-500 mt-1">Expected Value: {pick.expectedValue}</p>
+                    <p className="text-xs text-slate-500 mt-1">EV: {pick.ev?.toFixed(2)}</p>
                   </div>
                 </div>
               </div>

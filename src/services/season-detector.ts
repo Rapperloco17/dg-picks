@@ -174,7 +174,7 @@ export function getSeasonDisplayName(leagueId: number, date: Date = new Date()):
 // Type for standing entries from API
 interface StandingEntry {
   rank: number;
-  team: { name: string; id?: number };
+  team: { name?: string; id?: number };
   points: number;
   all?: { played: number; goals: { for: number; against: number } };
   group?: string;
