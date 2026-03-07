@@ -21,6 +21,7 @@ COPY . .
 # Variables de entorno
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV PORT=3000
 
 # Build de Next.js
 RUN npm run build
