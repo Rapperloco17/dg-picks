@@ -431,6 +431,37 @@ export async function getTeamStatistics(
   }
 }
 
+// ==================== FIXTURE STATISTICS ====================
+
+export interface FixtureStatistics {
+  team: { id: number; name: string; logo: string };
+  statistics: Array<{
+    type: string;
+    value: number | string | null;
+  }>;
+}
+
+export async function getFixtureStatistics(fixtureId: number): Promise<FixtureStatistics[] | null> {
+  try {
+    const validId = parseInt(String(fixtureId), 10);
+    
+    if (isNaN(validId) || validId <= 0) {
+      console.error('[getFixtureStatistics] Invalid fixtureId:', fixtureId);
+      return null;
+    }
+    
+    const data = await makeRequest<{ response: FixtureStatistics[] }>({
+      endpoint: '/fixtures/statistics',
+      params: { fixture: validId }
+    });
+    
+    return data.response || null;
+  } catch (error) {
+    console.error('Failed to fetch fixture statistics:', error);
+    return null;
+  }
+}
+
 // ==================== PREDICTIONS ====================
 
 export async function getPrediction(fixtureId: number): Promise<PredictionData | null> {

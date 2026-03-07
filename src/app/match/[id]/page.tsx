@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MatchStatsDialog } from '@/components/match/match-stats-dialog';
+import { LiveMatchStats } from '@/components/match/live-match-stats';
 
 interface MatchPageProps {
   params: Promise<{ id: string }>;
@@ -209,6 +210,19 @@ function MatchPage({ params }: MatchPageProps) {
           </Link>
         </div>
       </div>
+
+      {/* Live Match Statistics */}
+      {(isLive || isFinished) && (
+        <LiveMatchStats
+          fixtureId={fixture.id}
+          homeTeamName={teams.home.name}
+          awayTeamName={teams.away.name}
+          homeTeamLogo={teams.home.logo}
+          awayTeamLogo={teams.away.logo}
+          isLive={isLive}
+          isFinished={isFinished}
+        />
+      )}
 
       {/* Analysis Options */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
