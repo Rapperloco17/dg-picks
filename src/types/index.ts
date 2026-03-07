@@ -214,6 +214,7 @@ export interface HistoricalMatch {
     id: number;
     date: string;
     timestamp: number;
+    timezone?: string;
     status: {
       long: string;
       short: string;
@@ -256,6 +257,34 @@ export interface HistoricalMatch {
     fulltime?: { home: number | null; away: number | null };
     extratime?: { home: number | null; away: number | null };
     penalty?: { home: number | null; away: number | null };
+  };
+  corners?: {
+    home: number;
+    away: number;
+  };
+  cards?: {
+    home: {
+      yellow: number;
+      red: number;
+    };
+    away: {
+      yellow: number;
+      red: number;
+    };
+  };
+  possession?: {
+    home: number;
+    away: number;
+  };
+  shots?: {
+    home: {
+      total: number;
+      on: number;
+    };
+    away: {
+      total: number;
+      on: number;
+    };
   };
   estadisticas?: any[];
 }
