@@ -1,9 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { TIER_1_LEAGUES, TIER_2_LEAGUES, TIER_3_LEAGUES } from '@/constants/leagues';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Globe, Trophy, Star } from 'lucide-react';
+import { Globe, Trophy, Star, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function LeaguesPage() {
@@ -76,27 +77,30 @@ function LeagueCard({ league, tier }: { league: typeof TIER_1_LEAGUES[0]; tier: 
   };
 
   return (
-    <Card className={cn(
-      "bg-slate-900 border-slate-800 transition-colors",
-      tierColors[tier]
-    )}>
-      <CardContent className="p-4">
-        <div className="flex items-center gap-3">
-          <div className={cn(
-            "w-2 h-2 rounded-full",
-            tier === 1 ? "bg-emerald-500" :
-            tier === 2 ? "bg-blue-500" : "bg-slate-500"
-          )} />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-100 truncate">
-              {league.name}
-            </p>
-            <p className="text-xs text-slate-500">
-              {league.country}
-            </p>
+    <Link href={`/leagues/${league.id}`}>
+      <Card className={cn(
+        "bg-slate-900 border-slate-800 transition-colors cursor-pointer group",
+        tierColors[tier]
+      )}>
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <div className={cn(
+              "w-2 h-2 rounded-full",
+              tier === 1 ? "bg-emerald-500" :
+              tier === 2 ? "bg-blue-500" : "bg-slate-500"
+            )} />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-slate-100 truncate group-hover:text-emerald-400 transition-colors">
+                {league.name}
+              </p>
+              <p className="text-xs text-slate-500">
+                {league.country}
+              </p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" />
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
