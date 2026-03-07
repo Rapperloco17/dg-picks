@@ -1,7 +1,7 @@
 import { Match } from '@/types';
 import { makeRequest } from './api-football';
 import { calculateMarketEV } from './market-models';
-import { getCorrectSeason, getAlternativeSeasons } from './season-detector';
+import { getCorrectSeason, getAlternativeSeasons, selectCorrectStandings } from './season-detector';
 import { getCache, setCache, CACHE_TYPES } from './local-cache';
 import { predictHybrid, HybridPrediction } from './ml-hybrid-model';
 import { predictMatch } from './ml-predictor';
@@ -292,7 +292,12 @@ async function getTeamDetailedStats(
           params: { team: teamId, league: leagueId, season: trySeason }
         });
 
-        const standing = data.response?.league?.standings?.[0]?.find(s => s.team.id === teamId);
+        const allStandings = data.response?.league?.standings;
+        if (!allStandings || allStandings.length === 0) continue;
+        
+        // Select correct standings phase for leagues with Apertura/Clausura
+        const selectedStandings = selectCorrectStandings(allStandings, leagueId);
+        const standing = selectedStandings.find(s => s.team.id === teamId);
         
         if (!standing) continue;
 
@@ -555,6 +560,8 @@ async function getLeagueTable(leagueId: number, season: number) {
                 team: { name: string };
                 points: number;
                 all: { played: number; goals: { for: number; against: number } };
+                group?: string;
+                stage?: string;
               }>>;
             };
           }>;
@@ -563,10 +570,68 @@ async function getLeagueTable(leagueId: number, season: number) {
           params: { league: leagueId, season: trySeason }
         });
 
-        const standings = data?.response?.[0]?.league?.standings?.[0];
+        const allStandings = data?.response?.[0]?.league?.standings;
         
-        if (standings && standings.length > 0) {
-          return standings.map(s => ({
+        if (!allStandings || allStandings.length === 0) {
+          continue;
+        }
+
+        // Para ligas con múltiples fases (Apertura/Clausura), seleccionar la correcta
+        let selectedStandings = allStandings[0];
+        
+        if (allStandings.length > 1) {
+          const currentMonth = new Date().getMonth() + 1; // 1-12
+          
+          // Buscar standings por grupo/fase
+          for (const standingGroup of allStandings) {
+            const firstTeam = standingGroup[0];
+            const groupName = firstTeam?.group?.toLowerCase() || '';
+            const stageName = firstTeam?.stage?.toLowerCase() || '';
+            
+            // Apertura = primera mitad del año (generalmente)
+            // Clausura = segunda mitad del año (generalmente)
+            const isApertura = groupName.includes('apertura') || stageName.includes('apertura');
+            const isClausura = groupName.includes('clausura') || stageName.includes('clausura');
+            
+            // Determinar fase actual basada en el mes
+            // Apertura: generalmente enero-junio
+            // Clausura: generalmente julio-diciembre
+            if (currentMonth <= 6 && isApertura) {
+              selectedStandings = standingGroup;
+              console.log(`[Standings] Using Apertura table for league ${leagueId}`);
+              break;
+            } else if (currentMonth > 6 && isClausura) {
+              selectedStandings = standingGroup;
+              console.log(`[Standings] Using Clausura table for league ${leagueId}`);
+              break;
+            }
+          }
+          
+          // Si no encontramos por nombre, usar la tabla más reciente (menos partidos jugados = más reciente)
+          // o la que tenga más partidos si estamos a finales de la fase
+          if (selectedStandings === allStandings[0] && allStandings.length > 1) {
+            // Para ligas mexicanas y similares, preferir la fase específica sobre la acumulada
+            // La acumulada generalmente tiene más partidos (suma de ambas fases)
+            const avgGamesPerGroup = allStandings.map(group => ({
+              group,
+              avgGames: group.reduce((sum, t) => sum + (t.all?.played || 0), 0) / group.length
+            }));
+            
+            // Si hay una tabla con ~2x más partidos, es probablemente la acumulada
+            // Tomar la segunda tabla más jugada (la fase actual)
+            avgGamesPerGroup.sort((a, b) => b.avgGames - a.avgGames);
+            
+            // Si la primera tiene muchos más partidos que la segunda, la segunda es la fase actual
+            if (avgGamesPerGroup.length >= 2 && 
+                avgGamesPerGroup[0].avgGames > avgGamesPerGroup[1].avgGames * 1.5) {
+              selectedStandings = avgGamesPerGroup[1].group;
+              console.log(`[Standings] Using current phase table (not accumulated) for league ${leagueId}`);
+            }
+          }
+        }
+        
+        if (selectedStandings && selectedStandings.length > 0) {
+          return selectedStandings.map(s => ({
             rank: s.rank,
             team: s.team.name,
             points: s.points,

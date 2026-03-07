@@ -7,6 +7,7 @@ import {
   getCachedH2H,
   cacheH2H 
 } from './cache-service';
+import { selectCorrectStandings } from './season-detector';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY || '';
 const API_URL = process.env.NEXT_PUBLIC_API_FOOTBALL_URL || 'https://v3.football.api-sports.io';
@@ -472,7 +473,13 @@ export async function getStandings(leagueId: number, season: number) {
       params: { league: validLeagueId, season: validSeason }
     });
     
-    return data.response?.[0]?.league?.standings?.[0] || null;
+    const allStandings = data.response?.[0]?.league?.standings;
+    if (!allStandings || allStandings.length === 0) {
+      return null;
+    }
+    
+    // Use helper to select correct standings for leagues with multiple phases
+    return selectCorrectStandings(allStandings, validLeagueId);
   } catch (error) {
     console.error('Failed to fetch standings:', error);
     return null;

@@ -1,7 +1,7 @@
 import { Match, TeamStats } from '@/types';
 import { makeRequest } from './api-football';
 import { calculateMarketEV } from './market-models';
-import { getCorrectSeason, getAlternativeSeasons, getSeasonDisplayName } from './season-detector';
+import { getCorrectSeason, getAlternativeSeasons, getSeasonDisplayName, selectCorrectStandings } from './season-detector';
 
 // Types for detailed match stats
 export interface MatchForm {
@@ -227,7 +227,14 @@ export async function getTeamDetailedStats(
         params: { team: teamId, league: leagueId, season: trySeason }
       });
 
-      const standing = data.response?.league?.standings?.[0]?.find(s => s.team.id === teamId);
+      const allStandings = data.response?.league?.standings;
+      if (!allStandings || allStandings.length === 0) {
+        return null;
+      }
+      
+      // Select correct standings phase for leagues with Apertura/Clausura
+      const selectedStandings = selectCorrectStandings(allStandings, leagueId);
+      const standing = selectedStandings.find(s => s.team.id === teamId);
       return standing ? { standing, season: trySeason } : null;
     }, leagueId);
 
@@ -588,8 +595,14 @@ export async function getLeagueTable(leagueId: number, season: number) {
         params: { league: leagueId, season: trySeason }
       });
 
-      const standings = data?.response?.[0]?.league?.standings?.[0];
-      return standings && standings.length > 0 ? standings : null;
+      const allStandings = data?.response?.[0]?.league?.standings;
+      if (!allStandings || allStandings.length === 0) {
+        return null;
+      }
+      
+      // Select correct standings phase for leagues with Apertura/Clausura
+      const selectedStandings = selectCorrectStandings(allStandings, leagueId);
+      return selectedStandings.length > 0 ? selectedStandings : null;
     }, leagueId);
 
     if (!result) {

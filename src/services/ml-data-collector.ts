@@ -2,7 +2,7 @@
 // Collects historical match data for model training
 
 import { makeRequest, formatISODateForAPI } from './api-football';
-import { getCorrectSeason, getAlternativeSeasons } from './season-detector';
+import { getCorrectSeason, getAlternativeSeasons, selectCorrectStandings } from './season-detector';
 import { getCache, setCache, CACHE_TYPES } from './local-cache';
 
 // Feature vector for a single match
@@ -350,7 +350,14 @@ async function getTeamStatsBeforeMatch(
       params: { team: teamId, league: leagueId, season }
     });
     
-    const standing = data.response?.league?.standings?.[0]?.find(s => s.team.id === teamId);
+    const allStandings = data.response?.league?.standings;
+    let standing = null;
+    
+    if (allStandings && allStandings.length > 0) {
+      // Select correct standings phase for leagues with Apertura/Clausura
+      const selectedStandings = selectCorrectStandings(allStandings, leagueId);
+      standing = selectedStandings.find(s => s.team.id === teamId);
+    }
     
     if (!standing) {
       return {

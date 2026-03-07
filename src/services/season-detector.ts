@@ -170,3 +170,90 @@ export function getSeasonDisplayName(leagueId: number, date: Date = new Date()):
   // European style
   return `${season}-${season + 1}`;
 }
+
+// Type for standing entries from API
+interface StandingEntry {
+  rank: number;
+  team: { name: string; id?: number };
+  points: number;
+  all?: { played: number; goals: { for: number; against: number } };
+  group?: string;
+  stage?: string;
+}
+
+/**
+ * Select the correct standings table for leagues with multiple phases (Apertura/Clausura)
+ * @param allStandings Array of standings arrays from API
+ * @param leagueId League ID for special handling
+ * @returns The selected standings array
+ */
+export function selectCorrectStandings(
+  allStandings: StandingEntry[][],
+  leagueId?: number
+): StandingEntry[] {
+  if (!allStandings || allStandings.length === 0) {
+    return [];
+  }
+
+  // If only one standings array, return it
+  if (allStandings.length === 1) {
+    return allStandings[0];
+  }
+
+  const currentMonth = new Date().getMonth() + 1; // 1-12
+  const currentPhase = currentMonth <= 6 ? 'apertura' : 'clausura';
+  
+  console.log(`[Standings] League ${leagueId} has ${allStandings.length} standings tables. Current phase: ${currentPhase}`);
+
+  // First, try to find by group/stage name
+  for (const standingGroup of allStandings) {
+    if (!standingGroup || standingGroup.length === 0) continue;
+    
+    const firstTeam = standingGroup[0];
+    const groupName = firstTeam?.group?.toLowerCase() || '';
+    const stageName = firstTeam?.stage?.toLowerCase() || '';
+    
+    const isApertura = groupName.includes('apertura') || stageName.includes('apertura');
+    const isClausura = groupName.includes('clausura') || stageName.includes('clausura');
+    
+    // Match current phase
+    if (currentMonth <= 6 && isApertura) {
+      console.log(`[Standings] Selected Apertura table for league ${leagueId}`);
+      return standingGroup;
+    }
+    if (currentMonth > 6 && isClausura) {
+      console.log(`[Standings] Selected Clausura table for league ${leagueId}`);
+      return standingGroup;
+    }
+  }
+
+  // If no match by name, use games played heuristic
+  // Calculate average games per group
+  const avgGamesPerGroup = allStandings.map((group, index) => ({
+    index,
+    group,
+    avgGames: group.length > 0 
+      ? group.reduce((sum, t) => sum + (t.all?.played || 0), 0) / group.length 
+      : 0
+  }));
+
+  // Sort by average games (descending)
+  avgGamesPerGroup.sort((a, b) => b.avgGames - a.avgGames);
+
+  // If first group has significantly more games, it's likely the accumulated table
+  // Return the second group (current phase)
+  if (avgGamesPerGroup.length >= 2) {
+    const maxGames = avgGamesPerGroup[0].avgGames;
+    const secondGames = avgGamesPerGroup[1].avgGames;
+    
+    // If first has 1.5x more games, assume it's accumulated
+    if (maxGames > secondGames * 1.5) {
+      console.log(`[Standings] Selected phase table (not accumulated) for league ${leagueId}`);
+      return avgGamesPerGroup[1].group;
+    }
+  }
+
+  // Default: return first standings
+  console.log(`[Standings] Using first table for league ${leagueId}`);
+  return allStandings[0];
+}

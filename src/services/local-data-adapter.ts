@@ -7,6 +7,7 @@ import { historicalData } from './historical-data-store';
 import { makeRequest } from './api-football';
 import { hasLocalData, loadLeaguesLazy } from './local-data-loader';
 import { checkDataFreshness, shouldUseApiForMatch, getBestDataStrategy } from './smart-data-selector';
+import { selectCorrectStandings } from './season-detector';
 
 // Interfaces compatibles con match-stats-cached.ts
 export interface MatchForm {
@@ -424,8 +425,11 @@ export async function getCompleteMatchStatsWithLocal(
           endpoint: '/standings',
           params: { league: leagueId, season: targetSeason }
         }).then(apiStandings => {
-          if (apiStandings?.response?.[0]?.league?.standings?.[0]) {
-            standings = transformApiStandings(apiStandings.response[0].league.standings[0]);
+          const allStandings = apiStandings?.response?.[0]?.league?.standings;
+          if (allStandings && allStandings.length > 0) {
+            // Select correct standings phase for leagues with Apertura/Clausura
+            const selectedStandings = selectCorrectStandings(allStandings, leagueId);
+            standings = transformApiStandings(selectedStandings);
           }
         }).catch(() => {})
       );
