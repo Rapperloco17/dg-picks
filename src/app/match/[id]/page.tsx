@@ -25,6 +25,7 @@ import {
 import { cn } from '@/lib/utils';
 import { MatchStatsDialog } from '@/components/match/match-stats-dialog';
 import { LiveMatchStats } from '@/components/match/live-match-stats';
+import { TeamMatchHistory } from '@/components/match/team-match-history';
 
 interface MatchPageProps {
   params: Promise<{ id: string }>;
@@ -223,6 +224,24 @@ function MatchPage({ params }: MatchPageProps) {
           isFinished={isFinished}
         />
       )}
+
+      {/* Team Match History */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <TeamMatchHistory
+          teamId={teams.home.id}
+          teamName={teams.home.name}
+          teamLogo={teams.home.logo}
+          currentMatchId={fixture.id}
+          isHome={true}
+        />
+        <TeamMatchHistory
+          teamId={teams.away.id}
+          teamName={teams.away.name}
+          teamLogo={teams.away.logo}
+          currentMatchId={fixture.id}
+          isHome={false}
+        />
+      </div>
 
       {/* Analysis Options */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
