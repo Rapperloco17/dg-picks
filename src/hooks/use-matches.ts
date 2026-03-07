@@ -76,12 +76,13 @@ export function useLiveMatches(tier: 1 | 2 | 3 | 'all' = 'all') {
         ? [...getTier1LeagueIds(), ...getTier2LeagueIds(), ...getTier3LeagueIds()]
         : getAllLeagueIds();
   
-  const { data, error, isLoading, mutate } = useSWR<Match[]>(
+  const { data, error, isLoading, mutate, dataUpdatedAt } = useSWR<Match[]>(
     ['live-matches', tier],
     () => fetcher(() => getLiveFixtures(leagueIds)),
     {
-      refreshInterval: 60000, // 1 minute for live matches
+      refreshInterval: 30000, // 30 seconds for live matches (more frequent updates)
       revalidateOnFocus: true,
+      dedupingInterval: 5000, // Dedupe requests within 5 seconds
     }
   );
   
@@ -91,6 +92,7 @@ export function useLiveMatches(tier: 1 | 2 | 3 | 'all' = 'all') {
     isError: !!error,
     error,
     mutate,
+    lastUpdated: dataUpdatedAt,
   };
 }
 

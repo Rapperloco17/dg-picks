@@ -16,7 +16,7 @@ import { Match } from '@/types';
 const CACHE_COLLECTION = 'matches_cache';
 const CACHE_DURATION_MS = {
   fixtures: 15 * 60 * 1000,       // 15 minutes
-  live: 60 * 1000,                // 1 minute
+  live: 30 * 1000,                // 30 seconds (faster updates for live matches)
   statistics: 24 * 60 * 60 * 1000, // 24 hours
   h2h: 7 * 24 * 60 * 60 * 1000,   // 7 days
   standings: 6 * 60 * 60 * 1000,  // 6 hours
