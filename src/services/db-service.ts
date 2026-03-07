@@ -79,10 +79,7 @@ export async function saveMatches(matches: HistoricalMatch[]) {
     });
   });
 
-  return await prisma.$transaction(operations, { 
-    isolationLevel: 'Serializable',
-    maxWait: 60000
-  });
+  return await prisma.$transaction(operations);
 }
 
 export async function getMatches(filters?: {
