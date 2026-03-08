@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Match } from '@/types';
@@ -15,15 +15,42 @@ import {
   BarChart3,
   Clock,
   Plus,
-  TrendingUp
+  TrendingUp,
+  Target,
+  Zap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MatchStatsDialog } from '@/components/match/match-stats-dialog';
 import { hasCache, CACHE_TYPES } from '@/services/local-cache';
+import { calculateEV, formatEV, getGradeColor } from '@/lib/ev-calculator';
+import { EVBadge, GradeBadge, ProbabilityBar } from './ev-badge';
 
 interface MatchCardProps {
   match: Match;
   showValueIndicator?: boolean;
+}
+
+// Generate mock analysis data based on match
+function generateMatchAnalysis(match: Match) {
+  const seed = match.fixture.id % 20;
+  
+  // Simulate different value scenarios
+  const scenarios = [
+    { prob: 0.65, odds: 1.85 },  // +EV strong
+    { prob: 0.55, odds: 2.10 },  // +EV moderate
+    { prob: 0.45, odds: 2.50 },  // +EV slight
+    { prob: 0.35, odds: 2.80 },  // -EV
+    { prob: 0.60, odds: 1.90 },  // +EV good
+    null,  // No analysis
+    null,  // No analysis
+    { prob: 0.70, odds: 1.75 },  // +EV strong
+  ];
+  
+  const scenario = scenarios[seed % scenarios.length];
+  
+  if (!scenario) return null;
+  
+  return calculateEV(scenario.prob, scenario.odds);
 }
 
 export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) {
@@ -46,8 +73,13 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
   const matchDate = new Date(fixture.date);
   const formattedTime = format(matchDate, 'HH:mm');
   
-  // Mock indicators - in real app, calculate from predictions
-  const hasHighValue = Math.random() > 0.7;
+  // Generate analysis data
+  const analysis = useMemo(() => generateMatchAnalysis(match), [match]);
+  const hasAnalysis = analysis !== null;
+  const hasPositiveEV = hasAnalysis && analysis.ev > 0;
+  const hasStrongValue = hasAnalysis && analysis.ev >= 0.10;
+  
+  // Mock indicators
   const hasLimitedData = Math.random() > 0.9;
   const confidenceScore = Math.floor(Math.random() * 40) + 60;
 
@@ -78,12 +110,16 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
                   {fixture.status.elapsed}'
                 </Badge>
               )}
-              {showValueIndicator && hasHighValue && (
-                <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 text-[10px] h-5 px-1.5">
-                  <Flame className="w-3 h-3 mr-0.5" />
-                  Valor
-                </Badge>
+              
+              {/* EV Badge */}
+              {hasAnalysis && showValueIndicator && (
+                <EVBadge 
+                  ev={analysis.ev} 
+                  grade={analysis.grade}
+                  size="sm"
+                />
               )}
+              
               {hasLimitedData && (
                 <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20 text-[10px] h-5 px-1.5">
                   <AlertTriangle className="w-3 h-3 mr-0.5" />
@@ -161,62 +197,107 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
           </div>
 
           {/* Footer: Prediction & Actions */}
-          <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-800">
-            <div className="flex items-center gap-3">
-              {/* Confidence Bar */}
-              <div className="flex items-center gap-1.5">
-                <BarChart3 className="w-3.5 h-3.5 text-slate-500" />
-                <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div className="space-y-3 mt-4 pt-3 border-t border-slate-800">
+            {/* EV Analysis Bar */}
+            {hasAnalysis && (
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Valor Esperado</span>
+                  <span className={cn(
+                    'font-medium',
+                    analysis.ev >= 0.10 ? 'text-emerald-400' : 
+                    analysis.ev >= 0 ? 'text-green-400' : 'text-red-400'
+                  )}>
+                    {formatEV(analysis.ev)}
+                  </span>
+                </div>
+                <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden flex">
                   <div 
                     className={cn(
-                      "h-full rounded-full",
-                      confidenceScore >= 80 ? "bg-emerald-500" :
-                      confidenceScore >= 60 ? "bg-blue-500" : "bg-amber-500"
+                      "h-full",
+                      analysis.ev >= 0.10 ? "bg-emerald-500" : 
+                      analysis.ev >= 0 ? "bg-green-500" : "bg-red-500"
                     )}
-                    style={{ width: `${confidenceScore}%` }}
+                    style={{ width: `${Math.min(Math.abs(analysis.ev * 100), 100)}%` }}
                   />
                 </div>
-                <span className="text-xs text-slate-500">{confidenceScore}%</span>
               </div>
-            </div>
+            )}
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {/* Confidence Bar */}
+                <div className="flex items-center gap-1.5">
+                  <BarChart3 className="w-3.5 h-3.5 text-slate-500" />
+                  <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div 
+                      className={cn(
+                        "h-full rounded-full",
+                        confidenceScore >= 80 ? "bg-emerald-500" :
+                        confidenceScore >= 60 ? "bg-blue-500" : "bg-amber-500"
+                      )}
+                      style={{ width: `${confidenceScore}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-slate-500">{confidenceScore}%</span>
+                </div>
+                
+                {/* Grade Badge */}
+                {hasAnalysis && (
+                  <GradeBadge grade={analysis.grade} size="sm" />
+                )}
+              </div>
 
-            <div className="flex items-center gap-1">
-              {/* Quick Analysis Button */}
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-slate-400 hover:text-slate-100 h-8 px-2"
-                onClick={() => {
-                  setActiveTab('resumen');
-                  setStatsOpen(true);
-                }}
-              >
-                <Activity className="w-4 h-4 mr-1" />
-                Análisis
-              </Button>
-              
-              {/* Full Stats Button */}
-              <Link href={`/match/${fixture.id}/stats`}>
+              <div className="flex items-center gap-1">
+                {/* Quick Analysis Button */}
                 <Button 
                   variant="ghost" 
                   size="sm"
                   className="text-slate-400 hover:text-slate-100 h-8 px-2"
+                  onClick={() => {
+                    setActiveTab('resumen');
+                    setStatsOpen(true);
+                  }}
                 >
-                  <TrendingUp className="w-4 h-4 mr-1" />
-                  Stats
-                  {isCached && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-green-500" />}
+                  <Activity className="w-4 h-4 mr-1" />
+                  Análisis
                 </Button>
-              </Link>
-              
-              <Link href={`/picks/new?match=${fixture.id}`}>
-                <Button 
-                  size="sm"
-                  className="bg-blue-500 hover:bg-blue-600 h-8"
-                >
-                  <Plus className="w-4 h-4 mr-1" />
-                  Pick
-                </Button>
-              </Link>
+                
+                {/* Full Stats Button */}
+                <Link href={`/match/${fixture.id}/stats`}>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="text-slate-400 hover:text-slate-100 h-8 px-2"
+                  >
+                    <TrendingUp className="w-4 h-4 mr-1" />
+                    Stats
+                    {isCached && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-green-500" />}
+                  </Button>
+                </Link>
+                
+                {/* Add Pick Button - Highlighted if +EV */}
+                <Link href={`/picks/new?match=${fixture.id}`}>
+                  <Button 
+                    size="sm"
+                    className={cn(
+                      "h-8",
+                      hasStrongValue 
+                        ? "bg-emerald-500 hover:bg-emerald-600 text-white" 
+                        : hasPositiveEV
+                        ? "bg-green-500 hover:bg-green-600 text-white"
+                        : "bg-blue-500 hover:bg-blue-600"
+                    )}
+                  >
+                    {hasStrongValue ? (
+                      <Zap className="w-4 h-4 mr-1" />
+                    ) : (
+                      <Plus className="w-4 h-4 mr-1" />
+                    )}
+                    Pick
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </CardContent>

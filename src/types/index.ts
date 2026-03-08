@@ -112,6 +112,15 @@ export interface Pick {
   profit: number | null;
   createdAt: string;
   settledAt: string | null;
+  // EV Analysis
+  ev?: number;                    // Expected Value
+  evPercentage?: number;          // EV como porcentaje
+  probability?: number;           // Probabilidad estimada
+  impliedProbability?: number;    // Probabilidad implícita
+  edge?: number;                  // Ventaja sobre el mercado
+  grade?: 'A' | 'B' | 'C' | 'D' | 'F';  // Calificación
+  recommendation?: 'STRONG_BUY' | 'BUY' | 'HOLD' | 'AVOID';
+  kellyStake?: number;            // Stake óptimo según Kelly
 }
 
 // ==================== USER TYPES ====================

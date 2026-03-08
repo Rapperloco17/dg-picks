@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { QuickStats } from '@/components/dashboard/quick-stats';
 import { ApiStatusCard } from '@/components/dashboard/api-status';
 import { MatchesList } from '@/components/matches/matches-list';
-import { MatchFilters } from '@/components/matches/match-filters';
+import { LeagueSelector } from '@/components/matches/league-selector';
+import { AdvancedFilters, MarketFilter, EVFilter, GradeFilter } from '@/components/matches/advanced-filters';
 import { 
   useTodayMatches, 
   useTomorrowMatches, 
@@ -15,13 +16,62 @@ import { useAppStore } from '@/stores/app-store';
 import { usePicksStore } from '@/stores/picks-store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Match } from '@/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Match, Pick } from '@/types';
 import { TIER_1_LEAGUES, TIER_2_LEAGUES, TIER_3_LEAGUES, ALL_LEAGUES } from '@/constants/leagues';
-import { Globe } from 'lucide-react';
+import { Globe, Filter, TrendingUp, Zap } from 'lucide-react';
+import { calculateEV } from '@/lib/ev-calculator';
+import { cn } from '@/lib/utils';
 
-function filterMatches(matches: Match[], searchQuery: string, continent: string, country: string, league: number | 'ALL') {
+// Generate mock picks with EV for demonstration
+function generateMockPick(match: Match): Pick | null {
+  // Simulate different scenarios based on match ID
+  const seed = match.fixture.id % 10;
+  
+  if (seed < 3) return null; // No pick for some matches
+  
+  const odds = [1.8, 2.1, 2.5, 1.95, 3.2][seed % 5];
+  const probability = [0.65, 0.55, 0.45, 0.60, 0.35][seed % 5];
+  
+  const ev = calculateEV(probability, odds);
+  
+  return {
+    id: `pick-${match.fixture.id}`,
+    userId: 'user-1',
+    matchId: match.fixture.id,
+    leagueId: match.league.id,
+    leagueName: match.league.name,
+    homeTeam: match.teams.home.name,
+    awayTeam: match.teams.away.name,
+    matchDate: match.fixture.date,
+    market: seed % 3 === 0 ? '1X2' : seed % 3 === 1 ? 'OVER_UNDER' : 'BTTS',
+    selection: seed % 2 === 0 ? 'Home' : 'Over 2.5',
+    odds,
+    stake: 10,
+    confidence: (seed + 5) as any,
+    result: 'PENDING',
+    profit: null,
+    createdAt: new Date().toISOString(),
+    settledAt: null,
+    ev: ev.ev,
+    evPercentage: ev.evPercentage,
+    probability: ev.probability,
+    impliedProbability: ev.impliedProbability,
+    edge: ev.edge,
+    grade: ev.grade,
+    recommendation: ev.recommendation,
+    kellyStake: ev.kellyStake,
+  };
+}
+
+function filterMatches(
+  matches: Match[], 
+  searchQuery: string, 
+  league: number | 'ALL',
+  marketFilter: MarketFilter,
+  evFilter: EVFilter,
+  gradeFilter: GradeFilter
+) {
   return matches.filter(match => {
     // Search filter
     if (searchQuery) {
@@ -40,17 +90,30 @@ function filterMatches(matches: Match[], searchQuery: string, continent: string,
 }
 
 export default function Dashboard() {
-  const { viewMode, filters, setFilter } = useAppStore();
   const { loadPicks } = usePicksStore();
+  
+  // Local state for filters
+  const [selectedLeague, setSelectedLeague] = useState<number | 'ALL'>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [marketFilter, setMarketFilter] = useState<MarketFilter>('ALL');
+  const [evFilter, setEVFilter] = useState<EVFilter>('ALL');
+  const [gradeFilter, setGradeFilter] = useState<GradeFilter>('ALL');
+  const [activeTab, setActiveTab] = useState('today');
+  const [showFilters, setShowFilters] = useState(false);
 
   // Load picks on mount
   useEffect(() => {
     loadPicks();
   }, [loadPicks]);
 
-  // Get tier from filters
-  const tier = filters.continent === 'ALL' && filters.country === 'ALL' ? 'all' : 
-    filters.continent === 'EUROPE' ? 2 : 3;
+  // Get tier from selected league
+  const tier = useMemo(() => {
+    if (selectedLeague === 'ALL') return 'all';
+    if (TIER_1_LEAGUES.some(l => l.id === selectedLeague)) return 1;
+    if (TIER_2_LEAGUES.some(l => l.id === selectedLeague)) return 2;
+    if (TIER_3_LEAGUES.some(l => l.id === selectedLeague)) return 3;
+    return 'all';
+  }, [selectedLeague]);
   
   const { 
     matches: todayMatches, 
@@ -78,24 +141,43 @@ export default function Dashboard() {
 
   // Filter matches
   const filteredToday = useMemo(() => 
-    filterMatches(todayMatches, filters.searchQuery, filters.continent, filters.country, filters.league),
-    [todayMatches, filters]
+    filterMatches(todayMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter),
+    [todayMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter]
   );
   
   const filteredTomorrow = useMemo(() => 
-    filterMatches(tomorrowMatches, filters.searchQuery, filters.continent, filters.country, filters.league),
-    [tomorrowMatches, filters]
+    filterMatches(tomorrowMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter),
+    [tomorrowMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter]
   );
   
   const filteredLive = useMemo(() => 
-    filterMatches(liveMatches, filters.searchQuery, filters.continent, filters.country, filters.league),
-    [liveMatches, filters]
+    filterMatches(liveMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter),
+    [liveMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter]
   );
   
   const filteredWeekend = useMemo(() => 
-    filterMatches(weekendMatches, filters.searchQuery, filters.continent, filters.country, filters.league),
-    [weekendMatches, filters]
+    filterMatches(weekendMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter),
+    [weekendMatches, searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter]
   );
+
+  // Count active filters
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (searchQuery) count++;
+    if (selectedLeague !== 'ALL') count++;
+    if (marketFilter !== 'ALL') count++;
+    if (evFilter !== 'ALL') count++;
+    if (gradeFilter !== 'ALL') count++;
+    return count;
+  }, [searchQuery, selectedLeague, marketFilter, evFilter, gradeFilter]);
+
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedLeague('ALL');
+    setMarketFilter('ALL');
+    setEVFilter('ALL');
+    setGradeFilter('ALL');
+  };
 
   // Stats
   const totalMatches = filteredToday.length + filteredTomorrow.length + filteredLive.length;
@@ -104,9 +186,15 @@ export default function Dashboard() {
     ...filteredTomorrow.map(m => m.league.id),
   ]).size;
 
+  // Count value picks
+  const valuePicksCount = filteredToday.filter(m => {
+    const pick = generateMockPick(m);
+    return pick && pick.ev && pick.ev > 0;
+  }).length;
+
   return (
     <div className="space-y-6">
-      {/* Page Title */}
+      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-100">Dashboard</h1>
@@ -115,51 +203,76 @@ export default function Dashboard() {
           </p>
         </div>
         
-        {/* Tier Selector */}
-        <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-slate-400" />
-          <Select 
-            value={tier as string} 
-            onValueChange={(v) => {
-              // Reset filters when changing tier
-              if (v === 'all') {
-                setFilter('continent', 'ALL');
-                setFilter('country', 'ALL');
-                setFilter('league', 'ALL');
-              }
-            }}
-          >
-            <SelectTrigger className="w-[180px] bg-slate-900 border-slate-800">
-              <SelectValue placeholder="Cobertura" />
-            </SelectTrigger>
-            <SelectContent className="bg-slate-900 border-slate-800">
-              <SelectItem value="all" className="text-slate-100 focus:bg-slate-800">
-                🌍 Todas las ligas ({ALL_LEAGUES.length})
-              </SelectItem>
-              <SelectItem value="1" className="text-slate-100 focus:bg-slate-800">
-                ⭐ TIER 1 - Élite ({TIER_1_LEAGUES.length})
-              </SelectItem>
-              <SelectItem value="2" className="text-slate-100 focus:bg-slate-800">
-                🏆 TIER 2 - Competitivo ({TIER_2_LEAGUES.length})
-              </SelectItem>
-              <SelectItem value="3" className="text-slate-100 focus:bg-slate-800">
-                🌐 TIER 3 - Adicional ({TIER_3_LEAGUES.length})
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Value Picks Indicator */}
+        {valuePicksCount > 0 && (
+          <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 px-3 py-1.5">
+            <Zap className="w-4 h-4 mr-1.5" />
+            {valuePicksCount} picks con valor hoy
+          </Badge>
+        )}
       </div>
 
       {/* Quick Stats */}
       <QuickStats />
 
-      {/* API Status & System Info */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <ApiStatusCard />
-      </div>
+      {/* League Selector */}
+      <Card className="bg-slate-900 border-slate-800">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
+            <Globe className="w-4 h-4" />
+            Seleccionar Liga
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <LeagueSelector
+            selectedLeague={selectedLeague}
+            onSelectLeague={setSelectedLeague}
+            tier={tier === 'all' ? 'all' : tier as 1 | 2 | 3}
+          />
+        </CardContent>
+      </Card>
 
-      {/* Filters */}
-      <MatchFilters />
+      {/* Filters Card */}
+      <Card className="bg-slate-900 border-slate-800">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle 
+              className="text-sm font-medium text-slate-400 flex items-center gap-2 cursor-pointer"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="w-4 h-4" />
+              Filtros Avanzados
+              {activeFiltersCount > 0 && (
+                <Badge variant="secondary" className="ml-2 text-xs">
+                  {activeFiltersCount}
+                </Badge>
+              )}
+            </CardTitle>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="text-xs text-slate-500 hover:text-slate-300"
+            >
+              {showFilters ? 'Ocultar' : 'Mostrar'}
+            </button>
+          </div>
+        </CardHeader>
+        {showFilters && (
+          <CardContent>
+            <AdvancedFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              marketFilter={marketFilter}
+              onMarketChange={setMarketFilter}
+              evFilter={evFilter}
+              onEVChange={setEVFilter}
+              gradeFilter={gradeFilter}
+              onGradeChange={setGradeFilter}
+              activeFiltersCount={activeFiltersCount}
+              onResetFilters={resetFilters}
+            />
+          </CardContent>
+        )}
+      </Card>
 
       {/* Live Matches Section */}
       {filteredLive.length > 0 && (
@@ -183,7 +296,7 @@ export default function Dashboard() {
       )}
 
       {/* Matches Tabs */}
-      <Tabs defaultValue="today" value={viewMode.toLowerCase()} className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="bg-slate-900 border border-slate-800">
           <TabsTrigger value="today" className="data-[state=active]:bg-slate-800">
             Hoy ({filteredToday.length})
@@ -200,7 +313,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-100">Partidos de Hoy</h2>
             <p className="text-sm text-slate-400">
-              {tier === 'all' ? 'Todas las ligas' : `TIER ${tier}`}
+              {selectedLeague === 'ALL' ? 'Todas las ligas' : 'Liga seleccionada'}
             </p>
           </div>
           <MatchesList 
@@ -215,7 +328,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-100">Partidos de Mañana</h2>
             <p className="text-sm text-slate-400">
-              {tier === 'all' ? 'Todas las ligas' : `TIER ${tier}`}
+              {selectedLeague === 'ALL' ? 'Todas las ligas' : 'Liga seleccionada'}
             </p>
           </div>
           <MatchesList 
