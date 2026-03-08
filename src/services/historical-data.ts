@@ -12,9 +12,12 @@ import {
   limit
 } from 'firebase/firestore';
 import { db, isFirebaseInitialized } from '@/lib/firebase';
+import { PrismaClient } from '@prisma/client';
 import { Match, TeamStats, PredictionData } from '@/types';
 import { getCurrentSeason, getTeamStatistics, getFixturesByLeague, getFixtureById } from './api-football';
 import { ALL_LEAGUES, getAllLeagueIds } from '@/constants/leagues';
+
+const prisma = new PrismaClient();
 
 // Collection names
 const COLLECTIONS = {
@@ -441,6 +444,203 @@ export async function collectAllHistoricalData(
   }
   
   return { totalMatches, byLeague: results };
+}
+
+// ==========================================
+// USE DATABASE DATA (No API calls needed)
+// ==========================================
+
+/**
+ * Collect data from PostgreSQL database (no API calls)
+ * Uses existing Match table data
+ */
+export async function collectDataFromDatabase(
+  onProgress?: (current: number, total: number) => void
+): Promise<{ totalMatches: number; byLeague: Record<string, number> }> {
+  console.log('[ML] Collecting data from PostgreSQL database...');
+  
+  try {
+    // Get all matches from database
+    const matches = await prisma.match.findMany({
+      where: {
+        status: 'FT', // Only finished matches
+      },
+      orderBy: {
+        date: 'desc',
+      },
+    });
+    
+    console.log(`[ML] Found ${matches.length} matches in database`);
+    
+    const results: Record<string, number> = {};
+    let totalMatches = 0;
+    
+    // Process matches in batches
+    const batchSize = 100;
+    for (let i = 0; i < matches.length; i += batchSize) {
+      const batch = matches.slice(i, i + batchSize);
+      
+      for (const match of batch) {
+        try {
+          // Convert database match to ProcessedMatchData
+          const processed = await processDatabaseMatchForML(match);
+          if (processed) {
+            await saveTrainingData([processed]);
+            
+            const key = `${match.leagueName}_${match.season}`;
+            results[key] = (results[key] || 0) + 1;
+            totalMatches++;
+          }
+        } catch (error) {
+          console.error(`[ML] Error processing match ${match.fixtureId}:`, error);
+        }
+      }
+      
+      if (onProgress) {
+        onProgress(Math.min(i + batchSize, matches.length), matches.length);
+      }
+    }
+    
+    console.log(`[ML] Processed ${totalMatches} matches from database`);
+    return { totalMatches, byLeague: results };
+    
+  } catch (error) {
+    console.error('[ML] Error collecting from database:', error);
+    throw error;
+  }
+}
+
+/**
+ * Process a database match for ML training
+ */
+async function processDatabaseMatchForML(dbMatch: any): Promise<ProcessedMatchData | null> {
+  // Get team stats from database if available
+  const homeStats = await getTeamStatsFromDatabase(dbMatch.homeTeamId, dbMatch.leagueId, dbMatch.season);
+  const awayStats = await getTeamStatsFromDatabase(dbMatch.awayTeamId, dbMatch.leagueId, dbMatch.season);
+  
+  // Calculate features from database stats
+  const features = {
+    homeForm: homeStats?.recentForm || [0, 0, 0, 0, 0],
+    awayForm: awayStats?.recentForm || [0, 0, 0, 0, 0],
+    homeGoalsScoredAvg: homeStats?.avgGoalsScored || 0,
+    homeGoalsConcededAvg: homeStats?.avgGoalsConceded || 0,
+    awayGoalsScoredAvg: awayStats?.avgGoalsScored || 0,
+    awayGoalsConcededAvg: awayStats?.avgGoalsConceded || 0,
+    h2hHomeWins: 0, // Would need H2H table
+    h2hDraws: 0,
+    h2hAwayWins: 0,
+    homeCleanSheets: homeStats?.cleanSheets || 0,
+    awayCleanSheets: awayStats?.cleanSheets || 0,
+    homeBttsRate: homeStats?.bttsRate || 0.5,
+    awayBttsRate: awayStats?.bttsRate || 0.5,
+    homeOver15Rate: homeStats?.over15Rate || 0.5,
+    homeOver25Rate: homeStats?.over25Rate || 0.5,
+    awayOver15Rate: awayStats?.over15Rate || 0.5,
+    awayOver25Rate: awayStats?.over25Rate || 0.5,
+  };
+  
+  return {
+    id: dbMatch.fixtureId,
+    fixture: {
+      id: dbMatch.fixtureId,
+      date: dbMatch.date.toISOString(),
+      timestamp: dbMatch.timestamp,
+      timezone: dbMatch.timezone,
+      status: { short: dbMatch.status, long: dbMatch.status },
+    } as any,
+    league: {
+      id: dbMatch.leagueId,
+      name: dbMatch.leagueName,
+      season: dbMatch.season,
+    } as any,
+    teams: {
+      home: { id: dbMatch.homeTeamId, name: dbMatch.homeTeamName },
+      away: { id: dbMatch.awayTeamId, name: dbMatch.awayTeamName },
+    } as any,
+    goals: {
+      home: dbMatch.homeGoals,
+      away: dbMatch.awayGoals,
+    },
+    score: {
+      halftime: { home: dbMatch.homeScoreHT, away: dbMatch.awayScoreHT },
+      fulltime: { home: dbMatch.homeScoreFT, away: dbMatch.awayScoreFT },
+    } as any,
+    features,
+    target: {
+      homeWin: (dbMatch.homeGoals || 0) > (dbMatch.awayGoals || 0),
+      draw: (dbMatch.homeGoals || 0) === (dbMatch.awayGoals || 0),
+      awayWin: (dbMatch.homeGoals || 0) < (dbMatch.awayGoals || 0),
+      btts: (dbMatch.homeGoals || 0) > 0 && (dbMatch.awayGoals || 0) > 0,
+      over15: (dbMatch.homeGoals || 0) + (dbMatch.awayGoals || 0) > 1.5,
+      over25: (dbMatch.homeGoals || 0) + (dbMatch.awayGoals || 0) > 2.5,
+      over35: (dbMatch.homeGoals || 0) + (dbMatch.awayGoals || 0) > 3.5,
+      totalGoals: (dbMatch.homeGoals || 0) + (dbMatch.awayGoals || 0),
+    },
+    metadata: {
+      season: dbMatch.season,
+      collectedAt: Timestamp.fromDate(new Date()),
+      hasCompleteData: true,
+    },
+  };
+}
+
+/**
+ * Get team stats from database
+ */
+async function getTeamStatsFromDatabase(teamId: number, leagueId: number, season: number) {
+  // Get recent matches for this team
+  const recentMatches = await prisma.match.findMany({
+    where: {
+      OR: [
+        { homeTeamId: teamId, leagueId, season },
+        { awayTeamId: teamId, leagueId, season },
+      ],
+      status: 'FT',
+    },
+    orderBy: { date: 'desc' },
+    take: 10,
+  });
+  
+  if (recentMatches.length === 0) return null;
+  
+  const form: number[] = [];
+  let goalsScored = 0;
+  let goalsConceded = 0;
+  let cleanSheets = 0;
+  let bttsCount = 0;
+  let over15Count = 0;
+  let over25Count = 0;
+  
+  for (const match of recentMatches) {
+    const isHome = match.homeTeamId === teamId;
+    const teamGoals = isHome ? (match.homeGoals || 0) : (match.awayGoals || 0);
+    const oppGoals = isHome ? (match.awayGoals || 0) : (match.homeGoals || 0);
+    
+    if (recentMatches.indexOf(match) < 5) { // Only last 5 for form
+      if (teamGoals > oppGoals) form.push(3);
+      else if (teamGoals === oppGoals) form.push(1);
+      else form.push(0);
+    }
+    
+    goalsScored += teamGoals;
+    goalsConceded += oppGoals;
+    if (oppGoals === 0) cleanSheets++;
+    if (teamGoals > 0 && oppGoals > 0) bttsCount++;
+    if (teamGoals + oppGoals > 1.5) over15Count++;
+    if (teamGoals + oppGoals > 2.5) over25Count++;
+  }
+  
+  const totalMatches = recentMatches.length;
+  
+  return {
+    recentForm: form,
+    avgGoalsScored: goalsScored / totalMatches,
+    avgGoalsConceded: goalsConceded / totalMatches,
+    cleanSheets,
+    bttsRate: bttsCount / totalMatches,
+    over15Rate: over15Count / totalMatches,
+    over25Rate: over25Count / totalMatches,
+  };
 }
 
 // ==========================================

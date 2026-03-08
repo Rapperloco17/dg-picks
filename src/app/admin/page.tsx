@@ -23,7 +23,8 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { 
-  collectAllHistoricalData, 
+  collectAllHistoricalData,
+  collectDataFromDatabase,
   getTrainingData, 
   exportToCSV, 
   downloadCSV,
@@ -78,6 +79,32 @@ export default function AdminPage() {
       toast.success(`Recolección completada: ${result.totalMatches} partidos`);
     } catch (error) {
       toast.error('Error en la recolección de datos');
+      console.error(error);
+    } finally {
+      setIsCollecting(false);
+    }
+  };
+
+  // Use database data (no API calls)
+  const handleCollectFromDatabase = async () => {
+    setIsCollecting(true);
+    
+    try {
+      const result = await collectDataFromDatabase(
+        (current, total) => {
+          setCollectionProgress(prev => ({
+            ...prev,
+            currentMatch: current,
+            totalMatches: total,
+            currentLeagueName: 'Procesando desde Base de Datos...',
+          }));
+        }
+      );
+      
+      setStats(result);
+      toast.success(`Datos cargados desde BD: ${result.totalMatches} partidos`);
+    } catch (error) {
+      toast.error('Error cargando datos de la base de datos');
       console.error(error);
     } finally {
       setIsCollecting(false);
@@ -324,14 +351,31 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {!isCollecting ? (
-                <Button 
-                  onClick={handleCollectData}
-                  className="bg-blue-500 hover:bg-blue-600"
-                  size="lg"
-                >
-                  <Play className="w-4 h-4 mr-2" />
-                  Iniciar Recolección
-                </Button>
+                <div className="flex flex-col gap-3">
+                  <div className="flex gap-3">
+                    <Button 
+                      onClick={handleCollectFromDatabase}
+                      className="bg-emerald-500 hover:bg-emerald-600"
+                      size="lg"
+                    >
+                      <Database className="w-4 h-4 mr-2" />
+                      Usar Datos de BD (Rápido)
+                    </Button>
+                    <Button 
+                      onClick={handleCollectData}
+                      className="bg-blue-500 hover:bg-blue-600"
+                      size="lg"
+                      variant="outline"
+                    >
+                      <Play className="w-4 h-4 mr-2" />
+                      Descargar de API (Lento)
+                    </Button>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    💡 <strong>Usar Datos de BD</strong> es más rápido y usa los partidos ya guardados. <br/>
+                    ⚠️ <strong>Descargar de API</strong> consume tu cuota diaria (75k llamadas).
+                  </p>
+                </div>
               ) : (
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-blue-400">
