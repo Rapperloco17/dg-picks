@@ -31,7 +31,7 @@ import {
   AVAILABLE_SEASONS,
   ProcessedMatchData
 } from '@/services/historical-data';
-import { collectHybridData } from '@/services/hybrid-data-collection';
+
 import { ALL_LEAGUES } from '@/constants/leagues';
 import { syncNewMatches, getSyncInfo, hasPendingSync } from '@/services/incremental-sync';
 
@@ -112,40 +112,29 @@ export default function AdminPage() {
     }
   };
 
-  // Hybrid collection - BD first, then API for missing data
+  // Hybrid collection via API
   const handleCollectHybrid = async () => {
     setIsCollecting(true);
+    setSyncMessage('Iniciando recolección híbrida...');
     
     try {
-      const result = await collectHybridData(
-        // Database progress
-        (current, total) => {
-          setCollectionProgress(prev => ({
-            ...prev,
-            currentMatch: current,
-            totalMatches: total,
-            currentLeagueName: `Cargando desde BD... (${current}/${total})`,
-          }));
-        },
-        // API progress
-        (leagueName, current, total) => {
-          setCollectionProgress(prev => ({
-            ...prev,
-            currentLeagueName: `${leagueName} - Descargando de API...`,
-            currentMatch: current,
-            totalMatches: total,
-          }));
-        },
-        // Status updates
-        (status) => {
-          setSyncMessage(status);
-        }
-      );
+      const response = await fetch('/api/collect-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'hybrid' })
+      });
       
-      // Convert hybrid format to simple format for display
+      if (!response.ok) {
+        throw new Error('Error en la recolección');
+      }
+      
+      const result = await response.json();
+      
+      // Convert to simple format
       const simpleByLeague: Record<string, number> = {};
       for (const [league, counts] of Object.entries(result.byLeague)) {
-        simpleByLeague[league] = counts.db + counts.api;
+        const c = counts as { db: number; api: number };
+        simpleByLeague[league] = c.db + c.api;
       }
       
       setStats({
@@ -153,12 +142,50 @@ export default function AdminPage() {
         byLeague: simpleByLeague,
       });
       
-      const missingCount = result.missingCombinations.length;
       toast.success(
-        `Completado: ${result.total} partidos (${result.fromDatabase} BD + ${result.fromAPI} API). ${missingCount} ligas sin datos.`
+        `Completado: ${result.total} partidos (${result.fromDatabase} BD + ${result.fromAPI} API)`
       );
     } catch (error) {
       toast.error('Error en recolección híbrida');
+      console.error(error);
+    } finally {
+      setIsCollecting(false);
+      setSyncMessage('');
+    }
+  };
+
+  // Database-only collection via API
+  const handleCollectFromDatabaseAPI = async () => {
+    setIsCollecting(true);
+    setSyncMessage('Cargando desde base de datos...');
+    
+    try {
+      const response = await fetch('/api/collect-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'database' })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error en la recolección');
+      }
+      
+      const result = await response.json();
+      
+      const simpleByLeague: Record<string, number> = {};
+      for (const [league, counts] of Object.entries(result.byLeague)) {
+        const c = counts as { db: number; api: number };
+        simpleByLeague[league] = c.db + c.api;
+      }
+      
+      setStats({
+        totalMatches: result.total,
+        byLeague: simpleByLeague,
+      });
+      
+      toast.success(`Datos cargados: ${result.fromDatabase} partidos desde BD`);
+    } catch (error) {
+      toast.error('Error cargando datos');
       console.error(error);
     } finally {
       setIsCollecting(false);
@@ -417,7 +444,7 @@ export default function AdminPage() {
                       Recolección Híbrida (Recomendado)
                     </Button>
                     <Button 
-                      onClick={handleCollectFromDatabase}
+                      onClick={handleCollectFromDatabaseAPI}
                       className="bg-blue-500 hover:bg-blue-600"
                       size="lg"
                       variant="outline"
