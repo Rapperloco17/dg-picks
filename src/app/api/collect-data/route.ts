@@ -1,47 +1,79 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
 import { ALL_LEAGUES } from '@/constants/leagues';
 import { makeRequest } from '@/services/api-football';
 
-// Initialize Prisma
-const prisma = new PrismaClient();
+// Initialize Firebase Admin
+let db: any = null;
+let initError: string | null = null;
+
+try {
+  if (!getApps().length) {
+    const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+
+    if (!privateKey || !clientEmail) {
+      throw new Error('Missing FIREBASE_PRIVATE_KEY or FIREBASE_CLIENT_EMAIL');
+    }
+
+    initializeApp({
+      credential: cert({
+        projectId,
+        privateKey,
+        clientEmail,
+      }),
+    });
+    console.log('[API] Firebase Admin initialized');
+  }
+  db = getFirestore();
+} catch (e: any) {
+  initError = e?.message || 'Unknown error';
+  console.error('[API] Firebase Admin init error:', initError);
+}
+
+const TRAINING_DATA_COLLECTION = 'ml_training_data_v2';
 
 export async function GET(request: NextRequest) {
   try {
-    // Count matches in database
-    const totalMatches = await prisma.match.count();
-    const withStats = await prisma.match.count({
-      where: {
-        OR: [
-          { homePossession: { not: 50 } },
-          { homeShots: { gt: 0 } },
-        ],
-      },
-    });
+    if (!db) {
+      return NextResponse.json({
+        error: 'Firebase not initialized',
+        details: initError,
+        envCheck: {
+          hasProjectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+          hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
+          hasClientEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
+        }
+      }, { status: 500 });
+    }
 
-    // Get by league
-    const byLeague = await prisma.match.groupBy({
-      by: ['leagueName'],
-      _count: { id: true },
-    });
+    const snapshot = await db.collection(TRAINING_DATA_COLLECTION).get();
+    const count = snapshot.size;
 
-    const leagueData: Record<string, number> = {};
-    byLeague.forEach(item => {
-      leagueData[item.leagueName] = item._count.id;
-    });
+    // Get sample
+    let sample = null;
+    if (count > 0) {
+      const firstDoc = snapshot.docs[0];
+      sample = {
+        id: firstDoc.id,
+        hasStats: !!firstDoc.data().statistics,
+        league: firstDoc.data().league?.name,
+      };
+    }
 
     return NextResponse.json({
-      totalMatches,
-      withStats,
-      byLeague: leagueData,
-      message: totalMatches > 0
-        ? `${totalMatches} partidos (${withStats} con estadísticas)`
+      totalMatches: count,
+      sample,
+      message: count > 0 
+        ? `${count} partidos guardados` 
         : 'No hay datos. Ejecuta POST para recolectar.',
     });
   } catch (error: any) {
     console.error('[API] GET Error:', error);
     return NextResponse.json(
-      { error: 'Database error', details: error?.message },
+      { error: 'Error', details: error?.message },
       { status: 500 }
     );
   }
@@ -49,10 +81,25 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   console.log('[API] POST /api/collect-data started');
-
+  
   try {
+    if (!db) {
+      return NextResponse.json(
+        { 
+          error: 'Firebase not initialized', 
+          details: initError,
+          envCheck: {
+            hasProjectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+            hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
+            hasClientEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
+          }
+        },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json().catch(() => ({}));
-    const { maxLeagues = 5 } = body;
+    const { maxLeagues = 10 } = body;
 
     const results = {
       processed: 0,
@@ -61,17 +108,13 @@ export async function POST(request: NextRequest) {
       byLeague: {} as Record<string, number>,
     };
 
-    // Get existing fixture IDs to avoid duplicates
-    const existingMatches = await prisma.match.findMany({
-      select: { fixtureId: true },
-    });
-    const existingIds = new Set(existingMatches.map(m => m.fixtureId));
+    // Get existing IDs
+    const existingSnapshot = await db.collection(TRAINING_DATA_COLLECTION).get();
+    const existingIds = new Set(existingSnapshot.docs.map((d: any) => d.id));
     console.log(`[API] Found ${existingIds.size} existing matches`);
 
     // Process leagues
-    const leaguesToProcess = ALL_LEAGUES.slice(0, maxLeagues);
-
-    for (const league of leaguesToProcess) {
+    for (const league of ALL_LEAGUES.slice(0, maxLeagues)) {
       for (const season of [2024, 2025]) {
         try {
           console.log(`[API] Processing ${league.name} ${season}...`);
@@ -79,57 +122,26 @@ export async function POST(request: NextRequest) {
           // Get fixtures
           const fixturesData = await makeRequest<{
             response: Array<{
-              fixture: {
-                id: number;
-                date: string;
-                status: { short: string };
-              };
+              fixture: { id: number; date: string; status: { short: string } };
               league: { id: number; name: string; season: number };
-              teams: {
-                home: { id: number; name: string };
-                away: { id: number; name: string };
-              };
+              teams: { home: { id: number; name: string }; away: { id: number; name: string } };
               goals: { home: number; away: number };
-              score: {
-                halftime: { home: number; away: number };
-                fulltime: { home: number; away: number };
-              };
+              score: { halftime: { home: number; away: number }; fulltime: { home: number; away: number } };
             }>;
           }>({
             endpoint: '/fixtures',
-            params: {
-              league: league.id,
-              season: season,
-              status: 'FT',
-            },
+            params: { league: league.id, season, status: 'FT' },
           });
 
           const fixtures = fixturesData.response || [];
-          console.log(`[API] Found ${fixtures.length} fixtures`);
 
           for (const match of fixtures) {
-            // Skip if already exists
-            if (existingIds.has(match.fixture.id)) {
-              continue;
-            }
+            const docId = match.fixture.id.toString();
+            
+            if (existingIds.has(docId)) continue;
 
-            // Get statistics
-            let hasStats = false;
-            let stats = {
-              homePossession: 50,
-              awayPossession: 50,
-              homeShots: 0,
-              awayShots: 0,
-              homeShotsOnTarget: 0,
-              awayShotsOnTarget: 0,
-              homeCorners: 0,
-              awayCorners: 0,
-              homeYellowCards: 0,
-              awayYellowCards: 0,
-              homeRedCards: 0,
-              awayRedCards: 0,
-            };
-
+            // Get stats
+            let statistics = null;
             try {
               const statsData = await makeRequest<{
                 response: Array<{
@@ -142,11 +154,8 @@ export async function POST(request: NextRequest) {
               });
 
               if (statsData.response?.length === 2) {
-                const homeStats = statsData.response[0];
-                const awayStats = statsData.response[1];
-
                 const getStat = (s: any[], type: string) => {
-                  const item = s.find(x => x.type === type);
+                  const item = s.find((x: any) => x.type === type);
                   const val = item?.value;
                   if (!val) return 0;
                   if (typeof val === 'string') {
@@ -156,77 +165,60 @@ export async function POST(request: NextRequest) {
                   return val;
                 };
 
-                stats = {
-                  homePossession: getStat(homeStats.statistics, 'Ball Possession'),
-                  awayPossession: getStat(awayStats.statistics, 'Ball Possession'),
-                  homeShots: getStat(homeStats.statistics, 'Total Shots'),
-                  awayShots: getStat(awayStats.statistics, 'Total Shots'),
-                  homeShotsOnTarget: getStat(homeStats.statistics, 'Shots on Goal'),
-                  awayShotsOnTarget: getStat(awayStats.statistics, 'Shots on Goal'),
-                  homeCorners: getStat(homeStats.statistics, 'Corner Kicks'),
-                  awayCorners: getStat(awayStats.statistics, 'Corner Kicks'),
-                  homeYellowCards: getStat(homeStats.statistics, 'Yellow Cards'),
-                  awayYellowCards: getStat(awayStats.statistics, 'Yellow Cards'),
-                  homeRedCards: getStat(homeStats.statistics, 'Red Cards'),
-                  awayRedCards: getStat(awayStats.statistics, 'Red Cards'),
+                statistics = {
+                  possession: {
+                    home: getStat(statsData.response[0].statistics, 'Ball Possession'),
+                    away: getStat(statsData.response[1].statistics, 'Ball Possession'),
+                  },
+                  shots: {
+                    home: { total: getStat(statsData.response[0].statistics, 'Total Shots'), on: getStat(statsData.response[0].statistics, 'Shots on Goal') },
+                    away: { total: getStat(statsData.response[1].statistics, 'Total Shots'), on: getStat(statsData.response[1].statistics, 'Shots on Goal') },
+                  },
+                  corners: {
+                    home: getStat(statsData.response[0].statistics, 'Corner Kicks'),
+                    away: getStat(statsData.response[1].statistics, 'Corner Kicks'),
+                  },
+                  cards: {
+                    home: { yellow: getStat(statsData.response[0].statistics, 'Yellow Cards'), red: getStat(statsData.response[0].statistics, 'Red Cards') },
+                    away: { yellow: getStat(statsData.response[1].statistics, 'Yellow Cards'), red: getStat(statsData.response[1].statistics, 'Red Cards') },
+                  },
+                  fouls: {
+                    home: getStat(statsData.response[0].statistics, 'Fouls'),
+                    away: getStat(statsData.response[1].statistics, 'Fouls'),
+                  },
                 };
-
-                hasStats = true;
               }
-            } catch (statsError) {
-              // Continue without stats
-            }
+            } catch (e) { /* no stats */ }
 
-            // Save to database
-            try {
-              await prisma.match.create({
-                data: {
-                  fixtureId: match.fixture.id,
-                  leagueId: match.league.id,
-                  leagueName: match.league.name,
-                  season: match.league.season,
-                  date: new Date(match.fixture.date),
-                  timestamp: Math.floor(new Date(match.fixture.date).getTime() / 1000),
-                  timezone: 'UTC',
-                  status: match.fixture.status.short,
-                  homeTeamId: match.teams.home.id,
-                  homeTeamName: match.teams.home.name,
-                  awayTeamId: match.teams.away.id,
-                  awayTeamName: match.teams.away.name,
-                  homeGoals: match.goals.home,
-                  awayGoals: match.goals.away,
-                  homeScoreHT: match.score.halftime.home,
-                  awayScoreHT: match.score.halftime.away,
-                  homeScoreFT: match.score.fulltime.home,
-                  awayScoreFT: match.score.fulltime.away,
-                  ...stats,
-                  rawData: match as any,
-                },
-              });
+            // Save to Firestore
+            const data = {
+              fixtureId: match.fixture.id,
+              league: match.league,
+              teams: match.teams,
+              goals: match.goals,
+              score: match.score,
+              statistics,
+              result: {
+                winner: match.goals.home > match.goals.away ? 'home' : match.goals.home < match.goals.away ? 'away' : 'draw',
+                btts: match.goals.home > 0 && match.goals.away > 0,
+                over25: match.goals.home + match.goals.away > 2.5,
+                totalGoals: match.goals.home + match.goals.away,
+              },
+              hasCompleteStats: !!statistics,
+              collectedAt: new Date().toISOString(),
+            };
 
-              results.processed++;
-              existingIds.add(match.fixture.id);
+            await db.collection(TRAINING_DATA_COLLECTION).doc(docId).set(data);
 
-              if (hasStats) {
-                results.withStats++;
-              }
+            results.processed++;
+            existingIds.add(docId);
+            if (statistics) results.withStats++;
+            
+            results.byLeague[league.name] = (results.byLeague[league.name] || 0) + 1;
 
-              if (!results.byLeague[match.league.name]) {
-                results.byLeague[match.league.name] = 0;
-              }
-              results.byLeague[match.league.name]++;
-            } catch (createError: any) {
-              // Skip duplicates or other errors
-              if (createError.code !== 'P2002') {
-                console.error(`[API] Error saving match ${match.fixture.id}:`, createError?.message);
-              }
-            }
-
-            // Rate limiting
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 300));
           }
 
-          // Wait between leagues
           await new Promise(r => setTimeout(r, 2000));
 
         } catch (err: any) {
@@ -239,7 +231,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       ...results,
-      message: `Saved ${results.processed} matches (${results.withStats} with stats)`,
+      message: `Guardados ${results.processed} partidos (${results.withStats} con estadísticas)`,
     });
 
   } catch (error: any) {
@@ -248,7 +240,5 @@ export async function POST(request: NextRequest) {
       { error: 'Error', details: error?.message },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
