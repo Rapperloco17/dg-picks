@@ -1,147 +1,372 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { ALL_LEAGUES } from '@/constants/leagues';
-import { collectLeagueMatches, saveTrainingData } from '@/services/historical-data';
+import { 
+  collection, 
+  doc, 
+  setDoc, 
+  getDocs,
+  db,
+  isFirebaseInitialized
+} from '@/lib/firebase';
+import { makeRequest } from '@/services/api-football';
 
-// Initialize Prisma with error handling
-let prisma: PrismaClient;
+const TRAINING_DATA_COLLECTION = 'ml_training_data_complete';
+const MATCH_STATS_COLLECTION = 'match_statistics_complete';
 
-try {
-  prisma = new PrismaClient();
-} catch (error) {
-  console.error('[API] Failed to initialize Prisma:', error);
+interface CompleteMatchData {
+  fixtureId: number;
+  league: {
+    id: number;
+    name: string;
+    season: number;
+  };
+  teams: {
+    home: { id: number; name: string };
+    away: { id: number; name: string };
+  };
+  goals: { home: number; away: number };
+  score: {
+    halftime: { home: number | null; away: number | null };
+    fulltime: { home: number; away: number };
+  };
+  // Estadísticas completas
+  statistics: {
+    possession: { home: number; away: number };
+    shots: { home: { total: number; on: number }; away: { total: number; on: number } };
+    corners: { home: number; away: number };
+    cards: { home: { yellow: number; red: number }; away: { yellow: number; red: number } };
+    fouls: { home: number; away: number };
+    offsides: { home: number; away: number };
+  } | null;
+  // Forma y datos históricos
+  homeForm: number[]; // últimos 5 partidos: 3=ganó, 1=empató, 0=perdió
+  awayForm: number[];
+  h2h: {
+    homeWins: number;
+    draws: number;
+    awayWins: number;
+  };
+  // Features calculadas
+  features: {
+    homeGoalsScoredAvg: number;
+    homeGoalsConcededAvg: number;
+    awayGoalsScoredAvg: number;
+    awayGoalsConcededAvg: number;
+    homeCleanSheets: number;
+    awayCleanSheets: number;
+    homeBttsRate: number;
+    awayBttsRate: number;
+    homeOver25Rate: number;
+    awayOver25Rate: number;
+  };
+  // Target
+  result: {
+    winner: 'home' | 'draw' | 'away';
+    btts: boolean;
+    over25: boolean;
+    totalGoals: number;
+    homeCards: number;
+    awayCards: number;
+    corners: number;
+  };
+  collectedAt: string;
+  hasCompleteStats: boolean;
 }
-
-const AVAILABLE_SEASONS = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
 
 export async function GET(request: NextRequest) {
   try {
-    if (!prisma) {
-      return NextResponse.json(
-        { error: 'Database not initialized' },
-        { status: 500 }
-      );
+    if (!isFirebaseInitialized() || !db) {
+      return NextResponse.json({
+        error: 'Firebase not initialized',
+        message: 'Check Firebase configuration'
+      }, { status: 500 });
     }
 
-    const totalMatches = await prisma.match.count({
-      where: { status: 'FT' }
-    });
-
-    const byLeague = await prisma.match.groupBy({
-      by: ['leagueId', 'leagueName', 'season'],
-      where: { status: 'FT' },
-      _count: { id: true }
-    });
-
-    const leagueData: Record<string, number> = {};
-    byLeague.forEach(item => {
-      const key = `${item.leagueName}_${item.season}`;
-      leagueData[key] = item._count.id;
+    // Count existing training data
+    const snapshot = await getDocs(collection(db, TRAINING_DATA_COLLECTION));
+    const statsSnapshot = await getDocs(collection(db, MATCH_STATS_COLLECTION));
+    
+    // Count by league
+    const byLeague: Record<string, { matches: number; withStats: number }> = {};
+    
+    snapshot.forEach(doc => {
+      const data = doc.data() as CompleteMatchData;
+      const leagueName = data?.league?.name || 'Unknown';
+      if (!byLeague[leagueName]) {
+        byLeague[leagueName] = { matches: 0, withStats: 0 };
+      }
+      byLeague[leagueName].matches++;
+      if (data.hasCompleteStats) {
+        byLeague[leagueName].withStats++;
+      }
     });
 
     return NextResponse.json({
-      totalMatches,
-      byLeague: leagueData,
+      totalMatches: snapshot.size,
+      matchesWithStats: statsSnapshot.size,
+      byLeague,
+      message: snapshot.size > 0 
+        ? `${snapshot.size} partidos con ${statsSnapshot.size} sets de estadísticas completas` 
+        : 'No hay datos. Usa POST para recolectar.',
       availableLeagues: ALL_LEAGUES.length,
-      availableSeasons: AVAILABLE_SEASONS.length
     });
   } catch (error: any) {
     console.error('[API] GET Error:', error);
     return NextResponse.json(
-      { error: 'Error checking database', details: error?.message || String(error) },
+      { error: 'Error', details: error?.message },
       { status: 500 }
     );
   }
 }
 
 export async function POST(request: NextRequest) {
-  console.log('[API] POST /api/collect-data started');
+  console.log('[API] POST /api/collect-data started - Complete data collection');
   
   try {
-    if (!prisma) {
+    if (!isFirebaseInitialized() || !db) {
       return NextResponse.json(
-        { error: 'Database not initialized' },
+        { error: 'Firebase not initialized' },
         { status: 500 }
       );
     }
 
-    const body = await request.json();
-    const { mode = 'hybrid' } = body;
-    console.log(`[API] Mode: ${mode}`);
+    const body = await request.json().catch(() => ({}));
+    const { 
+      mode = 'complete', 
+      maxLeagues = 10,
+      includeStats = true 
+    } = body;
+    
+    console.log(`[API] Mode: ${mode}, Max leagues: ${maxLeagues}, Include stats: ${includeStats}`);
 
     const results = {
       fromDatabase: 0,
       fromAPI: 0,
+      withCompleteStats: 0,
       total: 0,
-      byLeague: {} as Record<string, { db: number; api: number }>
+      message: '',
+      byLeague: {} as Record<string, { matches: number; withStats: number }>,
+      errors: [] as string[]
     };
 
-    // Load from database
-    if (mode === 'database' || mode === 'hybrid') {
-      console.log('[API] Loading from database...');
-      
-      try {
-        const matches = await prisma.match.findMany({
-          where: { status: 'FT' },
-          orderBy: { date: 'desc' },
-        });
-        
-        console.log(`[API] Found ${matches.length} matches in database`);
+    // Check existing data
+    console.log('[API] Checking Firebase for existing data...');
+    const existingSnapshot = await getDocs(collection(db, TRAINING_DATA_COLLECTION));
+    const existingIds = new Set(existingSnapshot.docs.map(d => d.id));
+    results.fromDatabase = existingIds.size;
+    console.log(`[API] Found ${existingIds.size} existing matches`);
 
-        for (const match of matches) {
-          try {
-            const processed = await processDatabaseMatch(match);
-            if (processed) {
-              await saveTrainingData([processed as any]);
-              
-              const key = match.leagueName;
-              if (!results.byLeague[key]) results.byLeague[key] = { db: 0, api: 0 };
-              results.byLeague[key].db++;
-              results.fromDatabase++;
+    // Download from API
+    console.log('[API] Downloading complete data from API...');
+    
+    const leaguesToProcess = ALL_LEAGUES.slice(0, maxLeagues);
+    
+    for (const league of leaguesToProcess) {
+      for (const season of [2024, 2025]) {
+        try {
+          console.log(`[API] Processing ${league.name} ${season}...`);
+          
+          // Get fixtures
+          const fixturesData = await makeRequest<{
+            response: Array<{
+              fixture: {
+                id: number;
+                date: string;
+                status: { short: string };
+              };
+              league: { id: number; name: string; season: number };
+              teams: {
+                home: { id: number; name: string };
+                away: { id: number; name: string };
+              };
+              goals: { home: number; away: number };
+              score: {
+                halftime: { home: number; away: number };
+                fulltime: { home: number; away: number };
+              };
+            }>;
+          }>({
+            endpoint: '/fixtures',
+            params: { 
+              league: league.id, 
+              season: season,
+              status: 'FT' // Solo partidos terminados
             }
-          } catch (err: any) {
-            console.error(`[API] Error processing match ${match.fixtureId}:`, err?.message || err);
-          }
-        }
-
-        results.total = results.fromDatabase;
-        console.log(`[API] Loaded ${results.fromDatabase} matches from database`);
-      } catch (dbError: any) {
-        console.error('[API] Database error:', dbError?.message || dbError);
-        throw new Error(`Database error: ${dbError?.message || 'Unknown'}`);
-      }
-    }
-
-    // Download missing from API (hybrid mode)
-    if (mode === 'hybrid') {
-      console.log('[API] Checking missing data from API...');
-      
-      for (const league of ALL_LEAGUES.slice(0, 10)) {
-        for (const season of [2024, 2025]) {
-          const count = await prisma.match.count({
-            where: { leagueId: league.id, season, status: 'FT' }
           });
-
-          if (count < 10) {
-            console.log(`[API] Downloading ${league.name} ${season}...`);
-            
-            try {
-              const apiMatches = await collectLeagueMatches(league.id, season);
-              if (apiMatches.length > 0) {
-                const key = league.name;
-                if (!results.byLeague[key]) results.byLeague[key] = { db: 0, api: 0 };
-                results.byLeague[key].api += apiMatches.length;
-                results.fromAPI += apiMatches.length;
-                results.total += apiMatches.length;
-              }
-              await new Promise(r => setTimeout(r, 2000));
-            } catch (err: any) {
-              console.error(`[API] Error downloading ${league.name}:`, err?.message || err);
+          
+          const fixtures = fixturesData.response || [];
+          console.log(`[API] Found ${fixtures.length} fixtures for ${league.name}`);
+          
+          for (const match of fixtures) {
+            // Skip if already exists
+            if (existingIds.has(match.fixture.id.toString())) {
+              continue;
             }
+            
+            // Get detailed statistics
+            let statistics = null;
+            if (includeStats) {
+              try {
+                const statsData = await makeRequest<{
+                  response: Array<{
+                    team: { id: number; name: string };
+                    statistics: Array<{
+                      type: string;
+                      value: number | string | null;
+                    }>;
+                  }>;
+                }>({
+                  endpoint: '/fixtures/statistics',
+                  params: { fixture: match.fixture.id }
+                });
+                
+                if (statsData.response && statsData.response.length === 2) {
+                  const homeStats = statsData.response[0];
+                  const awayStats = statsData.response[1];
+                  
+                  const getStat = (stats: any[], type: string) => {
+                    const stat = stats.find(s => s.type === type);
+                    const val = stat?.value;
+                    if (val === null || val === undefined) return 0;
+                    if (typeof val === 'string') {
+                      const num = parseInt(val.replace('%', '').trim());
+                      return isNaN(num) ? 0 : num;
+                    }
+                    return val;
+                  };
+                  
+                  statistics = {
+                    possession: {
+                      home: getStat(homeStats.statistics, 'Ball Possession'),
+                      away: getStat(awayStats.statistics, 'Ball Possession'),
+                    },
+                    shots: {
+                      home: { 
+                        total: getStat(homeStats.statistics, 'Total Shots'),
+                        on: getStat(homeStats.statistics, 'Shots on Goal')
+                      },
+                      away: { 
+                        total: getStat(awayStats.statistics, 'Total Shots'),
+                        on: getStat(awayStats.statistics, 'Shots on Goal')
+                      },
+                    },
+                    corners: {
+                      home: getStat(homeStats.statistics, 'Corner Kicks'),
+                      away: getStat(awayStats.statistics, 'Corner Kicks'),
+                    },
+                    cards: {
+                      home: {
+                        yellow: getStat(homeStats.statistics, 'Yellow Cards'),
+                        red: getStat(homeStats.statistics, 'Red Cards'),
+                      },
+                      away: {
+                        yellow: getStat(awayStats.statistics, 'Yellow Cards'),
+                        red: getStat(awayStats.statistics, 'Red Cards'),
+                      },
+                    },
+                    fouls: {
+                      home: getStat(homeStats.statistics, 'Fouls'),
+                      away: getStat(awayStats.statistics, 'Fouls'),
+                    },
+                    offsides: {
+                      home: getStat(homeStats.statistics, 'Offsides'),
+                      away: getStat(awayStats.statistics, 'Offsides'),
+                    },
+                  };
+                  
+                  results.withCompleteStats++;
+                }
+              } catch (statsError) {
+                console.error(`[API] Error getting stats for ${match.fixture.id}:`, statsError);
+              }
+            }
+            
+            // Prepare complete data
+            const completeData: CompleteMatchData = {
+              fixtureId: match.fixture.id,
+              league: {
+                id: match.league.id,
+                name: match.league.name,
+                season: match.league.season,
+              },
+              teams: match.teams,
+              goals: match.goals,
+              score: match.score,
+              statistics,
+              homeForm: [], // Se calculará después
+              awayForm: [],
+              h2h: { homeWins: 0, draws: 0, awayWins: 0 },
+              features: {
+                homeGoalsScoredAvg: 0,
+                homeGoalsConcededAvg: 0,
+                awayGoalsScoredAvg: 0,
+                awayGoalsConcededAvg: 0,
+                homeCleanSheets: 0,
+                awayCleanSheets: 0,
+                homeBttsRate: 0,
+                awayBttsRate: 0,
+                homeOver25Rate: 0,
+                awayOver25Rate: 0,
+              },
+              result: {
+                winner: match.goals.home > match.goals.away ? 'home' : 
+                       match.goals.home < match.goals.away ? 'away' : 'draw',
+                btts: match.goals.home > 0 && match.goals.away > 0,
+                over25: match.goals.home + match.goals.away > 2.5,
+                totalGoals: match.goals.home + match.goals.away,
+                homeCards: statistics?.cards.home.yellow || 0 + statistics?.cards.home.red || 0,
+                awayCards: statistics?.cards.away.yellow || 0 + statistics?.cards.away.red || 0,
+                corners: (statistics?.corners.home || 0) + (statistics?.corners.away || 0),
+              },
+              collectedAt: new Date().toISOString(),
+              hasCompleteStats: !!statistics,
+            };
+            
+            // Save to Firebase
+            const docRef = doc(db!, TRAINING_DATA_COLLECTION, match.fixture.id.toString());
+            await setDoc(docRef, completeData);
+            
+            // Save stats separately if available
+            if (statistics) {
+              const statsRef = doc(db!, MATCH_STATS_COLLECTION, match.fixture.id.toString());
+              await setDoc(statsRef, {
+                fixtureId: match.fixture.id,
+                ...statistics,
+                collectedAt: new Date().toISOString(),
+              });
+            }
+            
+            results.fromAPI++;
+            results.total++;
+            existingIds.add(match.fixture.id.toString());
+            
+            // Update by league
+            if (!results.byLeague[league.name]) {
+              results.byLeague[league.name] = { matches: 0, withStats: 0 };
+            }
+            results.byLeague[league.name].matches++;
+            if (statistics) {
+              results.byLeague[league.name].withStats++;
+            }
+            
+            // Rate limiting between matches
+            await new Promise(resolve => setTimeout(resolve, 500));
           }
+          
+          console.log(`[API] Saved ${fixtures.length} matches from ${league.name}`);
+          
+          // Rate limiting between leagues
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          
+        } catch (err: any) {
+          const errorMsg = `${league.name}: ${err?.message || 'Unknown'}`;
+          console.error('[API] Error:', errorMsg);
+          results.errors.push(errorMsg);
         }
       }
     }
+
+    results.message = `Completado: ${results.total} partidos (${results.fromDatabase} existentes + ${results.fromAPI} nuevos). ${results.withCompleteStats} con estadísticas completas.`;
 
     console.log('[API] Collection complete:', results);
     return NextResponse.json({ success: true, ...results });
@@ -149,127 +374,11 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('[API] POST Error:', error);
     return NextResponse.json(
-      { error: 'Error collecting data', details: error?.message || String(error) },
+      { 
+        error: 'Error collecting data', 
+        details: error?.message || String(error),
+      },
       { status: 500 }
     );
-  }
-}
-
-async function processDatabaseMatch(dbMatch: any) {
-  try {
-    const homeStats = await getTeamStats(dbMatch.homeTeamId, dbMatch.leagueId, dbMatch.season);
-    const awayStats = await getTeamStats(dbMatch.awayTeamId, dbMatch.leagueId, dbMatch.season);
-    const totalGoals = (dbMatch.homeGoals || 0) + (dbMatch.awayGoals || 0);
-
-    return {
-      id: dbMatch.fixtureId,
-      fixture: {
-        id: dbMatch.fixtureId,
-        date: dbMatch.date.toISOString(),
-        timestamp: dbMatch.timestamp,
-        timezone: dbMatch.timezone,
-        status: { short: dbMatch.status, long: dbMatch.status, elapsed: 90 },
-        referee: null,
-        periods: { first: 45, second: 45 },
-        venue: { id: null, name: null, city: null },
-      },
-      league: { 
-        id: dbMatch.leagueId, 
-        name: dbMatch.leagueName, 
-        season: dbMatch.season, 
-        type: 'League', 
-        logo: '', 
-        country: '', 
-        flag: '' 
-      },
-      teams: {
-        home: { id: dbMatch.homeTeamId, name: dbMatch.homeTeamName, logo: '', winner: dbMatch.homeGoals > dbMatch.awayGoals },
-        away: { id: dbMatch.awayTeamId, name: dbMatch.awayTeamName, logo: '', winner: dbMatch.awayGoals > dbMatch.homeGoals },
-      },
-      goals: { home: dbMatch.homeGoals, away: dbMatch.awayGoals },
-      score: {
-        halftime: { home: dbMatch.homeScoreHT, away: dbMatch.awayScoreHT },
-        fulltime: { home: dbMatch.homeScoreFT, away: dbMatch.awayScoreFT },
-        extratime: { home: null, away: null },
-        penalty: { home: null, away: null },
-      },
-      features: {
-        homeForm: homeStats?.recentForm || [0, 0, 0, 0, 0],
-        awayForm: awayStats?.recentForm || [0, 0, 0, 0, 0],
-        homeGoalsScoredAvg: homeStats?.avgGoalsScored || 0,
-        homeGoalsConcededAvg: homeStats?.avgGoalsConceded || 0,
-        awayGoalsScoredAvg: awayStats?.avgGoalsScored || 0,
-        awayGoalsConcededAvg: awayStats?.avgGoalsConceded || 0,
-        h2hHomeWins: 0, h2hDraws: 0, h2hAwayWins: 0,
-        homeCleanSheets: homeStats?.cleanSheets || 0,
-        awayCleanSheets: awayStats?.cleanSheets || 0,
-        homeBttsRate: homeStats?.bttsRate || 0.5,
-        awayBttsRate: awayStats?.bttsRate || 0.5,
-        homeOver15Rate: homeStats?.over15Rate || 0.5,
-        homeOver25Rate: homeStats?.over25Rate || 0.5,
-        awayOver15Rate: awayStats?.over15Rate || 0.5,
-        awayOver25Rate: awayStats?.over25Rate || 0.5,
-      },
-      target: {
-        homeWin: (dbMatch.homeGoals || 0) > (dbMatch.awayGoals || 0),
-        draw: (dbMatch.homeGoals || 0) === (dbMatch.awayGoals || 0),
-        awayWin: (dbMatch.homeGoals || 0) < (dbMatch.awayGoals || 0),
-        btts: (dbMatch.homeGoals || 0) > 0 && (dbMatch.awayGoals || 0) > 0,
-        over15: totalGoals > 1.5, over25: totalGoals > 2.5, over35: totalGoals > 3.5,
-        totalGoals: totalGoals,
-      },
-      metadata: { season: dbMatch.season, collectedAt: new Date(), hasCompleteData: true },
-    };
-  } catch (error: any) {
-    console.error('[API] Error in processDatabaseMatch:', error?.message || error);
-    throw error;
-  }
-}
-
-async function getTeamStats(teamId: number, leagueId: number, season: number) {
-  try {
-    const matches = await prisma.match.findMany({
-      where: {
-        OR: [
-          { homeTeamId: teamId, leagueId, season },
-          { awayTeamId: teamId, leagueId, season },
-        ],
-        status: 'FT',
-      },
-      orderBy: { date: 'desc' },
-      take: 10,
-    });
-    
-    if (matches.length === 0) return null;
-    
-    let goalsScored = 0, goalsConceded = 0, cleanSheets = 0;
-    let bttsCount = 0, over15Count = 0, over25Count = 0;
-    const form: number[] = [];
-    
-    matches.forEach((m, i) => {
-      const isHome = m.homeTeamId === teamId;
-      const tg = isHome ? (m.homeGoals || 0) : (m.awayGoals || 0);
-      const og = isHome ? (m.awayGoals || 0) : (m.homeGoals || 0);
-      
-      if (i < 5) form.push(tg > og ? 3 : tg === og ? 1 : 0);
-      goalsScored += tg; goalsConceded += og;
-      if (og === 0) cleanSheets++;
-      if (tg > 0 && og > 0) bttsCount++;
-      if (tg + og > 1.5) over15Count++;
-      if (tg + og > 2.5) over25Count++;
-    });
-    
-    return {
-      recentForm: form,
-      avgGoalsScored: goalsScored / matches.length,
-      avgGoalsConceded: goalsConceded / matches.length,
-      cleanSheets,
-      bttsRate: bttsCount / matches.length,
-      over15Rate: over15Count / matches.length,
-      over25Rate: over25Count / matches.length,
-    };
-  } catch (error: any) {
-    console.error('[API] Error in getTeamStats:', error?.message || error);
-    return null;
   }
 }

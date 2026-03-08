@@ -112,41 +112,40 @@ export default function AdminPage() {
     }
   };
 
-  // Hybrid collection via API
+  // Complete collection with all statistics
   const handleCollectHybrid = async () => {
     setIsCollecting(true);
-    setSyncMessage('Iniciando recolección híbrida...');
+    setSyncMessage('Iniciando recolección COMPLETA (partidos + estadísticas)...');
     
     try {
       const response = await fetch('/api/collect-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'hybrid' })
+        body: JSON.stringify({ 
+          mode: 'complete', 
+          includeStats: true,
+          maxLeagues: 10
+        })
       });
       
       if (!response.ok) {
-        throw new Error('Error en la recolección');
+        const errorData = await response.json();
+        throw new Error(errorData.details || 'Error en la recolección');
       }
       
       const result = await response.json();
       
-      // Convert to simple format
-      const simpleByLeague: Record<string, number> = {};
-      for (const [league, counts] of Object.entries(result.byLeague)) {
-        const c = counts as { db: number; api: number };
-        simpleByLeague[league] = c.db + c.api;
-      }
-      
       setStats({
         totalMatches: result.total,
-        byLeague: simpleByLeague,
+        byLeague: result.byLeague,
       });
       
       toast.success(
-        `Completado: ${result.total} partidos (${result.fromDatabase} BD + ${result.fromAPI} API)`
+        `✅ Datos guardados: ${result.total} partidos\n📊 ${result.withCompleteStats} con estadísticas completas\n🏆 Listo para entrenar ML`,
+        { duration: 5000 }
       );
-    } catch (error) {
-      toast.error('Error en recolección híbrida');
+    } catch (error: any) {
+      toast.error('Error: ' + error.message);
       console.error(error);
     } finally {
       setIsCollecting(false);
@@ -154,38 +153,36 @@ export default function AdminPage() {
     }
   };
 
-  // Database-only collection via API
+  // Check existing data
   const handleCollectFromDatabaseAPI = async () => {
     setIsCollecting(true);
-    setSyncMessage('Cargando desde base de datos...');
+    setSyncMessage('Verificando datos en Firebase...');
     
     try {
-      const response = await fetch('/api/collect-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'database' })
-      });
+      const response = await fetch('/api/collect-data');
       
       if (!response.ok) {
-        throw new Error('Error en la recolección');
+        throw new Error('Error verificando datos');
       }
       
       const result = await response.json();
       
-      const simpleByLeague: Record<string, number> = {};
-      for (const [league, counts] of Object.entries(result.byLeague)) {
-        const c = counts as { db: number; api: number };
-        simpleByLeague[league] = c.db + c.api;
+      if (result.totalMatches === 0) {
+        toast.info('No hay datos guardados. Haz clic en "Recolección Completa" para descargar.', {
+          duration: 5000
+        });
+      } else {
+        setStats({
+          totalMatches: result.totalMatches,
+          byLeague: result.byLeague,
+        });
+        toast.success(
+          `📊 ${result.totalMatches} partidos guardados\n📈 ${result.matchesWithStats || 0} con estadísticas completas`,
+          { duration: 4000 }
+        );
       }
-      
-      setStats({
-        totalMatches: result.total,
-        byLeague: simpleByLeague,
-      });
-      
-      toast.success(`Datos cargados: ${result.fromDatabase} partidos desde BD`);
-    } catch (error) {
-      toast.error('Error cargando datos');
+    } catch (error: any) {
+      toast.error('Error: ' + error.message);
       console.error(error);
     } finally {
       setIsCollecting(false);
@@ -441,7 +438,7 @@ export default function AdminPage() {
                       size="lg"
                     >
                       <Database className="w-4 h-4 mr-2" />
-                      Recolección Híbrida (Recomendado)
+                      Recolección Completa (Recomendado)
                     </Button>
                     <Button 
                       onClick={handleCollectFromDatabaseAPI}
@@ -450,22 +447,13 @@ export default function AdminPage() {
                       variant="outline"
                     >
                       <HardDrive className="w-4 h-4 mr-2" />
-                      Solo BD (Sin API)
-                    </Button>
-                    <Button 
-                      onClick={handleCollectData}
-                      className="bg-amber-500 hover:bg-amber-600"
-                      size="lg"
-                      variant="outline"
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      Solo API (Forzar)
+                      Solo Verificar BD
                     </Button>
                   </div>
                   <div className="text-xs text-slate-500 space-y-1">
-                    <p>💚 <strong>Recolección Híbrida:</strong> Usa BD primero, luego descarga de API solo lo que falta.</p>
-                    <p>🔵 <strong>Solo BD:</strong> Solo usa datos ya guardados (rápido, 0 API calls).</p>
-                    <p>🟠 <strong>Solo API:</strong> Fuerza descarga de API (consume cuota).</p>
+                    <p>💚 <strong>Recolección Completa:</strong> Descarga partidos + estadísticas detalladas (posesión, tiros, córners, tarjetas, faltas).</p>
+                    <p>🔵 <strong>Solo Verificar:</strong> Muestra cuántos datos tenemos guardados.</p>
+                    <p className="text-amber-400">⚠️ Este proceso descarga TODOS los datos y estadísticas. Tarda más pero solo se hace UNA VEZ.</p>
                   </div>
                 </div>
               ) : (
