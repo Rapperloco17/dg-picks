@@ -1,105 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
 import { ALL_LEAGUES } from '@/constants/leagues';
 import { makeRequest } from '@/services/api-football';
 
-// Initialize Firebase Admin
-let db: any = null;
-let initError: string | null = null;
-
-try {
-  if (!getApps().length) {
-    const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-
-    if (!privateKey || !clientEmail) {
-      throw new Error('Missing FIREBASE_PRIVATE_KEY or FIREBASE_CLIENT_EMAIL');
-    }
-
-    initializeApp({
-      credential: cert({
-        projectId,
-        privateKey,
-        clientEmail,
-      }),
-    });
-    console.log('[API] Firebase Admin initialized');
-  }
-  db = getFirestore();
-} catch (e: any) {
-  initError = e?.message || 'Unknown error';
-  console.error('[API] Firebase Admin init error:', initError);
-}
-
-const TRAINING_DATA_COLLECTION = 'ml_training_data_v2';
+// Use a simple in-memory store for now
+// Later we can add database storage
+const dataStore: Map<string, any> = new Map();
 
 export async function GET(request: NextRequest) {
-  try {
-    if (!db) {
-      return NextResponse.json({
-        error: 'Firebase not initialized',
-        details: initError,
-        envCheck: {
-          hasProjectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-          hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
-          hasClientEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
-        }
-      }, { status: 500 });
+  return NextResponse.json({
+    totalMatches: dataStore.size,
+    message: dataStore.size > 0 
+      ? `${dataStore.size} partidos en memoria` 
+      : 'No hay datos. Ejecuta POST para recolectar.',
+    envCheck: {
+      hasFootballKey: !!process.env.NEXT_PUBLIC_API_FOOTBALL_KEY,
+      hasFirebaseEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
+      hasFirebaseKey: !!process.env.FIREBASE_PRIVATE_KEY,
     }
-
-    const snapshot = await db.collection(TRAINING_DATA_COLLECTION).get();
-    const count = snapshot.size;
-
-    // Get sample
-    let sample = null;
-    if (count > 0) {
-      const firstDoc = snapshot.docs[0];
-      sample = {
-        id: firstDoc.id,
-        hasStats: !!firstDoc.data().statistics,
-        league: firstDoc.data().league?.name,
-      };
-    }
-
-    return NextResponse.json({
-      totalMatches: count,
-      sample,
-      message: count > 0 
-        ? `${count} partidos guardados` 
-        : 'No hay datos. Ejecuta POST para recolectar.',
-    });
-  } catch (error: any) {
-    console.error('[API] GET Error:', error);
-    return NextResponse.json(
-      { error: 'Error', details: error?.message },
-      { status: 500 }
-    );
-  }
+  });
 }
 
 export async function POST(request: NextRequest) {
   console.log('[API] POST /api/collect-data started');
   
   try {
-    if (!db) {
-      return NextResponse.json(
-        { 
-          error: 'Firebase not initialized', 
-          details: initError,
-          envCheck: {
-            hasProjectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-            hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
-            hasClientEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
-          }
-        },
-        { status: 500 }
-      );
-    }
-
     const body = await request.json().catch(() => ({}));
-    const { maxLeagues = 10 } = body;
+    const { maxLeagues = 5 } = body;
 
     const results = {
       processed: 0,
@@ -107,11 +33,6 @@ export async function POST(request: NextRequest) {
       errors: [] as string[],
       byLeague: {} as Record<string, number>,
     };
-
-    // Get existing IDs
-    const existingSnapshot = await db.collection(TRAINING_DATA_COLLECTION).get();
-    const existingIds = new Set(existingSnapshot.docs.map((d: any) => d.id));
-    console.log(`[API] Found ${existingIds.size} existing matches`);
 
     // Process leagues
     for (const league of ALL_LEAGUES.slice(0, maxLeagues)) {
@@ -136,11 +57,12 @@ export async function POST(request: NextRequest) {
           const fixtures = fixturesData.response || [];
 
           for (const match of fixtures) {
-            const docId = match.fixture.id.toString();
+            const docId = `${league.id}_${match.fixture.id}`;
             
-            if (existingIds.has(docId)) continue;
+            // Skip if already exists
+            if (dataStore.has(docId)) continue;
 
-            // Get stats
+            // Get statistics
             let statistics = null;
             try {
               const statsData = await makeRequest<{
@@ -171,26 +93,34 @@ export async function POST(request: NextRequest) {
                     away: getStat(statsData.response[1].statistics, 'Ball Possession'),
                   },
                   shots: {
-                    home: { total: getStat(statsData.response[0].statistics, 'Total Shots'), on: getStat(statsData.response[0].statistics, 'Shots on Goal') },
-                    away: { total: getStat(statsData.response[1].statistics, 'Total Shots'), on: getStat(statsData.response[1].statistics, 'Shots on Goal') },
+                    home: { 
+                      total: getStat(statsData.response[0].statistics, 'Total Shots'), 
+                      on: getStat(statsData.response[0].statistics, 'Shots on Goal') 
+                    },
+                    away: { 
+                      total: getStat(statsData.response[1].statistics, 'Total Shots'), 
+                      on: getStat(statsData.response[1].statistics, 'Shots on Goal') 
+                    },
                   },
                   corners: {
                     home: getStat(statsData.response[0].statistics, 'Corner Kicks'),
                     away: getStat(statsData.response[1].statistics, 'Corner Kicks'),
                   },
                   cards: {
-                    home: { yellow: getStat(statsData.response[0].statistics, 'Yellow Cards'), red: getStat(statsData.response[0].statistics, 'Red Cards') },
-                    away: { yellow: getStat(statsData.response[1].statistics, 'Yellow Cards'), red: getStat(statsData.response[1].statistics, 'Red Cards') },
-                  },
-                  fouls: {
-                    home: getStat(statsData.response[0].statistics, 'Fouls'),
-                    away: getStat(statsData.response[1].statistics, 'Fouls'),
+                    home: { 
+                      yellow: getStat(statsData.response[0].statistics, 'Yellow Cards'), 
+                      red: getStat(statsData.response[0].statistics, 'Red Cards') 
+                    },
+                    away: { 
+                      yellow: getStat(statsData.response[1].statistics, 'Yellow Cards'), 
+                      red: getStat(statsData.response[1].statistics, 'Red Cards') 
+                    },
                   },
                 };
               }
             } catch (e) { /* no stats */ }
 
-            // Save to Firestore
+            // Store in memory
             const data = {
               fixtureId: match.fixture.id,
               league: match.league,
@@ -199,7 +129,8 @@ export async function POST(request: NextRequest) {
               score: match.score,
               statistics,
               result: {
-                winner: match.goals.home > match.goals.away ? 'home' : match.goals.home < match.goals.away ? 'away' : 'draw',
+                winner: match.goals.home > match.goals.away ? 'home' : 
+                       match.goals.home < match.goals.away ? 'away' : 'draw',
                 btts: match.goals.home > 0 && match.goals.away > 0,
                 over25: match.goals.home + match.goals.away > 2.5,
                 totalGoals: match.goals.home + match.goals.away,
@@ -208,10 +139,9 @@ export async function POST(request: NextRequest) {
               collectedAt: new Date().toISOString(),
             };
 
-            await db.collection(TRAINING_DATA_COLLECTION).doc(docId).set(data);
+            dataStore.set(docId, data);
 
             results.processed++;
-            existingIds.add(docId);
             if (statistics) results.withStats++;
             
             results.byLeague[league.name] = (results.byLeague[league.name] || 0) + 1;
@@ -231,7 +161,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       ...results,
-      message: `Guardados ${results.processed} partidos (${results.withStats} con estadísticas)`,
+      message: `Procesados ${results.processed} partidos (${results.withStats} con estadísticas). Datos guardados en memoria (se perderán al reiniciar).`,
+      note: 'Para persistencia permanente, configura Firebase correctamente o usa PostgreSQL.'
     });
 
   } catch (error: any) {
