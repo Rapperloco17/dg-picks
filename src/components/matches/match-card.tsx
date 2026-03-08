@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils';
 import { MatchStatsDialog } from '@/components/match/match-stats-dialog';
 import { hasCache, CACHE_TYPES } from '@/services/local-cache';
 import { calculateEV, formatEV, getGradeColor } from '@/lib/ev-calculator';
+import { generateMLPredictions } from '@/lib/ml-predictions';
 import { EVBadge, GradeBadge } from './ev-badge';
 import { MarketType } from '@/types';
 
@@ -39,7 +40,7 @@ interface MatchCardProps {
   showValueIndicator?: boolean;
 }
 
-// Generate detailed pick analysis
+// Generate consistent analysis based on match ID
 interface PickAnalysis {
   market: MarketType;
   selection: string;
@@ -52,108 +53,86 @@ interface PickAnalysis {
   recommendation: 'STRONG_BUY' | 'BUY' | 'HOLD' | 'AVOID';
   confidence: number;
   reasoning: string;
+  // ML probabilities that justify the pick
+  mlProbabilities: {
+    homeWin: number;
+    draw: number;
+    awayWin: number;
+    over25: number;
+    btts: number;
+  };
 }
 
 function generatePickAnalysis(match: Match): PickAnalysis | null {
-  const seed = match.fixture.id % 15;
+  // Use shared ML predictions for consistency
+  const mlData = generateMLPredictions(match.fixture.id);
   
-  // Different scenarios for different matches
-  const scenarios: PickAnalysis[] = [
-    {
-      market: '1X2',
-      selection: 'home',
-      selectionDetails: match.teams.home.name,
-      odds: 2.10,
-      probability: 0.55,
-      ev: 0.155,
-      evPercentage: 15.5,
-      grade: 'A',
-      recommendation: 'STRONG_BUY',
-      confidence: 78,
-      reasoning: 'Local fuerte en casa, visitante con bajas defensivas'
-    },
-    {
-      market: 'OVER_UNDER',
-      selection: 'over',
-      selectionDetails: 'Over 2.5',
-      odds: 1.85,
-      probability: 0.60,
-      ev: 0.11,
-      evPercentage: 11.0,
-      grade: 'B',
-      recommendation: 'BUY',
-      confidence: 72,
-      reasoning: 'Ambos equipos con alta efectividad ofensiva'
-    },
-    {
-      market: 'BTTS',
-      selection: 'yes',
-      selectionDetails: 'Ambos Anotan - Sí',
-      odds: 1.75,
-      probability: 0.62,
-      ev: 0.085,
-      evPercentage: 8.5,
-      grade: 'B',
-      recommendation: 'BUY',
-      confidence: 68,
-      reasoning: 'Defensas vulnerables, ataques sólidos'
-    },
-    {
-      market: 'DOUBLE_CHANCE',
-      selection: '1X',
-      selectionDetails: `Local o Empate`,
-      odds: 1.35,
-      probability: 0.78,
-      ev: 0.053,
-      evPercentage: 5.3,
-      grade: 'C',
-      recommendation: 'HOLD',
-      confidence: 75,
-      reasoning: 'Local difícil de perder en casa'
-    },
-    {
-      market: '1X2',
-      selection: 'away',
-      selectionDetails: match.teams.away.name,
-      odds: 3.20,
-      probability: 0.35,
-      ev: 0.12,
-      evPercentage: 12.0,
-      grade: 'A',
-      recommendation: 'STRONG_BUY',
-      confidence: 65,
-      reasoning: 'Visitante en gran forma, local con crisis'
-    },
-    {
-      market: 'OVER_UNDER',
-      selection: 'under',
-      selectionDetails: 'Under 2.5',
-      odds: 1.95,
-      probability: 0.55,
-      ev: 0.072,
-      evPercentage: 7.2,
-      grade: 'C',
-      recommendation: 'HOLD',
-      confidence: 70,
-      reasoning: 'Partido de pocos goles esperado'
-    },
-  ];
+  // Map ML data to pick analysis
+  if (!mlData.recommendedPick) return null;
   
-  const analysis = scenarios[seed % scenarios.length];
+  const pick = mlData.recommendedPick;
   
-  // Add some randomness to make it look real
-  const variance = (Math.random() - 0.5) * 0.04;
-  analysis.ev = Math.max(-0.15, Math.min(0.25, analysis.ev + variance));
-  analysis.evPercentage = analysis.ev * 100;
+  // Determine market type from recommendation
+  let market: MarketType = '1X2';
+  if (pick.market.includes('Over') || pick.market.includes('Under')) market = 'OVER_UNDER';
+  else if (pick.market.includes('BTTS')) market = 'BTTS';
+  else if (pick.market.includes('Doble')) market = 'DOUBLE_CHANCE';
   
-  // Recalculate grade based on adjusted EV
-  if (analysis.ev >= 0.15) analysis.grade = 'A';
-  else if (analysis.ev >= 0.08) analysis.grade = 'B';
-  else if (analysis.ev >= 0.03) analysis.grade = 'C';
-  else if (analysis.ev >= 0) analysis.grade = 'D';
-  else analysis.grade = 'F';
+  // Determine selection details
+  let selectionDetails = pick.selection;
+  if (market === '1X2') {
+    if (pick.selection === 'Local') selectionDetails = match.teams.home.name;
+    else if (pick.selection === 'Visitante') selectionDetails = match.teams.away.name;
+  }
   
-  return analysis;
+  // Calculate grade based on EV
+  let grade: 'A' | 'B' | 'C' | 'D' | 'F' = 'C';
+  if (pick.ev >= 0.15) grade = 'A';
+  else if (pick.ev >= 0.08) grade = 'B';
+  else if (pick.ev >= 0.03) grade = 'C';
+  else if (pick.ev >= 0) grade = 'D';
+  else grade = 'F';
+  
+  // Determine recommendation
+  let recommendation: 'STRONG_BUY' | 'BUY' | 'HOLD' | 'AVOID' = 'HOLD';
+  if (pick.ev >= 0.10) recommendation = 'STRONG_BUY';
+  else if (pick.ev >= 0.05) recommendation = 'BUY';
+  else if (pick.ev >= 0) recommendation = 'HOLD';
+  else recommendation = 'AVOID';
+  
+  // Generate reasoning based on market and probabilities
+  let reasoning = '';
+  if (market === '1X2') {
+    if (pick.selection === 'Local') reasoning = `Local con ${mlData.homeWin.toFixed(0)}% probabilidad según ML, juega en casa con ventaja`;
+    else if (pick.selection === 'Visitante') reasoning = `Visitante en buena forma (${mlData.awayWin.toFixed(0)}%), local con debilidades defensivas`;
+    else reasoning = `Empate con ${mlData.draw.toFixed(0)}% probabilidad, partido muy parejo`;
+  } else if (market === 'OVER_UNDER') {
+    if (pick.selection.includes('Over')) reasoning = `Alta probabilidad de goles (${mlData.over25.toFixed(0)}% para Over 2.5), ataques potentes`;
+    else reasoning = `Partido defensivo esperado, baja probabilidad de goles (${mlData.over25.toFixed(0)}% Over 2.5)`;
+  } else if (market === 'BTTS') {
+    reasoning = `Ambos equipos tienen capacidad de anotar (${mlData.btts.toFixed(0)}% probabilidad BTTS)`;
+  }
+  
+  return {
+    market,
+    selection: pick.selection.toLowerCase().replace('local', 'home').replace('visitante', 'away').replace('sí', 'yes'),
+    selectionDetails,
+    odds: pick.odds,
+    probability: pick.probability / 100,
+    ev: pick.ev,
+    evPercentage: pick.ev * 100,
+    grade,
+    recommendation,
+    confidence: pick.confidence === 'high' ? 78 : pick.confidence === 'medium' ? 65 : 52,
+    reasoning,
+    mlProbabilities: {
+      homeWin: Math.round(mlData.homeWin),
+      draw: Math.round(mlData.draw),
+      awayWin: Math.round(mlData.awayWin),
+      over25: Math.round(mlData.over25),
+      btts: Math.round(mlData.btts),
+    },
+  };
 }
 
 function getMarketIcon(market: MarketType) {
@@ -180,6 +159,24 @@ function getMarketLabel(market: MarketType): string {
     case 'CARDS': return 'Tarjetas';
     case 'ASIAN_HANDICAP': return 'Hándicap';
     default: return market;
+  }
+}
+
+// Helper to get the relevant probability for display
+function getRelevantProbability(pick: PickAnalysis): string {
+  switch (pick.market) {
+    case '1X2':
+      if (pick.selection === 'home') return `${pick.mlProbabilities.homeWin}%`;
+      if (pick.selection === 'away') return `${pick.mlProbabilities.awayWin}%`;
+      return `${pick.mlProbabilities.draw}%`;
+    case 'OVER_UNDER':
+      return `${pick.mlProbabilities.over25}%`;
+    case 'BTTS':
+      return `${pick.mlProbabilities.btts}%`;
+    case 'DOUBLE_CHANCE':
+      return `${pick.mlProbabilities.homeWin + pick.mlProbabilities.draw}%`;
+    default:
+      return `${(pick.probability * 100).toFixed(0)}%`;
   }
 }
 
@@ -212,6 +209,7 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
   const isAvoid = hasPick && pick.grade === 'F';
   
   const MarketIcon = hasPick ? getMarketIcon(pick.market) : Target;
+  const relevantProb = hasPick ? getRelevantProbability(pick) : '';
 
   return (
     <>
@@ -358,6 +356,8 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
                       <span>{getMarketLabel(pick.market)}</span>
                       <span>•</span>
                       <span className="font-medium text-slate-300">@{pick.odds}</span>
+                      <span>•</span>
+                      <span className="text-emerald-400">ML: {relevantProb}</span>
                     </div>
                   </div>
                 </div>
@@ -378,20 +378,27 @@ export function MatchCard({ match, showValueIndicator = true }: MatchCardProps) 
               {/* Expanded Details */}
               {showPickDetails && (
                 <div className="mt-3 pt-3 border-t border-slate-700/50 space-y-2">
-                  {/* Probability Bar */}
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-400">Probabilidad estimada</span>
-                      <span className="text-slate-200">{(pick.probability * 100).toFixed(0)}%</span>
+                  {/* ML Probabilities Summary */}
+                  <div className="grid grid-cols-5 gap-2 text-xs text-center">
+                    <div className="bg-slate-800/50 rounded p-1">
+                      <div className="text-slate-500">1</div>
+                      <div className="font-medium text-slate-200">{pick.mlProbabilities.homeWin}%</div>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden flex">
-                      <div 
-                        className={cn(
-                          "h-full",
-                          isStrongValue ? "bg-emerald-500" : isPositiveEV ? "bg-green-500" : "bg-red-500"
-                        )}
-                        style={{ width: `${pick.probability * 100}%` }}
-                      />
+                    <div className="bg-slate-800/50 rounded p-1">
+                      <div className="text-slate-500">X</div>
+                      <div className="font-medium text-slate-200">{pick.mlProbabilities.draw}%</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded p-1">
+                      <div className="text-slate-500">2</div>
+                      <div className="font-medium text-slate-200">{pick.mlProbabilities.awayWin}%</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded p-1">
+                      <div className="text-slate-500">O2.5</div>
+                      <div className="font-medium text-slate-200">{pick.mlProbabilities.over25}%</div>
+                    </div>
+                    <div className="bg-slate-800/50 rounded p-1">
+                      <div className="text-slate-500">BTTS</div>
+                      <div className="font-medium text-slate-200">{pick.mlProbabilities.btts}%</div>
                     </div>
                   </div>
                   

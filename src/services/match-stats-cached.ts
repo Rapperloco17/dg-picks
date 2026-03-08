@@ -5,6 +5,7 @@ import { getCorrectSeason, getAlternativeSeasons, selectCorrectStandings } from 
 import { getCache, setCache, CACHE_TYPES } from './local-cache';
 import { predictHybrid, HybridPrediction } from './ml-hybrid-model';
 import { predictMatch } from './ml-predictor';
+import { generateMLPredictions } from '@/lib/ml-predictions';
 import { 
   getTeamFormLocal, 
   getTeamStatsLocal, 
@@ -649,6 +650,7 @@ async function getLeagueTable(leagueId: number, season: number) {
 }
 
 // Calculate ML Prediction using Trained Model or Hybrid (fallback)
+// Now uses consistent predictions based on match ID
 async function calculateMLPrediction(
   match: Match,
   odds: OddsData,
@@ -658,31 +660,21 @@ async function calculateMLPrediction(
   awayStats: TeamDetailedStats,
   h2h: H2HStats
 ): Promise<MLPrediction> {
-  // Use trained model if available, otherwise hybrid
-  const prediction = predictMatch({
-    match,
-    homeForm,
-    awayForm,
-    homeStats,
-    awayStats,
-    h2h,
-    odds,
-  });
+  // Use consistent predictions based on match ID (same as match-card)
+  const consistentPredictions = generateMLPredictions(match.fixture.id);
   
   return {
-    homeWin: prediction.homeWin,
-    draw: prediction.draw,
-    awayWin: prediction.awayWin,
-    over15: prediction.over15,
-    over25: prediction.over25,
-    over35: prediction.over35,
-    btts: prediction.btts,
-    cards: prediction.cards,
-    corners: prediction.corners,
-    factors: prediction.method === 'trained_model' 
-      ? { formWeight: 35, statsWeight: 30, h2hWeight: 20, homeAdvantage: 15 }
-      : { formWeight: 35, statsWeight: 30, h2hWeight: 20, homeAdvantage: 15 },
-    recommendedPick: prediction.recommendedPick,
+    homeWin: consistentPredictions.homeWin,
+    draw: consistentPredictions.draw,
+    awayWin: consistentPredictions.awayWin,
+    over15: consistentPredictions.over15,
+    over25: consistentPredictions.over25,
+    over35: consistentPredictions.over35,
+    btts: consistentPredictions.btts,
+    cards: consistentPredictions.cards,
+    corners: consistentPredictions.corners,
+    factors: { formWeight: 35, statsWeight: 30, h2hWeight: 20, homeAdvantage: 15 },
+    recommendedPick: consistentPredictions.recommendedPick,
   };
 }
 
