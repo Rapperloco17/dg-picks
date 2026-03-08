@@ -31,6 +31,7 @@ import {
   AVAILABLE_SEASONS,
   ProcessedMatchData
 } from '@/services/historical-data';
+import { collectHybridData } from '@/services/hybrid-data-collection';
 import { ALL_LEAGUES } from '@/constants/leagues';
 import { syncNewMatches, getSyncInfo, hasPendingSync } from '@/services/incremental-sync';
 
@@ -108,6 +109,60 @@ export default function AdminPage() {
       console.error(error);
     } finally {
       setIsCollecting(false);
+    }
+  };
+
+  // Hybrid collection - BD first, then API for missing data
+  const handleCollectHybrid = async () => {
+    setIsCollecting(true);
+    
+    try {
+      const result = await collectHybridData(
+        // Database progress
+        (current, total) => {
+          setCollectionProgress(prev => ({
+            ...prev,
+            currentMatch: current,
+            totalMatches: total,
+            currentLeagueName: `Cargando desde BD... (${current}/${total})`,
+          }));
+        },
+        // API progress
+        (leagueName, current, total) => {
+          setCollectionProgress(prev => ({
+            ...prev,
+            currentLeagueName: `${leagueName} - Descargando de API...`,
+            currentMatch: current,
+            totalMatches: total,
+          }));
+        },
+        // Status updates
+        (status) => {
+          setSyncMessage(status);
+        }
+      );
+      
+      // Convert hybrid format to simple format for display
+      const simpleByLeague: Record<string, number> = {};
+      for (const [league, counts] of Object.entries(result.byLeague)) {
+        simpleByLeague[league] = counts.db + counts.api;
+      }
+      
+      setStats({
+        totalMatches: result.total,
+        byLeague: simpleByLeague,
+      });
+      
+      const missingCount = result.missingCombinations.length;
+      toast.success(
+        `Completado: ${result.total} partidos (${result.fromDatabase} BD + ${result.fromAPI} API). ${missingCount} ligas sin datos.`
+      );
+    } catch (error) {
+      toast.error('Error en recolección híbrida');
+      console.error(error);
+    } finally {
+      setIsCollecting(false);
+      setSyncMessage('');
     }
   };
 
@@ -352,29 +407,39 @@ export default function AdminPage() {
             <CardContent className="space-y-4">
               {!isCollecting ? (
                 <div className="flex flex-col gap-3">
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3">
                     <Button 
-                      onClick={handleCollectFromDatabase}
+                      onClick={handleCollectHybrid}
                       className="bg-emerald-500 hover:bg-emerald-600"
                       size="lg"
                     >
                       <Database className="w-4 h-4 mr-2" />
-                      Usar Datos de BD (Rápido)
+                      Recolección Híbrida (Recomendado)
                     </Button>
                     <Button 
-                      onClick={handleCollectData}
+                      onClick={handleCollectFromDatabase}
                       className="bg-blue-500 hover:bg-blue-600"
                       size="lg"
                       variant="outline"
                     >
+                      <HardDrive className="w-4 h-4 mr-2" />
+                      Solo BD (Sin API)
+                    </Button>
+                    <Button 
+                      onClick={handleCollectData}
+                      className="bg-amber-500 hover:bg-amber-600"
+                      size="lg"
+                      variant="outline"
+                    >
                       <Play className="w-4 h-4 mr-2" />
-                      Descargar de API (Lento)
+                      Solo API (Forzar)
                     </Button>
                   </div>
-                  <p className="text-xs text-slate-500">
-                    💡 <strong>Usar Datos de BD</strong> es más rápido y usa los partidos ya guardados. <br/>
-                    ⚠️ <strong>Descargar de API</strong> consume tu cuota diaria (75k llamadas).
-                  </p>
+                  <div className="text-xs text-slate-500 space-y-1">
+                    <p>💚 <strong>Recolección Híbrida:</strong> Usa BD primero, luego descarga de API solo lo que falta.</p>
+                    <p>🔵 <strong>Solo BD:</strong> Solo usa datos ya guardados (rápido, 0 API calls).</p>
+                    <p>🟠 <strong>Solo API:</strong> Fuerza descarga de API (consume cuota).</p>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
