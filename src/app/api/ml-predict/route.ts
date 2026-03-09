@@ -170,3 +170,4 @@ export async function GET(request: NextRequest) {
     example: { homeTeam: 'Manchester City', awayTeam: 'Liverpool' }
   });
 }
+// Deploy timestamp: 2026-03-09 13:26:18
