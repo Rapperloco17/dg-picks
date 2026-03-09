@@ -2,111 +2,127 @@
 
 import { useState, useEffect } from 'react';
 
-interface Match {
-  id: string;
-  fixtureId: number;
-  homeTeamName: string;
-  awayTeamName: string;
-  date: string;
-  leagueName: string;
-  status: string;
-}
-
 export default function MLPredictTest() {
-  const [matches, setMatches] = useState<Match[]>([]);
+  const [matches, setMatches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  
+  // Manual input
+  const [homeTeam, setHomeTeam] = useState('Manchester City');
+  const [awayTeam, setAwayTeam] = useState('Liverpool');
+  
   const [predictions, setPredictions] = useState<Record<string, any>>({});
   const [predicting, setPredicting] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    fetch('/api/db-matches?limit=100')
+    fetch('/api/db-matches?limit=50')
       .then(r => r.json())
       .then(data => {
-        console.log('Matches:', data);
-        if (!data.matches || data.matches.length === 0) {
-          setError('No hay partidos');
-          setLoading(false);
-          return;
-        }
-        // Solo partidos con nombres válidos y no terminados
-        const valid = data.matches.filter((m: any) => 
+        const valid = (data.matches || []).filter((m: any) => 
           m.homeTeamName && m.awayTeamName && 
-          m.homeTeamName !== '' && m.awayTeamName !== '' &&
-          m.status !== 'FT' && m.status !== 'AET' && m.status !== 'PEN'
+          m.homeTeamName !== '' && m.awayTeamName !== ''
         );
-        setMatches(valid.slice(0, 30));
+        setMatches(valid.slice(0, 10));
         setLoading(false);
       })
-      .catch(err => {
-        setError('Error: ' + err.message);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  const invoke = async (match: Match) => {
-    setPredicting(prev => ({ ...prev, [match.id]: true }));
+  const invoke = async (home: string, away: string, id?: string) => {
+    const key = id || `${home}-${away}`;
+    setPredicting(prev => ({ ...prev, [key]: true }));
     try {
       const res = await fetch('/api/ml-predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          homeTeam: match.homeTeamName, 
-          awayTeam: match.awayTeamName 
-        }),
+        body: JSON.stringify({ homeTeam: home, awayTeam: away }),
       });
       const data = await res.json();
-      setPredictions(prev => ({ ...prev, [match.id]: data }));
+      setPredictions(prev => ({ ...prev, [key]: data }));
     } catch (error) {
-      setPredictions(prev => ({ ...prev, [match.id]: { error: String(error) } }));
+      setPredictions(prev => ({ ...prev, [key]: { error: String(error) } }));
     }
-    setPredicting(prev => ({ ...prev, [match.id]: false }));
+    setPredicting(prev => ({ ...prev, [key]: false }));
   };
-
-  if (loading) return <div className="p-8">Cargando...</div>;
-  if (error) return <div className="p-8 text-red-500">{error}</div>;
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict ({matches.length} partidos)</h1>
+      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict Test</h1>
       
-      {matches.length === 0 ? (
-        <div className="bg-yellow-900/20 border border-yellow-600 p-4 rounded">
-          <p className="text-yellow-400">No hay partidos válidos con nombres de equipos.</p>
-          <p className="text-sm text-gray-400 mt-2">
-            Los 130k partidos históricos no tienen nombres. Ve a Admin → Sincronizar para actualizar.
-          </p>
+      {/* Manual Input */}
+      <div className="bg-gray-800 border border-gray-600 rounded-lg p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-4 text-white">Ingresar equipos manualmente</h2>
+        <div className="flex gap-4 mb-4">
+          <input
+            value={homeTeam}
+            onChange={(e) => setHomeTeam(e.target.value)}
+            placeholder="Equipo local"
+            className="bg-gray-700 text-white border border-gray-600 p-2 rounded flex-1"
+          />
+          <span className="text-white self-center">VS</span>
+          <input
+            value={awayTeam}
+            onChange={(e) => setAwayTeam(e.target.value)}
+            placeholder="Equipo visitante"
+            className="bg-gray-700 text-white border border-gray-600 p-2 rounded flex-1"
+          />
+          <button
+            onClick={() => invoke(homeTeam, awayTeam)}
+            disabled={predicting[`${homeTeam}-${awayTeam}`]}
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          >
+            {predicting[`${homeTeam}-${awayTeam}`] ? '...' : 'Invoke'}
+          </button>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {matches.map(match => (
-            <div key={match.id} className="border rounded-lg p-4 bg-gray-800">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm text-gray-400">{match.leagueName} • {match.status}</p>
-                  <p className="font-semibold text-lg text-white">
-                    {match.homeTeamName} vs {match.awayTeamName}
-                  </p>
-                  <p className="text-xs text-gray-500">ID: {match.fixtureId}</p>
-                </div>
-                <button
-                  onClick={() => invoke(match)}
-                  disabled={predicting[match.id]}
-                  className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-                >
-                  {predicting[match.id] ? '...' : 'Invoke'}
-                </button>
-              </div>
+        
+        {predictions[`${homeTeam}-${awayTeam}`] && (
+          <div className="mt-4 bg-gray-900 p-4 rounded">
+            <pre className="text-green-400 text-sm overflow-auto max-h-96">
+              {JSON.stringify(predictions[`${homeTeam}-${awayTeam}`], null, 2)}
+            </pre>
+          </div>
+        )}
+      </div>
 
-              {predictions[match.id] && (
-                <div className="mt-4 bg-gray-900 p-4 rounded text-sm">
-                  <pre className="text-green-400 overflow-auto max-h-96">
-                    {JSON.stringify(predictions[match.id], null, 2)}
-                  </pre>
+      {/* Matches from DB */}
+      {!loading && matches.length > 0 && (
+        <>
+          <h2 className="text-lg font-semibold mb-4 text-white">Partidos de la BD ({matches.length})</h2>
+          <div className="space-y-4">
+            {matches.map(match => (
+              <div key={match.id} className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-400">{match.leagueName}</p>
+                    <p className="font-semibold text-white">
+                      {match.homeTeamName} vs {match.awayTeamName}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => invoke(match.homeTeamName, match.awayTeamName, match.id)}
+                    disabled={predicting[match.id]}
+                    className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {predicting[match.id] ? '...' : 'Invoke'}
+                  </button>
                 </div>
-              )}
-            </div>
-          ))}
+
+                {predictions[match.id] && (
+                  <div className="mt-4 bg-gray-900 p-4 rounded">
+                    <pre className="text-green-400 text-sm overflow-auto max-h-96">
+                      {JSON.stringify(predictions[match.id], null, 2)}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {!loading && matches.length === 0 && (
+        <div className="bg-yellow-900/20 border border-yellow-600 p-4 rounded">
+          <p className="text-yellow-400">No hay partidos con nombres en la BD.</p>
+          <p className="text-sm text-gray-400">Usa el formulario arriba para probar predicciones.</p>
         </div>
       )}
     </div>
