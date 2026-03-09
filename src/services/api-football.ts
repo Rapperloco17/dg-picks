@@ -15,10 +15,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_FOOTBALL_URL || 'https://v3.football
 // Check if running on client side
 const isClient = typeof window !== 'undefined';
 
-// Rate limiting configuration
+// Rate limiting configuration - ULTRA PLAN: 450 req/min
 const RATE_LIMIT = {
-  callsPerMinute: 10,      // Max 10 calls per minute (conservative)
-  delayBetweenCalls: 6000, // 6 seconds between calls
+  callsPerMinute: 400,     // 400 calls per minute (safe under 450 limit)
+  delayBetweenCalls: 150,  // 150ms between calls
   maxRetries: 3,           // Retry failed calls up to 3 times
 };
 
