@@ -16,12 +16,19 @@ export default function MLPredictTest() {
   const [predictions, setPredictions] = useState<Record<string, any>>({});
   const [predicting, setPredicting] = useState<Record<string, boolean>>({});
 
-  // Cargar partidos de hoy
+  // Cargar partidos programados de los próximos 7 días
   useEffect(() => {
-    fetch('/api/db-matches?status=scheduled&limit=20')
+    const from = new Date().toISOString().split('T')[0];
+    const to = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    
+    fetch(`/api/db-matches?from=${from}&to=${to}&limit=50`)
       .then(r => r.json())
       .then(data => {
-        setMatches(data.matches || []);
+        // Filtrar solo partidos no terminados
+        const scheduled = (data.matches || []).filter((m: any) => 
+          m.status === 'NS' || m.status === 'SCHEDULED' || m.status === 'TBD'
+        );
+        setMatches(scheduled);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -53,7 +60,18 @@ export default function MLPredictTest() {
       <h1 className="text-2xl font-bold mb-6">🤖 ML Predict - Partidos de Hoy</h1>
       
       {matches.length === 0 ? (
-        <p>No hay partidos cargados para hoy</p>
+        <div className="bg-yellow-900/20 border border-yellow-600 p-4 rounded">
+          <p className="text-yellow-400 font-semibold">No hay partidos programados</p>
+          <p className="text-sm text-gray-400 mt-2">
+            Ve a Admin → Sincronizar → Completar Datos para actualizar los partidos futuros.
+          </p>
+          <button 
+            onClick={() => window.location.href = '/admin'}
+            className="mt-3 bg-yellow-600 text-white px-4 py-2 rounded text-sm"
+          >
+            Ir a Admin
+          </button>
+        </div>
       ) : (
         <div className="space-y-4">
           {matches.map(match => (
