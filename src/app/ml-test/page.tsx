@@ -24,9 +24,10 @@ export default function MLPredictTest() {
     fetch(`/api/db-matches?from=${from}&to=${to}&limit=50`)
       .then(r => r.json())
       .then(data => {
-        // Filtrar solo partidos no terminados
+        // Mostrar partidos programados y en vivo (no terminados)
+        const liveStatuses = ['NS', 'SCHEDULED', 'TBD', '1H', '2H', 'HT', 'LIVE', 'ET', 'P', 'INT'];
         const scheduled = (data.matches || []).filter((m: any) => 
-          m.status === 'NS' || m.status === 'SCHEDULED' || m.status === 'TBD'
+          liveStatuses.includes(m.status) || !m.status?.startsWith('FT')
         );
         setMatches(scheduled);
         setLoading(false);
