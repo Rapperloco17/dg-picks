@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 interface Match {
   id: string;
+  fixtureId: number;
   homeTeamName: string;
   awayTeamName: string;
   date: string;
@@ -18,27 +19,27 @@ export default function MLPredictTest() {
   const [predictions, setPredictions] = useState<Record<string, any>>({});
   const [predicting, setPredicting] = useState<Record<string, boolean>>({});
 
-  // Cargar partidos
   useEffect(() => {
-    fetch('/api/db-matches?limit=30')
+    fetch('/api/db-matches?limit=100')
       .then(r => r.json())
       .then(data => {
-        console.log('Matches received:', data);
+        console.log('Matches:', data);
         if (!data.matches || data.matches.length === 0) {
-          setError('No hay partidos en la base de datos');
+          setError('No hay partidos');
           setLoading(false);
           return;
         }
-        // Filtrar partidos no terminados
-        const notFinished = data.matches.filter((m: any) => 
+        // Solo partidos con nombres válidos y no terminados
+        const valid = data.matches.filter((m: any) => 
+          m.homeTeamName && m.awayTeamName && 
+          m.homeTeamName !== '' && m.awayTeamName !== '' &&
           m.status !== 'FT' && m.status !== 'AET' && m.status !== 'PEN'
         );
-        setMatches(notFinished);
+        setMatches(valid.slice(0, 30));
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error:', err);
-        setError('Error cargando partidos: ' + err.message);
+        setError('Error: ' + err.message);
         setLoading(false);
       });
   }, []);
@@ -62,29 +63,19 @@ export default function MLPredictTest() {
     setPredicting(prev => ({ ...prev, [match.id]: false }));
   };
 
-  if (loading) return <div className="p-8">Cargando partidos...</div>;
-  
-  if (error) return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Error</h1>
-      <p className="text-red-500">{error}</p>
-      <button 
-        onClick={() => window.location.reload()}
-        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Recargar
-      </button>
-    </div>
-  );
+  if (loading) return <div className="p-8">Cargando...</div>;
+  if (error) return <div className="p-8 text-red-500">{error}</div>;
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict - Partidos ({matches.length})</h1>
+      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict ({matches.length} partidos)</h1>
       
       {matches.length === 0 ? (
         <div className="bg-yellow-900/20 border border-yellow-600 p-4 rounded">
-          <p className="text-yellow-400 font-semibold">No hay partidos activos</p>
-          <p className="text-sm text-gray-400">Todos los partidos han terminado o no hay datos.</p>
+          <p className="text-yellow-400">No hay partidos válidos con nombres de equipos.</p>
+          <p className="text-sm text-gray-400 mt-2">
+            Los 130k partidos históricos no tienen nombres. Ve a Admin → Sincronizar para actualizar.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -96,6 +87,7 @@ export default function MLPredictTest() {
                   <p className="font-semibold text-lg text-white">
                     {match.homeTeamName} vs {match.awayTeamName}
                   </p>
+                  <p className="text-xs text-gray-500">ID: {match.fixtureId}</p>
                 </div>
                 <button
                   onClick={() => invoke(match)}
@@ -108,7 +100,7 @@ export default function MLPredictTest() {
 
               {predictions[match.id] && (
                 <div className="mt-4 bg-gray-900 p-4 rounded text-sm">
-                  <pre className="text-green-400 overflow-auto">
+                  <pre className="text-green-400 overflow-auto max-h-96">
                     {JSON.stringify(predictions[match.id], null, 2)}
                   </pre>
                 </div>
