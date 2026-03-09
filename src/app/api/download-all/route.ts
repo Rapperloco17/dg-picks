@@ -7,10 +7,10 @@ import { prisma } from '@/lib/prisma';
 const API_DELAY = 125; // 125ms = 480 req/min
 
 export async function POST(request: NextRequest) {
-  console.log('[DOWNLOAD-ALL] Starting full download 2018-2025 @ 480 req/min...');
+  console.log('[DOWNLOAD-ALL] Starting full download 2018-2026 @ 480 req/min...');
   
   const START_YEAR = 2018;
-  const END_YEAR = 2025;
+  const END_YEAR = 2026;  // Include 2026 season
   const seasons = Array.from({length: END_YEAR - START_YEAR + 1}, (_, i) => START_YEAR + i);
   
   let totalProcessed = 0;
