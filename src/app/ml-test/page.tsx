@@ -8,31 +8,39 @@ interface Match {
   awayTeamName: string;
   date: string;
   leagueName: string;
+  status: string;
 }
 
 export default function MLPredictTest() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [predictions, setPredictions] = useState<Record<string, any>>({});
   const [predicting, setPredicting] = useState<Record<string, boolean>>({});
 
-  // Cargar partidos programados de los próximos 7 días
+  // Cargar partidos
   useEffect(() => {
-    const from = new Date().toISOString().split('T')[0];
-    const to = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    
-    fetch(`/api/db-matches?from=${from}&to=${to}&limit=50`)
+    fetch('/api/db-matches?limit=30')
       .then(r => r.json())
       .then(data => {
-        // Mostrar partidos programados y en vivo (no terminados)
-        const liveStatuses = ['NS', 'SCHEDULED', 'TBD', '1H', '2H', 'HT', 'LIVE', 'ET', 'P', 'INT'];
-        const scheduled = (data.matches || []).filter((m: any) => 
-          liveStatuses.includes(m.status) || !m.status?.startsWith('FT')
+        console.log('Matches received:', data);
+        if (!data.matches || data.matches.length === 0) {
+          setError('No hay partidos en la base de datos');
+          setLoading(false);
+          return;
+        }
+        // Filtrar partidos no terminados
+        const notFinished = data.matches.filter((m: any) => 
+          m.status !== 'FT' && m.status !== 'AET' && m.status !== 'PEN'
         );
-        setMatches(scheduled);
+        setMatches(notFinished);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(err => {
+        console.error('Error:', err);
+        setError('Error cargando partidos: ' + err.message);
+        setLoading(false);
+      });
   }, []);
 
   const invoke = async (match: Match) => {
@@ -55,36 +63,38 @@ export default function MLPredictTest() {
   };
 
   if (loading) return <div className="p-8">Cargando partidos...</div>;
+  
+  if (error) return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Error</h1>
+      <p className="text-red-500">{error}</p>
+      <button 
+        onClick={() => window.location.reload()}
+        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        Recargar
+      </button>
+    </div>
+  );
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict - Partidos de Hoy</h1>
+      <h1 className="text-2xl font-bold mb-6">🤖 ML Predict - Partidos ({matches.length})</h1>
       
       {matches.length === 0 ? (
         <div className="bg-yellow-900/20 border border-yellow-600 p-4 rounded">
-          <p className="text-yellow-400 font-semibold">No hay partidos programados</p>
-          <p className="text-sm text-gray-400 mt-2">
-            Ve a Admin → Sincronizar → Completar Datos para actualizar los partidos futuros.
-          </p>
-          <button 
-            onClick={() => window.location.href = '/admin'}
-            className="mt-3 bg-yellow-600 text-white px-4 py-2 rounded text-sm"
-          >
-            Ir a Admin
-          </button>
+          <p className="text-yellow-400 font-semibold">No hay partidos activos</p>
+          <p className="text-sm text-gray-400">Todos los partidos han terminado o no hay datos.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {matches.map(match => (
-            <div key={match.id} className="border rounded-lg p-4 bg-white shadow">
+            <div key={match.id} className="border rounded-lg p-4 bg-gray-800">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm text-gray-500">{match.leagueName}</p>
-                  <p className="font-semibold text-lg">
+                  <p className="text-sm text-gray-400">{match.leagueName} • {match.status}</p>
+                  <p className="font-semibold text-lg text-white">
                     {match.homeTeamName} vs {match.awayTeamName}
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    {new Date(match.date).toLocaleString()}
                   </p>
                 </div>
                 <button
@@ -92,69 +102,15 @@ export default function MLPredictTest() {
                   disabled={predicting[match.id]}
                   className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
                 >
-                  {predicting[match.id] ? 'Predicting...' : 'Invoke'}
+                  {predicting[match.id] ? '...' : 'Invoke'}
                 </button>
               </div>
 
               {predictions[match.id] && (
-                <div className="mt-4 bg-gray-50 p-4 rounded">
-                  {predictions[match.id].error ? (
-                    <p className="text-red-500">Error: {predictions[match.id].error}</p>
-                  ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      {/* 1X2 */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">1X2</p>
-                        <p>1: {predictions[match.id].prediction?.result?.home}%</p>
-                        <p>X: {predictions[match.id].prediction?.result?.draw}%</p>
-                        <p>2: {predictions[match.id].prediction?.result?.away}%</p>
-                        <p className="text-green-600 font-semibold">
-                          Pick: {predictions[match.id].prediction?.result?.pick}
-                        </p>
-                      </div>
-
-                      {/* Over/Under */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">Over/Under</p>
-                        <p>O2.5: {predictions[match.id].prediction?.overUnder?.over25?.probability}%</p>
-                        <p>U2.5: {predictions[match.id].prediction?.overUnder?.under25?.probability}%</p>
-                        <p>O3.5: {predictions[match.id].prediction?.overUnder?.over35?.probability}%</p>
-                      </div>
-
-                      {/* BTTS */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">BTTS</p>
-                        <p>Sí: {predictions[match.id].prediction?.btts?.yes?.probability}%</p>
-                        <p className="text-green-600 font-semibold">
-                          {predictions[match.id].prediction?.btts?.yes?.pick}
-                        </p>
-                      </div>
-
-                      {/* Expected */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">Expected</p>
-                        <p>Goles: {predictions[match.id].prediction?.expected?.totalGoals}</p>
-                        <p>Corners: {predictions[match.id].prediction?.expected?.totalCorners}</p>
-                        <p>Tarjetas: {predictions[match.id].prediction?.expected?.totalCards}</p>
-                      </div>
-
-                      {/* Corners por equipo */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">Corners</p>
-                        <p>Home O4.5: {predictions[match.id].prediction?.corners?.homeOver45?.probability}%</p>
-                        <p>Away O4.5: {predictions[match.id].prediction?.corners?.awayOver45?.probability}%</p>
-                        <p>Total O9.5: {predictions[match.id].prediction?.corners?.over95?.probability}%</p>
-                      </div>
-
-                      {/* Cards por equipo */}
-                      <div className="bg-white p-3 rounded border">
-                        <p className="font-bold text-blue-600">Tarjetas</p>
-                        <p>Home O2.5: {predictions[match.id].prediction?.cards?.homeOver25?.probability}%</p>
-                        <p>Away O2.5: {predictions[match.id].prediction?.cards?.awayOver25?.probability}%</p>
-                        <p>Total O3.5: {predictions[match.id].prediction?.cards?.over35?.probability}%</p>
-                      </div>
-                    </div>
-                  )}
+                <div className="mt-4 bg-gray-900 p-4 rounded text-sm">
+                  <pre className="text-green-400 overflow-auto">
+                    {JSON.stringify(predictions[match.id], null, 2)}
+                  </pre>
                 </div>
               )}
             </div>
