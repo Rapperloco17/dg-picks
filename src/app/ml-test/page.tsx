@@ -18,7 +18,7 @@ export default function MLPredictTest() {
 
   // Cargar partidos de hoy
   useEffect(() => {
-    fetch('/api/matches?date=today')
+    fetch('/api/db-matches?status=scheduled&limit=20')
       .then(r => r.json())
       .then(data => {
         setMatches(data.matches || []);
