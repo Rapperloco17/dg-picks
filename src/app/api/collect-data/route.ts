@@ -5,9 +5,9 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs/promises';
 import path from 'path';
 
-// Ultra plan: 450 req/min = 7.5 req/sec
-const BATCH_SIZE = 5; // Process 5 matches in parallel
-const API_DELAY = 150; // 150ms between calls (400 req/min safe)
+// Ultra plan: 450 req/min - using 300 for safety
+const BATCH_SIZE = 1; // Sequential processing (safer)
+const API_DELAY = 200; // 200ms between calls (300 req/min)
 
 // GET: Check existing data
 export async function GET(request: NextRequest) {
@@ -121,11 +121,11 @@ export async function POST(request: NextRequest) {
 
           console.log(`  [${season}] API: ${missingFixtures.length} faltan`);
 
-          // Process in parallel batches
+          // Process sequentially to avoid rate limits
           for (let i = 0; i < missingFixtures.length; i += BATCH_SIZE) {
             const batch = missingFixtures.slice(i, i + BATCH_SIZE);
             
-            await Promise.all(batch.map(async (match) => {
+            for (const match of batch) {
               try {
                 // Get statistics
                 let stats = {
@@ -210,10 +210,10 @@ export async function POST(request: NextRequest) {
               } catch (err: any) {
                 console.error(`    Error ${match.fixture.id}:`, err?.message);
               }
-            }));
-
-            // Small delay between batches (Ultra plan: 450/min)
-            await new Promise(r => setTimeout(r, API_DELAY));
+              
+              // Delay between calls (Ultra plan: 300/min safe)
+              await new Promise(r => setTimeout(r, API_DELAY));
+            }
           }
 
         } catch (err: any) {
