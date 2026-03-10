@@ -1,6 +1,86 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+const API_KEY = process.env.FOOTBALL_API_KEY;
+const API_BASE = 'https://v3.football.api-sports.io';
+
+// GET: Clean and sync today's matches
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    
+    // Si viene ?sync=true, hacemos sync de partidos de hoy
+    if (searchParams.get('sync') === 'true') {
+      const today = new Date().toISOString().split('T')[0];
+      const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+      
+      const TOP_LEAGUES = [39, 140, 135, 78, 61, 88, 94, 2, 3];
+      let added = 0;
+
+      for (const leagueId of TOP_LEAGUES) {
+        try {
+          const res = await fetch(
+            `${API_BASE}/fixtures?league=${leagueId}&season=2024&from=${today}&to=${tomorrow}`,
+            {
+              headers: {
+                'x-rapidapi-key': API_KEY || '',
+                'x-rapidapi-host': 'v3.football.api-sports.io',
+              },
+            }
+          );
+
+          if (!res.ok) continue;
+          const data = await res.json();
+          if (!data.response) continue;
+
+          for (const f of data.response) {
+            await prisma.match.upsert({
+              where: { fixtureId: f.fixture.id },
+              update: {
+                status: f.fixture.status.short,
+                homeTeamName: f.teams.home.name,
+                awayTeamName: f.teams.away.name,
+              },
+              create: {
+                fixtureId: f.fixture.id,
+                leagueId: f.league.id,
+                leagueName: f.league.name,
+                season: f.league.season,
+                date: new Date(f.fixture.date),
+                timestamp: f.fixture.timestamp,
+                timezone: f.fixture.timezone || 'UTC',
+                status: f.fixture.status.short,
+                homeTeamId: f.teams.home.id,
+                homeTeamName: f.teams.home.name,
+                awayTeamId: f.teams.away.id,
+                awayTeamName: f.teams.away.name,
+              },
+            });
+            added++;
+          }
+          await new Promise(r => setTimeout(r, 200));
+        } catch (e) {}
+      }
+
+      return NextResponse.json({ 
+        success: true, 
+        message: `Synced ${added} matches for today`,
+        date: today 
+      });
+    }
+
+    // Info normal
+    return NextResponse.json({
+      message: 'ML Predict API - Use ?sync=true to sync today matches',
+      example: { homeTeam: 'Manchester City', awayTeam: 'Liverpool' }
+    });
+
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+// POST: Predict
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -42,47 +122,38 @@ export async function POST(request: NextRequest) {
     const prediction = {
       match: `${homeTeam} vs ${awayTeam}`,
       
-      // 1X2
       result: {
-        home: 50,
-        draw: 25,
-        away: 25,
+        home: 50, draw: 25, away: 25,
         pick: home.avgGoals > away.avgGoals ? 'HOME' : 'AWAY'
       },
 
-      // Totals
       overUnder: {
         over25: calcOU(home, away, 2.5),
         over35: calcOU(home, away, 3.5),
         under25: calcUnder(home, away, 2.5),
       },
 
-      // BTTS
       btts: {
         yes: { probability: round((home.btts + away.btts) / 2), pick: (home.btts + away.btts) / 2 > 55 ? 'YES' : 'NO' }
       },
 
-      // Team goals
       teamGoals: {
         homeOver15: { probability: home.avgGoals > 1.5 ? 65 : 45, pick: home.avgGoals > 1.5 ? 'OVER 1.5' : 'SKIP' },
         awayOver15: { probability: away.avgGoals > 1.5 ? 65 : 45, pick: away.avgGoals > 1.5 ? 'OVER 1.5' : 'SKIP' },
       },
 
-      // Corners
       corners: {
         over95: { probability: (home.corners + away.corners) > 9.5 ? 60 : 45, pick: (home.corners + away.corners) > 9.5 ? 'OVER 9.5' : 'SKIP' },
         homeOver45: { probability: home.corners > 4.5 ? 55 : 40, pick: home.corners > 4.5 ? 'HOME OVER 4.5' : 'SKIP' },
         awayOver45: { probability: away.corners > 4.5 ? 55 : 40, pick: away.corners > 4.5 ? 'AWAY OVER 4.5' : 'SKIP' },
       },
 
-      // Cards
       cards: {
         over35: { probability: (home.cards + away.cards) > 3.5 ? 60 : 45, pick: (home.cards + away.cards) > 3.5 ? 'OVER 3.5' : 'SKIP' },
         homeOver25: { probability: home.cards > 2.5 ? 55 : 40, pick: home.cards > 2.5 ? 'HOME OVER 2.5' : 'SKIP' },
         awayOver25: { probability: away.cards > 2.5 ? 55 : 40, pick: away.cards > 2.5 ? 'AWAY OVER 2.5' : 'SKIP' },
       },
 
-      // Expected
       expected: {
         homeGoals: round(home.avgGoals),
         awayGoals: round(away.avgGoals),
@@ -95,15 +166,12 @@ export async function POST(request: NextRequest) {
         totalCards: round(home.cards + away.cards),
       },
 
-      // Form
       form: {
         home: home.wins > home.losses ? 'Good' : 'Poor',
         away: away.wins > away.losses ? 'Good' : 'Poor',
       }
     };
 
-    // Adjust 1X2
-    const total = home.avgGoals + away.avgGoals;
     prediction.result.home = round(45 + (home.avgGoals - away.avgGoals) * 10);
     prediction.result.away = round(30 + (away.avgGoals - home.avgGoals) * 10);
     prediction.result.draw = round(100 - prediction.result.home - prediction.result.away);
@@ -111,7 +179,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, prediction });
 
   } catch (error: any) {
-    console.error('[ML-PREDICT] Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -162,12 +229,3 @@ function calcUnder(h: any, a: any, line: number) {
 function round(n: number) {
   return Math.round(n * 10) / 10;
 }
-
-export async function GET(request: NextRequest) {
-  return NextResponse.json({
-    message: 'ML Predict API',
-    markets: ['1X2', 'Over/Under 2.5/3.5', 'BTTS', 'Team Goals', 'Corners', 'Cards'],
-    example: { homeTeam: 'Manchester City', awayTeam: 'Liverpool' }
-  });
-}
-// Deploy timestamp: 2026-03-09 13:26:18
