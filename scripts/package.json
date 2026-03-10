@@ -1,0 +1,10 @@
+{
+  "name": "update-matches",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node update-matches.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  }
+}
