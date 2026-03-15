@@ -28,13 +28,14 @@ async function getTopFormTeams() {
         form: {
           not: null,
         },
-      },
-      orderBy: {
-        points: 'desc',
+        points: {
+          gt: 0,
+        },
       },
       take: 10,
     });
-    return teams;
+    // Ordenar manualmente por puntos
+    return teams.sort((a, b) => (b.points || 0) - (a.points || 0));
   } catch (error) {
     console.error('Error fetching top teams:', error);
     return [];
