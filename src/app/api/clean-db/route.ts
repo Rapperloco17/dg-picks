@@ -8,9 +8,7 @@ export async function POST() {
       where: {
         OR: [
           { homeTeamName: '' },
-          { homeTeamName: null },
           { awayTeamName: '' },
-          { awayTeamName: null },
         ]
       }
     });
@@ -32,9 +30,7 @@ export async function GET() {
     where: {
       OR: [
         { homeTeamName: '' },
-        { homeTeamName: null },
         { awayTeamName: '' },
-        { awayTeamName: null },
       ]
     }
   });

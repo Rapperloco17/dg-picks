@@ -12,10 +12,7 @@ export async function POST(request: NextRequest) {
     
     const matches = await prisma.match.findMany({
       where: {
-        OR: [
-          { homeTeamName: '' },
-          { homeTeamName: null },
-        ]
+        homeTeamName: ''
       },
       take: batchSize,
       orderBy: { date: 'desc' },
@@ -76,10 +73,7 @@ export async function POST(request: NextRequest) {
 
     const remaining = await prisma.match.count({
       where: {
-        OR: [
-          { homeTeamName: '' },
-          { homeTeamName: null },
-        ]
+        homeTeamName: ''
       }
     });
 
@@ -100,10 +94,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const count = await prisma.match.count({
     where: {
-      OR: [
-        { homeTeamName: '' },
-        { homeTeamName: null },
-      ]
+      homeTeamName: ''
     }
   });
   

@@ -11,10 +11,7 @@ export async function POST(request: NextRequest) {
     // Borrar partidos sin nombres
     const deleted = await prisma.match.deleteMany({
       where: {
-        OR: [
-          { homeTeamName: '' },
-          { homeTeamName: null },
-        ]
+        homeTeamName: ''
       }
     });
     
@@ -44,16 +41,13 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const sinNombres = await prisma.match.count({
     where: {
-      OR: [
-        { homeTeamName: '' },
-        { homeTeamName: null },
-      ]
+      homeTeamName: ''
     }
   });
   
   const conNombres = await prisma.match.count({
     where: {
-      homeTeamName: { not: '', not: null }
+      homeTeamName: { not: '' }
     }
   });
   

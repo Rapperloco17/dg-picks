@@ -12,10 +12,7 @@ export async function POST(request: NextRequest) {
     // Get matches without team names
     const matches = await prisma.match.findMany({
       where: {
-        OR: [
-          { homeTeamName: '' },
-          { homeTeamName: null },
-        ]
+        homeTeamName: ''
       },
       take: batchSize,
       skip: startFrom,
@@ -93,10 +90,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const count = await prisma.match.count({
     where: {
-      OR: [
-        { homeTeamName: '' },
-        { homeTeamName: null },
-      ]
+      homeTeamName: ''
     }
   });
   
