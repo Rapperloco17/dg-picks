@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-const API_KEY = process.env.FOOTBALL_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 const API_BASE = 'https://v3.football.api-sports.io';
 
 // Top leagues IDs from API-Football
@@ -35,7 +35,7 @@ const TOP_LEAGUES = [
 export async function POST(request: NextRequest) {
   try {
     if (!API_KEY) {
-      return NextResponse.json({ error: 'FOOTBALL_API_KEY not set' }, { status: 500 });
+      return NextResponse.json({ error: 'NEXT_PUBLIC_API_FOOTBALL_KEY not set' }, { status: 500 });
     }
 
     let synced = 0;

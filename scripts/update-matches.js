@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const API_KEY = process.env.FOOTBALL_API_KEY || 'TU_API_KEY_AQUI';
+const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY || 'TU_API_KEY_AQUI';
 const API_BASE = 'https://v3.football.api-sports.io';
 const DELAY_MS = 80; // 750 req/min
 
