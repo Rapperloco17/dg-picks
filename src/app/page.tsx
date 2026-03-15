@@ -165,21 +165,28 @@ export default function DashboardPage() {
     return filtered;
   }, [matches, selectedTiers, selectedLeagues, leagues]);
 
-  // Group matches by league
+  // Group matches by league - use unique key with country to avoid mixing Serie A (Italy) with Serie A (Brazil)
   const matchesByLeague = useMemo(() => {
     const grouped = filteredMatches.reduce((acc: any, match) => {
-      if (!acc[match.league]) {
-        acc[match.league] = {
+      // Create unique key combining league name and country
+      const leagueInfo = leagues.find(l => l.id === match.leagueId);
+      const country = leagueInfo?.country || 'Unknown';
+      const uniqueKey = `${match.league}|${country}`;
+      
+      if (!acc[uniqueKey]) {
+        acc[uniqueKey] = {
           leagueId: match.leagueId,
+          leagueName: match.league,
           leagueLogo: match.leagueLogo,
+          country: country,
           matches: [],
         };
       }
-      acc[match.league].matches.push(match);
+      acc[uniqueKey].matches.push(match);
       return acc;
     }, {});
     return grouped;
-  }, [filteredMatches]);
+  }, [filteredMatches, leagues]);
 
   // Check if date is today
   const isToday = formatDate(selectedDate) === formatDate(new Date());
@@ -608,17 +615,20 @@ export default function DashboardPage() {
         )}
 
         {/* Matches by League */}
-        {!loading && Object.entries(matchesByLeague).map(([leagueName, data]: [string, any]) => {
+        {!loading && Object.entries(matchesByLeague).map(([uniqueKey, data]: [string, any]) => {
           const league = leagues.find(l => l.id === data.leagueId);
           return (
-            <Card key={leagueName} className="glass border-0 overflow-hidden">
+            <Card key={uniqueKey} className="glass border-0 overflow-hidden">
               <CardHeader className="pb-3 border-b border-[#262626] bg-[#1a1a1a]/50">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {data.leagueLogo && (
                       <img src={data.leagueLogo} alt="" className="w-6 h-6 object-contain" />
                     )}
-                    <CardTitle className="text-base text-zinc-100">{leagueName}</CardTitle>
+                    <div>
+                      <CardTitle className="text-base text-zinc-100">{data.leagueName}</CardTitle>
+                      <p className="text-xs text-zinc-500">{data.country}</p>
+                    </div>
                     {league && getTierBadge(league.tier)}
                   </div>
                   <Badge variant="secondary" className="bg-[#262626] text-zinc-400">
