@@ -29,5 +29,7 @@ RUN npm run build
 # Puerto
 EXPOSE 3000
 
-# Comando para iniciar
-CMD ["npm", "start"]
+# Script de inicio que crea tablas y luego inicia la app
+COPY start.sh ./start.sh
+RUN chmod +x ./start.sh
+CMD ["./start.sh"]

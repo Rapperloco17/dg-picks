@@ -62,6 +62,152 @@ model Match {
   @@index([awayTeamId])
 }
 
+// NUEVO: Ligas
+model League {
+  id          Int       @id @unique
+  name        String
+  country     String
+  countryCode String?
+  logo        String?
+  flag        String?
+  season      Int
+  seasonStart DateTime?
+  seasonEnd   DateTime?
+  type        String?   // league, cup, etc
+  standings   Standing[]
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([country])
+  @@index([season])
+}
+
+// NUEVO: Equipos con estadísticas detalladas
+model Team {
+  id          Int       @id @unique
+  name        String
+  code        String?
+  country     String?
+  founded     Int?
+  logo        String?
+  venueName   String?
+  venueCity   String?
+  
+  // Forma reciente (últimos 5 partidos)
+  form        String?   // Ej: "WWDLL"
+  
+  // Estadísticas de la temporada
+  played      Int       @default(0)
+  won         Int       @default(0)
+  drawn       Int       @default(0)
+  lost        Int       @default(0)
+  goalsFor    Int       @default(0)
+  goalsAgainst Int      @default(0)
+  
+  // Estadísticas avanzadas
+  avgPossession     Float?  @default(50)
+  avgCornersFor     Float?  @default(0)
+  avgCornersAgainst Float?  @default(0)
+  avgYellowCards    Float?  @default(0)
+  avgShots          Float?  @default(0)
+  avgShotsOnTarget  Float?  @default(0)
+  
+  standings Standing[]
+  updatedAt DateTime @updatedAt
+  
+  @@index([name])
+  @@index([country])
+}
+
+// NUEVO: Tabla de posiciones
+model Standing {
+  id           String   @id @default(uuid())
+  league       League   @relation(fields: [leagueId], references: [id])
+  leagueId     Int
+  team         Team     @relation(fields: [teamId], references: [id])
+  teamId       Int
+  season       Int
+  
+  // Posición
+  rank         Int
+  
+  // Estadísticas
+  played       Int      @default(0)
+  won          Int      @default(0)
+  drawn        Int      @default(0)
+  lost         Int      @default(0)
+  goalsFor     Int      @default(0)
+  goalsAgainst Int      @default(0)
+  goalDiff     Int      @default(0)
+  points       Int      @default(0)
+  
+  // Forma
+  form         String?  // "WWDLL"
+  
+  // Description (para clasificación a torneos)
+  description  String?
+  
+  updatedAt    DateTime @updatedAt
+  
+  @@unique([leagueId, teamId, season])
+  @@index([leagueId, season])
+  @@index([rank])
+}
+
+// NUEVO: Partidos en vivo
+model LiveMatch {
+  id              String   @id @default(uuid())
+  fixtureId       Int      @unique
+  leagueId        Int
+  leagueName      String
+  
+  homeTeamId      Int
+  homeTeamName    String
+  awayTeamId      Int
+  awayTeamName    String
+  
+  // Marcador
+  homeGoals       Int      @default(0)
+  awayGoals       Int      @default(0)
+  
+  // Tiempo
+  elapsed         Int      @default(0)  // Minutos
+  status          String   // LIVE, HT, FT, etc
+  
+  // Estadísticas en vivo
+  homePossession  Int?     @default(50)
+  awayPossession  Int?     @default(50)
+  homeShots       Int?     @default(0)
+  awayShots       Int?     @default(0)
+  homeShotsOnTarget Int?   @default(0)
+  awayShotsOnTarget Int?   @default(0)
+  homeCorners     Int?     @default(0)
+  awayCorners     Int?     @default(0)
+  homeYellowCards Int?     @default(0)
+  awayYellowCards Int?     @default(0)
+  homeRedCards    Int?     @default(0)
+  awayRedCards    Int?     @default(0)
+  
+  // Momios (odds) en vivo
+  homeOdds        Float?
+  drawOdds        Float?
+  awayOdds        Float?
+  over25Odds      Float?
+  under25Odds     Float?
+  bttsYesOdds     Float?
+  bttsNoOdds      Float?
+  
+  // Predicción ML
+  mlPrediction    Json?    // {homeWin: 0.45, draw: 0.30, awayWin: 0.25, suggestedBet: "over2.5"}
+  
+  // Última actualización
+  lastUpdated     DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  
+  @@index([leagueId])
+  @@index([status])
+  @@index([lastUpdated])
+}
+
 model ModelStats {
   id            String   @id @default(uuid())
   version       String   @unique
