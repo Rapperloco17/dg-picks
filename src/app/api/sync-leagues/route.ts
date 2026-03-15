@@ -17,60 +17,53 @@ const EXCLUDED_LEAGUES = [
   37, 38, 39, 40, 41, 42,
 ];
 
-// TIER 1 - Élite mundial
+// TIER 1 - TOP ÉLITE MUNDIAL (Lo mejor de cada región)
 const TIER_1_LEAGUES = [
-  // Top 5 Europa
+  // === EUROPA - TOP 5 + Champions ===
   39,   // Premier League (England)
   140,  // La Liga (Spain)
   135,  // Serie A (Italy)
   78,   // Bundesliga (Germany)
   61,   // Ligue 1 (France)
-  // Europa
+  // Champions/Europa
   2,    // Champions League
   3,    // Europa League
   848,  // Conference League
-  // Américas
+  // Europa - Top secundarias
+  88,   // Eredivisie (Netherlands)
+  94,   // Primeira Liga (Portugal)
+  
+  // === AMÉRICAS ===
+  // Conmebol - Primera División
+  71,   // Brasileirão (Brazil)
   13,   // Copa Libertadores
   16,   // Copa Sudamericana
-  128,  // Liga MX (Mexico)
-  71,   // Brasileirão (Brazil)
-  262,  // MLS (USA/Canada)
-  // Conmebol
   358,  // Liga Profesional (Argentina)
+  128,  // Liga MX (Mexico)
+  262,  // MLS (USA/Canada)
+  // Conmebol - Otras top
   99,   // Primera División (Uruguay)
   169,  // Primera División (Chile)
   155,  // Primera A (Colombia)
-  1132, // Primera División (Paraguay) 
-  1133, // Primera División (Bolivia)
-  1134, // Liga FUTVE (Venezuela)
-  1135, // Primera División (Ecuador)
-  1136, // Liga 1 (Perú)
-  // Selecciones
+  
+  // === ASIA ===
+  98,   // J1 League (Japan)
+  345,  // Saudi Pro League (Saudi Arabia)
+  
+  // === SELECCIONES ===
   32,   // World Cup
   960,  // Nations League
-  // Asia
-  98,   // J1 League (Japan)
-  292,  // K League 1 (South Korea)
-  345,  // Saudi Pro League
-  1030, // Chinese Super League
-  236,  // Persian Gulf Pro League (Iran)
-  // África
-  196,  // Botola Pro (Morocco)
-  233,  // Premier Soccer League (South Africa)
-  1032, // Egyptian Premier League
 ];
 
-// TIER 2 - Secundarias importantes
+// TIER 2 - MUY IMPORTANTES (2nd tier de Top 5 + top de países medios)
 const TIER_2_LEAGUES = [
   // 2nd divisions Top 5
   40,   // Championship (England)
-  141,  // Segunda División (Spain) - La Liga 2
+  141,  // La Liga 2 (Spain)
   136,  // Serie B (Italy)
   79,   // 2. Bundesliga (Germany)
   62,   // Ligue 2 (France)
-  // Europa top
-  88,   // Eredivisie (Netherlands)
-  94,   // Primeira Liga (Portugal)
+  // Europa top secundarias
   144,  // Pro League (Belgium)
   119,  // Premiership (Scotland)
   172,  // Superliga (Denmark)
@@ -78,39 +71,40 @@ const TIER_2_LEAGUES = [
   103,  // Eliteserien (Norway)
   52,   // Veikkausliiga (Finland)
   244,  // Ekstraklasa (Poland)
-  345,  // Czech First League
-  346,  // SuperLiga (Romania)
-  197,  // Super League (Greece)
   333,  // Super League (Switzerland)
   203,  // Süper Lig (Turkey)
   235,  // Premier League (Russia)
-  // Ascenso Conmebol
-  130,  // Primera Nacional (Argentina 2nd)
-  265,  // Segunda División (Chile)
-  // Asia 2nd tier
+  345,  // Czech First League
+  346,  // SuperLiga (Romania)
+  197,  // Super League (Greece)
+  // Asia secundarias
   418,  // J2 League (Japan)
-  4181, // K League 2 (South Korea)
+  292,  // K League 1 (South Korea)
   // Concacaf
   96,   // Primera División (Costa Rica)
   116,  // Liga Nacional (Honduras)
   117,  // Primera División (Guatemala)
-  340,  // Liga Panameña
-  150,  // Primera División (El Salvador)
 ];
 
-// TIER 3 - Otras relevantes
+// TIER 3 - RELEVANTES REGIONALES
 const TIER_3_LEAGUES = [
   218,  // A-League (Australia)
+  1030, // Chinese Super League
+  196,  // Botola Pro (Morocco)
   242,  // Premier Division (Ireland)
   343,  // Erovnuli Liga (Georgia)
   112,  // HNL (Croatia)
-  265,  // A Lyga (Lithuania)
   384,  // First League (Bulgaria)
-  349,  // Primera Nacional (Uruguay 2nd)
-  351,  // Copa Chile
+  130,  // Primera Nacional (Argentina 2nd)
+  // Sudamérica otras
+  1132, // Primera División (Paraguay)
+  1133, // Primera División (Bolivia)
+  1134, // Liga FUTVE (Venezuela)
+  1135, // Serie A (Ecuador)
+  1136, // Liga 1 (Perú)
 ];
 
-// Unir todas las ligas y eliminar duplicados
+// Unir todas las ligas
 const LEAGUES_TO_SYNC = [...new Set([
   ...TIER_1_LEAGUES, 
   ...TIER_2_LEAGUES, 
@@ -133,7 +127,6 @@ export async function POST() {
 
     for (const leagueId of LEAGUES_TO_SYNC) {
       try {
-        // Verificar si está excluida
         if (EXCLUDED_LEAGUES.includes(leagueId)) {
           skipped.push(leagueId);
           continue;
@@ -157,30 +150,21 @@ export async function POST() {
           continue;
         }
 
-        // Verificar que no sea liga juvenil por nombre
+        // Verificar nombres
         const leagueName = item.league.name.toLowerCase();
         const isYouth = leagueName.includes('u19') || 
                        leagueName.includes('u21') || 
-                       leagueName.includes('u23') ||
                        leagueName.includes('youth') ||
-                       leagueName.includes('sub-19') ||
-                       leagueName.includes('sub-21') ||
-                       leagueName.includes('reserve') ||
-                       leagueName.includes('femenino') ||
                        leagueName.includes('women');
         
-        const isLowerDivision = leagueName.includes('national league') ||
-                               leagueName.includes('isthmian') ||
-                               leagueName.includes('northern premier') ||
-                               leagueName.includes('southern league');
-
-        if (isYouth || isLowerDivision) {
+        if (isYouth) {
           skipped.push(leagueId);
           continue;
         }
 
         const tier = getLeagueTier(leagueId);
 
+        // Siempre actualizar el tier
         await prisma.league.upsert({
           where: { id: leagueId },
           update: {
@@ -193,7 +177,7 @@ export async function POST() {
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
             type: item.league.type,
-            tier: tier,
+            tier: tier, // FORZAR ACTUALIZACIÓN DEL TIER
           },
           create: {
             id: leagueId,
@@ -211,8 +195,6 @@ export async function POST() {
         });
 
         updated++;
-
-        // Delay to respect rate limits
         await new Promise(resolve => setTimeout(resolve, 150));
       } catch (error: any) {
         errors.push(`League ${leagueId}: ${error.message}`);
@@ -228,7 +210,6 @@ export async function POST() {
         tier2: TIER_2_LEAGUES.length,
         tier3: TIER_3_LEAGUES.length,
       },
-      skipped: skipped.length > 0 ? skipped : undefined,
       errors: errors.length > 0 ? errors : undefined,
     });
 
@@ -241,24 +222,12 @@ export async function POST() {
 }
 
 export async function GET() {
-  // Lista de nombres que pueden aparecer en múltiples países
-  const duplicateNames = ['Primera División', 'Serie A', 'Superliga', 'Premier League', 'First Division'];
-  
   return NextResponse.json({
-    message: 'POST to sync leagues with tiers (youth leagues excluded)',
-    excluded: {
-      count: EXCLUDED_LEAGUES.length,
-      types: ['U19/U21/U23', 'Reserves', 'Youth Leagues', 'National League (5th tier)', 'Women'],
-    },
+    message: 'POST to sync leagues with tiers',
     tiers: {
       tier1: { count: TIER_1_LEAGUES.length, leagues: TIER_1_LEAGUES },
       tier2: { count: TIER_2_LEAGUES.length, leagues: TIER_2_LEAGUES },
       tier3: { count: TIER_3_LEAGUES.length, leagues: TIER_3_LEAGUES },
-    },
-    duplicatesHandled: {
-      warning: "These league names exist in multiple countries",
-      names: duplicateNames,
-      solution: "Grouped by 'Name|Country' in dashboard",
     },
     total: LEAGUES_TO_SYNC.length,
   });
