@@ -3,180 +3,38 @@ import { prisma } from '@/lib/prisma';
 
 const API_BASE = 'https://v3.football.api-sports.io';
 
-// MEGA LIST: 80+ ligas y copas
+// TODAS las ligas - 90+ competiciones
 const ALL_LEAGUES = [
-  // ===== INGLATERRA (12 competiciones) =====
-  39,   // Premier League
-  40,   // Championship
-  41,   // League One
-  42,   // League Two
-  43,   // National League
-  45,   // FA Cup
-  46,   // Carabao Cup (EFL Cup)
-  47,   // Community Shield
-  48,   // FA Trophy
-  49,   // EFL Trophy
-  50,   // FA Women's Super League
-  54,   // National League North/South
-
-  // ===== ESPAÑA (8 competiciones) =====
-  140,  // La Liga
-  141,  // Segunda División (La Liga 2)
-  143,  // Copa del Rey
-  142,  // Supercopa de España
-  556,  // Primera RFEF (3ra división)
-  82,   // Segunda RFEF (4ta división)
-  83,   // Tercera RFEF (5ta división)
-  117,  // Copa Federación
-
-  // ===== ITALIA (7 competiciones) =====
-  135,  // Serie A
-  136,  // Serie B
-  137,  // Coppa Italia
-  138,  // Supercoppa Italiana
-  157,  // Serie C
-  158,  // Coppa Italia Serie C
-  159,  // Serie D
-
-  // ===== ALEMANIA (6 competiciones) =====
-  78,   // Bundesliga
-  79,   // 2. Bundesliga
-  80,   // 3. Liga
-  81,   // DFB Pokal (Copa Alemana)
-  529,  // Supercup Germany
-  83,   // Regionalliga
-
-  // ===== FRANCIA (6 competiciones) =====
-  61,   // Ligue 1
-  62,   // Ligue 2
-  63,   // National (3ra)
-  66,   // Coupe de France
-  65,   // Coupe de la Ligue
-  53,   // Trophée des Champions
-
-  // ===== PORTUGAL (4 competiciones) =====
-  94,   // Primeira Liga
-  95,   // Segunda Liga
-  96,   // Taça de Portugal
-  97,   // Taça da Liga
-
-  // ===== HOLANDA (4 competiciones) =====
-  88,   // Eredivisie
-  89,   // Eerste Divisie
-  90,   // Tweede Divisie
-  91,   // KNVB Cup
-
-  // ===== COMPETICIONES EUROPEAS (8) =====
-  2,    // Champions League
-  3,    // Europa League
-  848,  // Conference League
-  4,    // UEFA Super Cup
-  5,    // UEFA Nations League
-  6,    // European Championship (Euro)
-  7,    // Euro Qualifiers
-  8,    // World Cup Qualifiers Europe
-
-  // ===== CONCACAF (6) =====
-  16,   // CONCACAF Champions League
-  17,   // CONCACAF League
-  18,   // CONCACAF Cup
-  31,   // CONCACAF Gold Cup
-  32,   // CONCACAF Nations League
-  22,   // CONCACAF Caribbean Club Championship
-
-  // ===== SUDAMÉRICA (6) =====
-  13,   // Copa Libertadores
-  11,   // Copa Sudamericana
-  44,   // Copa América
-  45,   // Copa América Qualifiers
-  129,  // Recopa Sudamericana
-  246,  // Copa do Brasil
-
-  // ===== AMÉRICA (Más ligas) =====
-  128,  // Argentina Primera División
-  130,  // Argentina Copa de la Liga
-  131,  // Argentina Copa Argentina
-  71,   // Brazil Serie A
-  72,   // Brazil Serie B
-  73,   // Brazil Copa do Brasil
-  75,   // Brazil Serie C
-  239,  // Chile Primera División
-  240,  // Chile Copa Chile
-  265,  // Colombia Primera A
-  266,  // Colombia Copa Colombia
-  262,  // México Liga MX
-  263,  // México Copa MX
-  265,  // México Expansion MX
-  358,  // USA MLS
-  255,  // US Open Cup
-  345,  // Canada Premier League
-
-  // ===== RESTO DE EUROPA (20+) =====
-  203,  // Turkey Süper Lig
-  204,  // Turkey 1. Lig
-  205,  // Turkey Cup
-  144,  // Belgium Pro League
-  145,  // Belgium First Division B
-  113,  // Sweden Allsvenskan
-  114,  // Sweden Superettan
-  103,  // Norway Eliteserien
-  104,  // Norway OBOS-ligaen
-  119,  // Denmark Superliga
-  120,  // Denmark 1st Division
-  106,  // Poland Ekstraklasa
-  107,  // Poland I liga
-  179,  // Scotland Premiership
-  180,  // Scotland Championship
-  181,  // Scotland League One
-  182,  // Scotland League Two
-  169,  // Austria Bundesliga
-  170,  // Austria 2. Liga
-  172,  // Austria Cup
-  192,  // Croatia HNL
-  193,  // Croatia Cup
-  197,  // Greece Super League
-  198,  // Greece Cup
-  207,  // Switzerland Super League
-  208,  // Switzerland Challenge League
-  210,  // Ukraine Premier League
-  211,  // Ukraine Cup
-  235,  // Russia Premier League
-  236,  // Russia Cup
-  244,  // Czech Republic First League
-  245,  // Czech Republic Cup
-  253,  // Romania Liga I
-  254,  // Romania Cup
-  271,  // Serbia SuperLiga
-  286,  // Bulgaria First League
-  287,  // Bulgaria Cup
-  293,  // Hungary NB I
-  294,  // Hungary Cup
-
-  // ===== ASIA (10) =====
-  98,   // Japan J1 League
-  99,   // Japan J2 League
-  100,  // Japan Emperor's Cup
-  292,  // Japan J.League Cup
-  307,  // South Korea K League 1
-  308,  // South Korea K League 2
-  309,  // South Korea FA Cup
-  98,   // China Super League
-  99,   // China League One
-  307,  // Saudi Pro League
-  308,  // Saudi King's Cup
-  300,  // UAE Pro League
-  301,  // Qatar Stars League
-  302,  // Iran Pro League
-
-  // ===== ÁFRICA (5) =====
-  216,  // Egypt Premier League
-  217,  // Morocco Botola Pro
-  218,  // South Africa Premier Division
-  219,  // Tunisia Ligue 1
-  233,  // Algeria Ligue 1
+  // INGLATERRA
+  39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 54,
+  // ESPAÑA
+  140, 141, 143, 142, 556, 82, 83, 117,
+  // ITALIA
+  135, 136, 137, 138, 157, 158, 159,
+  // ALEMANIA
+  78, 79, 80, 81, 529, 83,
+  // FRANCIA
+  61, 62, 63, 66, 65, 53,
+  // PORTUGAL
+  94, 95, 96, 97,
+  // HOLANDA
+  88, 89, 90, 91,
+  // EUROPA
+  2, 3, 848, 4, 5, 6, 7, 8,
+  // CONCACAF
+  16, 17, 18, 31, 32, 22,
+  // SUDAMÉRICA
+  13, 11, 44, 45, 129, 246,
+  // AMÉRICAS
+  128, 130, 131, 71, 72, 73, 75, 239, 240, 265, 266, 262, 263, 265, 358, 255, 345,
+  // RESTO EUROPA
+  203, 204, 205, 144, 145, 113, 114, 103, 104, 119, 120, 106, 107, 179, 180, 181, 182, 169, 170, 172, 192, 193, 197, 198, 207, 208, 210, 211, 235, 236, 244, 245, 253, 254, 271, 286, 287, 293, 294,
+  // ASIA
+  98, 99, 100, 292, 307, 308, 309, 98, 99, 307, 308, 300, 301, 302,
+  // ÁFRICA
+  216, 217, 218, 219, 233,
 ];
 
-// Eliminar duplicados
 const UNIQUE_LEAGUES = [...new Set(ALL_LEAGUES)];
 
 export async function POST(request: NextRequest) {
@@ -221,6 +79,7 @@ export async function POST(request: NextRequest) {
 
         const leagueData = data.response[0];
         const league = leagueData.league;
+        const country = leagueData.country;
         const season = leagueData.seasons?.find((s: any) => s.current) || leagueData.seasons?.[0];
 
         if (!season) {
@@ -228,14 +87,18 @@ export async function POST(request: NextRequest) {
           continue;
         }
 
+        // Usar datos del país si están disponibles, si no inferir de la liga
+        const countryName = country?.name || league.country || 'Unknown';
+        const flag = country?.flag || null;
+
         await prisma.league.upsert({
           where: { id: league.id },
           update: {
             name: league.name,
-            country: league.country,
-            countryCode: league.countryCode || null,
+            country: countryName,
+            countryCode: country?.code || null,
             logo: league.logo || null,
-            flag: league.flag || null,
+            flag: flag,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
@@ -244,10 +107,10 @@ export async function POST(request: NextRequest) {
           create: {
             id: league.id,
             name: league.name,
-            country: league.country,
-            countryCode: league.countryCode || null,
+            country: countryName,
+            countryCode: country?.code || null,
             logo: league.logo || null,
-            flag: league.flag || null,
+            flag: flag,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
@@ -256,7 +119,7 @@ export async function POST(request: NextRequest) {
         });
 
         synced++;
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 150));
         
       } catch (error: any) {
         errors.push(`League ${leagueId}: ${error.message}`);
@@ -268,7 +131,7 @@ export async function POST(request: NextRequest) {
       synced,
       skipped,
       total: UNIQUE_LEAGUES.length,
-      errors: errors.length > 0 ? errors.slice(0, 5) : undefined, // Solo mostrar primeros 5 errores
+      errors: errors.length > 0 ? errors.slice(0, 5) : undefined,
     });
 
   } catch (error: any) {
@@ -280,15 +143,5 @@ export async function GET() {
   return NextResponse.json({ 
     message: 'POST to sync 90+ leagues and cups from API-Football',
     leagues: UNIQUE_LEAGUES.length,
-    categories: [
-      'England: Premier League, Championship, League One/Two, FA Cup, Carabao Cup, + more',
-      'Spain: La Liga, Segunda, Copa del Rey, + more',
-      'Italy: Serie A/B, Coppa Italia, + more',
-      'Germany, France, Portugal, Netherlands',
-      'Europe: Champions League, Europa League, Conference League',
-      'Americas: CONCACAF Champions, Libertadores, Sudamericana, MLS, Liga MX',
-      'Asia: J-League, K-League, China, Saudi Pro League',
-      'Africa: Egypt, Morocco, South Africa',
-    ],
   });
 }
