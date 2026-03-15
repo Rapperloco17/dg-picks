@@ -28,6 +28,11 @@ interface LiveMatch {
   status: string;
   timestamp: number;
   hasDetailedStats: boolean;
+  odds?: {
+    home: number;
+    draw: number;
+    away: number;
+  };
 }
 
 interface MatchDetail {
@@ -407,27 +412,49 @@ export default function LivePage() {
                   {/* Home Team */}
                   <div className="flex-1 flex items-center gap-2 sm:gap-3">
                     <img src={match.homeLogo} alt="" className="w-6 sm:w-10 h-6 sm:h-10 object-contain shrink-0" />
-                    <span className={`text-sm sm:text-base font-medium truncate ${
-                      match.homeGoals > match.awayGoals ? 'text-zinc-100' : 'text-zinc-400'
-                    }`}>
-                      {match.homeTeam}
-                    </span>
+                    <div className="min-w-0 flex-1">
+                      <span className={`text-sm sm:text-base font-medium truncate block ${
+                        match.homeGoals > match.awayGoals ? 'text-zinc-100' : 'text-zinc-400'
+                      }`}>
+                        {match.homeTeam}
+                      </span>
+                      {/* Odds Home */}
+                      {match.odds?.home && (
+                        <span className="text-[10px] sm:text-xs text-emerald-400 font-bold">
+                          @{match.odds.home.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Score */}
-                  <div className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1a1a1a] rounded-lg shrink-0">
-                    <span className="text-lg sm:text-2xl font-bold text-zinc-100">
+                  <div className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1a1a1a] rounded-lg shrink-0 text-center">
+                    <span className="text-lg sm:text-2xl font-bold text-zinc-100 block">
                       {match.homeGoals} - {match.awayGoals}
                     </span>
+                    {/* Odds Draw */}
+                    {match.odds?.draw && (
+                      <span className="text-[10px] sm:text-xs text-zinc-500 block mt-0.5">
+                        X @{match.odds.draw.toFixed(2)}
+                      </span>
+                    )}
                   </div>
 
                   {/* Away Team */}
                   <div className="flex-1 flex items-center gap-2 sm:gap-3 justify-end">
-                    <span className={`text-sm sm:text-base font-medium truncate text-right ${
-                      match.awayGoals > match.homeGoals ? 'text-zinc-100' : 'text-zinc-400'
-                    }`}>
-                      {match.awayTeam}
-                    </span>
+                    <div className="min-w-0 flex-1 text-right">
+                      <span className={`text-sm sm:text-base font-medium truncate block ${
+                        match.awayGoals > match.homeGoals ? 'text-zinc-100' : 'text-zinc-400'
+                      }`}>
+                        {match.awayTeam}
+                      </span>
+                      {/* Odds Away */}
+                      {match.odds?.away && (
+                        <span className="text-[10px] sm:text-xs text-blue-400 font-bold">
+                          @{match.odds.away.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                     <img src={match.awayLogo} alt="" className="w-6 sm:w-10 h-6 sm:h-10 object-contain shrink-0" />
                   </div>
                 </div>
