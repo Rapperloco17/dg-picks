@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { 
   Trophy, 
   Activity, 
-  Users, 
   BarChart3, 
   Zap,
   Settings,
@@ -17,7 +16,6 @@ const navigation = [
   { name: "Dashboard", href: "/", icon: Activity },
   { name: "Leagues", href: "/leagues", icon: Trophy },
   { name: "Live Matches", href: "/live", icon: Zap },
-  { name: "Teams", href: "/teams", icon: Users },
   { name: "Predictions", href: "/predictions", icon: Target },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Settings", href: "/settings", icon: Settings },
