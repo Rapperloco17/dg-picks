@@ -82,7 +82,7 @@ export default function LivePage() {
   const fetchLiveMatches = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/live-matches');
+      const response = await fetch('/api/live-matches', { cache: 'no-store' });
       const data = await response.json();
       
       if (data.success) {
