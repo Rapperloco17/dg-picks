@@ -9,10 +9,7 @@ export async function POST(request: NextRequest) {
     // 1. Borrar partidos sin nombres (basura)
     const deleted = await prisma.match.deleteMany({
       where: {
-        OR: [
-          { homeTeamName: '' },
-          { homeTeamName: null },
-        ]
+        homeTeamName: ''
       }
     });
 
