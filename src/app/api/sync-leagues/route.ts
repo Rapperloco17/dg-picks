@@ -1,113 +1,99 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { makeRequest } from '@/services/api-football';
 
-const API_BASE = 'https://v3.football.api-sports.io';
-
-// Lista de ligas principales (las que sabemos que funcionan)
+// Lista de ligas principales
 const MAIN_LEAGUES = [
-  39, 140, 135, 78, 61,  // Top 5 Europe
-  88, 94, 203, 144,      // Netherlands, Portugal, Turkey, Belgium
-  2, 3, 848,             // European cups
-  128, 71, 262, 358,     // Argentina, Brazil, Mexico, USA
-  16,                    // CONCACAF Champions
-  45, 46,                // FA Cup, Carabao Cup
-  143, 137, 81, 66,      // Copa del Rey, Coppa Italia, DFB Pokal, Coupe de France
+  { id: 39, name: 'Premier League' },
+  { id: 140, name: 'La Liga' },
+  { id: 135, name: 'Serie A' },
+  { id: 78, name: 'Bundesliga' },
+  { id: 61, name: 'Ligue 1' },
+  { id: 88, name: 'Eredivisie' },
+  { id: 94, name: 'Primeira Liga' },
+  { id: 2, name: 'Champions League' },
+  { id: 3, name: 'Europa League' },
+  { id: 848, name: 'Conference League' },
+  { id: 45, name: 'FA Cup' },
+  { id: 46, name: 'Carabao Cup' },
+  { id: 143, name: 'Copa del Rey' },
+  { id: 137, name: 'Coppa Italia' },
+  { id: 81, name: 'DFB Pokal' },
+  { id: 66, name: 'Coupe de France' },
+  { id: 16, name: 'CONCACAF Champions' },
+  { id: 128, name: 'Argentina Liga Profesional' },
+  { id: 71, name: 'Brazil Serie A' },
+  { id: 262, name: 'Liga MX' },
+  { id: 358, name: 'MLS' },
+  { id: 203, name: 'Süper Lig' },
+  { id: 144, name: 'Jupiler Pro League' },
 ];
 
 export async function POST(request: NextRequest) {
   try {
-    const API_KEY = process.env.FOOTBALL_API_KEY || 
-                   process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
-    
-    if (!API_KEY) {
-      return NextResponse.json({ 
-        error: 'API_KEY not found',
-      }, { status: 500 });
-    }
-
     let synced = 0;
     let errors: string[] = [];
-    let skipped = 0;
 
-    for (const leagueId of MAIN_LEAGUES) {
+    for (const league of MAIN_LEAGUES) {
       try {
-        const url = `${API_BASE}/leagues?id=${leagueId}`;
-        const response = await fetch(url, {
-          headers: {
-            'x-rapidapi-key': API_KEY,
-            'x-rapidapi-host': 'v3.football.api-sports.io',
-          },
-          // Agregar timeout
-          signal: AbortSignal.timeout(10000),
+        // Usar el servicio que ya tiene rate limiting y reintentos
+        const data = await makeRequest({
+          endpoint: 'leagues',
+          params: { id: league.id }
         });
-
-        if (!response.ok) {
-          const errorText = await response.text().catch(() => 'Unknown error');
-          errors.push(`League ${leagueId}: HTTP ${response.status} - ${errorText.slice(0, 100)}`);
-          continue;
-        }
-
-        const data = await response.json();
         
         if (!data.response || data.response.length === 0) {
-          skipped++;
+          errors.push(`League ${league.id}: No data found`);
           continue;
         }
 
         const leagueData = data.response[0];
-        const league = leagueData.league;
+        const leagueInfo = leagueData.league;
         const country = leagueData.country;
         const season = leagueData.seasons?.find((s: any) => s.current) || leagueData.seasons?.[0];
 
         if (!season) {
-          skipped++;
+          errors.push(`League ${league.id}: No season data`);
           continue;
         }
 
-        const countryName = country?.name || 'Unknown';
-        const flag = country?.flag || null;
-
         await prisma.league.upsert({
-          where: { id: league.id },
+          where: { id: leagueInfo.id },
           update: {
-            name: league.name,
-            country: countryName,
+            name: leagueInfo.name,
+            country: country?.name || 'Unknown',
             countryCode: country?.code || null,
-            logo: league.logo || null,
-            flag: flag,
+            logo: leagueInfo.logo || null,
+            flag: country?.flag || null,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
-            type: league.type,
+            type: leagueInfo.type,
           },
           create: {
-            id: league.id,
-            name: league.name,
-            country: countryName,
+            id: leagueInfo.id,
+            name: leagueInfo.name,
+            country: country?.name || 'Unknown',
             countryCode: country?.code || null,
-            logo: league.logo || null,
-            flag: flag,
+            logo: leagueInfo.logo || null,
+            flag: country?.flag || null,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
-            type: league.type,
+            type: leagueInfo.type,
           },
         });
 
         synced++;
         
-        // Delay más largo para evitar rate limits
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
       } catch (error: any) {
-        errors.push(`League ${leagueId}: ${error.message || 'Unknown error'}`);
+        errors.push(`League ${league.id}: ${error.message}`);
       }
     }
 
     return NextResponse.json({
       success: true,
       synced,
-      skipped,
       total: MAIN_LEAGUES.length,
       errors: errors.length > 0 ? errors : undefined,
     });
@@ -121,5 +107,6 @@ export async function GET() {
   return NextResponse.json({ 
     message: 'POST to sync main leagues from API-Football',
     leagues: MAIN_LEAGUES.length,
+    list: MAIN_LEAGUES.map(l => l.name)
   });
 }
