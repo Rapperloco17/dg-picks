@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+const API_KEY = process.env.FOOTBALL_API_KEY || process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 const API_BASE = 'https://v3.football.api-sports.io';
 
 const PRIORITY_LEAGUES = [

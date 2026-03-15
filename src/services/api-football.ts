@@ -9,7 +9,7 @@ import {
 } from './cache-service';
 import { selectCorrectStandings } from './season-detector';
 
-const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY || '';
+const API_KEY = process.env.FOOTBALL_API_KEY || process.env.NEXT_PUBLIC_API_FOOTBALL_KEY || '';
 const API_URL = process.env.NEXT_PUBLIC_API_FOOTBALL_URL || 'https://v3.football.api-sports.io';
 
 // Check if running on client side

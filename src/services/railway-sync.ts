@@ -2,7 +2,7 @@ import { saveMatches, getExistingFixtureIds, getLastSyncDate } from './db-servic
 import { prisma } from '@/lib/prisma';
 import { HistoricalMatch } from '@/types';
 
-const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+const API_KEY = process.env.FOOTBALL_API_KEY || process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 const BASE_URL = 'https://v3.football.api-sports.io';
 
 const PRIORITY_LEAGUES = [
