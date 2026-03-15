@@ -1,7 +1,8 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, Trophy, RefreshCw } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ChevronRight, Trophy, RefreshCw, Star, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -12,21 +13,11 @@ interface League {
   logo: string | null;
   flag: string | null;
   season: number;
+  tier: number;
 }
 
-// Mapeo de países a emojis de banderas
-const countryFlags: Record<string, string> = {
-  'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Spain': '🇪🇸', 'Italy': '🇮🇹', 'Germany': '🇩🇪',
-  'France': '🇫🇷', 'Netherlands': '🇳🇱', 'Portugal': '🇵🇹', 'Europe': '🇪🇺',
-  'Turkey': '🇹🇷', 'Belgium': '🇧🇪', 'Sweden': '🇸🇪', 'Norway': '🇳🇴',
-  'Denmark': '🇩🇰', 'Poland': '🇵🇱', 'Scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-  'Mexico': '🇲🇽', 'Argentina': '🇦🇷', 'Brazil': '🇧🇷', 'Colombia': '🇨🇴',
-  'Chile': '🇨🇱', 'USA': '🇺🇸', 'Saudi Arabia': '🇸🇦',
-};
-
-function getFlag(country: string) {
-  return countryFlags[country] || '🏆';
-}
+// Top leagues por importancia (IDs de API-Football)
+const TOP_LEAGUE_IDS = [39, 140, 135, 78, 61, 128, 262, 88, 94, 2];
 
 export default function LeaguesPage() {
   const [leagues, setLeagues] = useState<League[]>([]);
@@ -36,7 +27,7 @@ export default function LeaguesPage() {
   const fetchLeagues = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/leagues');
+      const response = await fetch('/api/leagues/available');
       const data = await response.json();
       
       if (data.success) {
@@ -55,13 +46,27 @@ export default function LeaguesPage() {
     fetchLeagues();
   }, []);
 
+  // Separar ligas por tier
+  const tier1Leagues = leagues.filter(l => l.tier === 1).sort((a, b) => {
+    // Premier League primero, luego La Liga, Serie A, etc
+    const orderA = TOP_LEAGUE_IDS.indexOf(a.id);
+    const orderB = TOP_LEAGUE_IDS.indexOf(b.id);
+    if (orderA !== -1 && orderB !== -1) return orderA - orderB;
+    if (orderA !== -1) return -1;
+    if (orderB !== -1) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  
+  const tier2Leagues = leagues.filter(l => l.tier === 2).sort((a, b) => a.name.localeCompare(b.name));
+  const tier3Leagues = leagues.filter(l => l.tier === 3).sort((a, b) => a.name.localeCompare(b.name));
+
   if (loading) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-zinc-100">Leagues</h2>
-            <p className="text-zinc-500">Loading...</p>
+            <p className="text-zinc-500">Loading top leagues...</p>
           </div>
         </div>
         <div className="flex justify-center py-12">
@@ -105,17 +110,15 @@ export default function LeaguesPage() {
     );
   }
 
-  // Separar ligas top (las 10 primeras) del resto
-  const topLeaguesList = leagues.slice(0, 10);
-  const otherLeagues = leagues.slice(10);
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-zinc-100">Leagues</h2>
-          <p className="text-zinc-500">{leagues.length} leagues available</p>
+          <h2 className="text-2xl font-bold text-zinc-100">Top Leagues</h2>
+          <p className="text-zinc-500">
+            {tier1Leagues.length} Tier 1 • {tier2Leagues.length} Tier 2 • {tier3Leagues.length} Tier 3
+          </p>
         </div>
         <div className="flex gap-2">
           <button 
@@ -136,25 +139,39 @@ export default function LeaguesPage() {
         </div>
       </div>
 
-      {/* Top Leagues */}
+      {/* TIER 1 - TOP LEAGUES */}
       <section>
-        <h3 className="text-lg font-semibold text-zinc-100 mb-4 flex items-center gap-2">
-          <Trophy className="w-5 h-5 text-amber-500" />
-          Top Leagues
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-          {topLeaguesList.map((league) => (
+        <div className="flex items-center gap-2 mb-4">
+          <Star className="w-5 h-5 text-amber-500" />
+          <h3 className="text-lg font-semibold text-zinc-100">Elite Leagues</h3>
+          <Badge className="bg-amber-500/20 text-amber-400 border-0">Tier 1</Badge>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          {tier1Leagues.map((league) => (
             <Link key={league.id} href={`/leagues/${league.id}`}>
-              <Card className="card-hover glass border-0 cursor-pointer h-full">
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="text-3xl">{getFlag(league.country)}</div>
-                    <ChevronRight className="w-5 h-5 text-zinc-600" />
+              <Card className="card-hover glass border-0 cursor-pointer h-full overflow-hidden group">
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    {league.logo ? (
+                      <img 
+                        src={league.logo} 
+                        alt={league.name}
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain group-hover:scale-110 transition-transform"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                        <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+                      </div>
+                    )}
+                    <ChevronRight className="w-5 h-5 text-zinc-600 group-hover:text-amber-500 transition-colors" />
                   </div>
-                  <h4 className="font-semibold text-zinc-100 mt-3 line-clamp-1">{league.name}</h4>
-                  <p className="text-sm text-zinc-500">{league.country}</p>
-                  <div className="flex items-center gap-4 mt-3 text-xs text-zinc-400">
-                    <span>Season {league.season}</span>
+                  <h4 className="font-semibold text-zinc-100 text-sm sm:text-base line-clamp-1">{league.name}</h4>
+                  <p className="text-xs sm:text-sm text-zinc-500">{league.country}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge variant="secondary" className="text-[10px] bg-[#262626]">
+                      Season {league.season}
+                    </Badge>
                   </div>
                 </CardContent>
               </Card>
@@ -163,34 +180,73 @@ export default function LeaguesPage() {
         </div>
       </section>
 
-      {/* Other Leagues */}
-      {otherLeagues.length > 0 && (
+      {/* TIER 2 - SECONDARY LEAGUES */}
+      {tier2Leagues.length > 0 && (
         <section>
-          <h3 className="text-lg font-semibold text-zinc-100 mb-4">Other Leagues</h3>
-          <Card className="glass border-0">
-            <CardContent className="p-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {otherLeagues.map((league, i) => (
-                  <Link 
-                    key={league.id} 
-                    href={`/leagues/${league.id}`}
-                    className={`flex items-center justify-between p-4 hover:bg-[#1a1a1a] transition-colors ${
-                      i !== otherLeagues.length - 1 ? "border-b border-[#262626]" : ""
-                    } ${i % 3 !== 2 ? "lg:border-r border-[#262626]" : ""}`}
-                  >
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="w-5 h-5 text-blue-500" />
+            <h3 className="text-lg font-semibold text-zinc-100">Secondary Leagues</h3>
+            <Badge className="bg-blue-500/20 text-blue-400 border-0">Tier 2</Badge>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {tier2Leagues.map((league) => (
+              <Link key={league.id} href={`/leagues/${league.id}`}>
+                <Card className="card-hover glass border-0 cursor-pointer h-full group">
+                  <CardContent className="p-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">{getFlag(league.country)}</span>
-                      <div>
-                        <p className="font-medium text-zinc-100">{league.name}</p>
-                        <p className="text-sm text-zinc-500">{league.country}</p>
+                      {league.logo ? (
+                        <img 
+                          src={league.logo} 
+                          alt=""
+                          className="w-8 h-8 object-contain group-hover:scale-110 transition-transform"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                          <Trophy className="w-4 h-4 text-blue-500" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-zinc-100 text-sm truncate">{league.name}</h4>
+                        <p className="text-xs text-zinc-500">{league.country}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-zinc-600" />
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* TIER 3 - OTHERS (Collapsible) */}
+      {tier3Leagues.length > 0 && (
+        <section className="pt-4 border-t border-[#262626]">
+          <details className="group">
+            <summary className="flex items-center gap-2 cursor-pointer list-none">
+              <h3 className="text-base font-medium text-zinc-400">Other Leagues ({tier3Leagues.length})</h3>
+              <ChevronRight className="w-4 h-4 text-zinc-500 group-open:rotate-90 transition-transform" />
+            </summary>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
+              {tier3Leagues.map((league) => (
+                <Link key={league.id} href={`/leagues/${league.id}`}>
+                  <Card className="glass border-0 cursor-pointer h-full hover:bg-[#1a1a1a]">
+                    <CardContent className="p-2">
+                      <div className="flex items-center gap-2">
+                        {league.logo && (
+                          <img src={league.logo} alt="" className="w-6 h-6 object-contain" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-zinc-300 text-xs truncate">{league.name}</h4>
+                          <p className="text-[10px] text-zinc-600">{league.country}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </details>
         </section>
       )}
     </div>
