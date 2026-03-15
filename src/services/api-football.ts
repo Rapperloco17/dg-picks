@@ -147,7 +147,9 @@ export async function makeRequest<T>({ endpoint, params = {}, retryCount = 0 }: 
     }
   } else {
     // Server-side: call API directly
-    const url = new URL(`${API_URL}${endpoint}`);
+    const baseUrl = API_URL.endsWith('/') ? API_URL : `${API_URL}/`;
+    const endpointPath = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+    const url = new URL(`${baseUrl}${endpointPath}`);
     
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -271,8 +273,8 @@ export async function getFixturesByDate(date: string, leagueIds?: number[]): Pro
     matches = matches.filter(match => validIds.includes(match.league.id));
     console.log('[getFixturesByDate] Filtered to', matches.length, 'matches for', validIds.length, 'leagues');
     
-    // Cache los resultados filtrados
-    if (isClient && matches.length > 0) {
+    // Cache los resultados filtrados (only in browser environment)
+    if (typeof window !== 'undefined' && matches.length > 0) {
       await cacheFixtures(date, validIds, matches);
     }
   }

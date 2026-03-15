@@ -1,15 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { makeRequest } from '@/services/api-football';
 
-const API_KEY = process.env.FOOTBALL_API_KEY || process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
-const API_BASE = 'https://v3.football.api-sports.io';
+// Type definitions for API-Football standings response
+interface StandingsApiResponse {
+  response: Array<{
+    league: {
+      id: number;
+      name: string;
+      standings: Array<Array<{
+        rank: number;
+        team: {
+          id: number;
+          name: string;
+          code: string | null;
+          logo: string;
+        };
+        all: {
+          played: number;
+          win: number;
+          draw: number;
+          lose: number;
+          goals: {
+            for: number;
+            against: number;
+          };
+        };
+        goalsDiff: number;
+        points: number;
+        form: string | null;
+        description: string | null;
+      }>>;
+    };
+  }>;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    if (!API_KEY) {
-      return NextResponse.json({ error: 'NEXT_PUBLIC_API_FOOTBALL_KEY not set' }, { status: 500 });
-    }
-
     // Get all leagues from DB
     const leagues = await prisma.league.findMany();
     let synced = 0;
@@ -17,30 +44,26 @@ export async function POST(request: NextRequest) {
 
     for (const league of leagues) {
       try {
-        // Get standings for this league
-        const response = await fetch(
-          `${API_BASE}/standings?league=${league.id}&season=${league.season}`,
-          {
-            headers: {
-              'x-rapidapi-key': API_KEY,
-              'x-rapidapi-host': 'v3.football.api-sports.io',
-            },
-          }
-        );
-
-        const data = await response.json();
+        // Get standings for this league using the shared service with rate limiting
+        const data = await makeRequest<StandingsApiResponse>({
+          endpoint: '/standings',
+          params: { league: league.id, season: league.season }
+        });
         
         if (!data.response || data.response.length === 0) {
           errors.push(`League ${league.id}: No standings data`);
           continue;
         }
 
-        const standings = data.response[0].league.standings[0];
+        const allStandings = data.response[0].league.standings;
         
-        if (!standings || !Array.isArray(standings)) {
+        if (!allStandings || !Array.isArray(allStandings) || allStandings.length === 0) {
           errors.push(`League ${league.id}: Invalid standings format`);
           continue;
         }
+
+        // Use the first standings group (handles leagues with multiple phases)
+        const standings = allStandings[0];
 
         for (const teamStanding of standings) {
           const team = teamStanding.team;
@@ -106,8 +129,7 @@ export async function POST(request: NextRequest) {
 
         synced++;
         
-        // Small delay to avoid rate limits
-        await new Promise(resolve => setTimeout(resolve, 300));
+        // Rate limiting is handled by makeRequest service
         
       } catch (error: any) {
         errors.push(`League ${league.id}: ${error.message}`);

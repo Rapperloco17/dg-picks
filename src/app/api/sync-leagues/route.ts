@@ -2,6 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { makeRequest } from '@/services/api-football';
 
+// Type definitions for API-Football leagues response
+interface LeagueApiResponse {
+  response: Array<{
+    league: {
+      id: number;
+      name: string;
+      type: string;
+      logo: string;
+    };
+    country: {
+      name: string;
+      code: string | null;
+      flag: string | null;
+    };
+    seasons: Array<{
+      year: number;
+      start: string;
+      end: string;
+      current: boolean;
+    }>;
+  }>;
+}
+
 // Lista de ligas principales
 const MAIN_LEAGUES = [
   { id: 39, name: 'Premier League' },
@@ -37,8 +60,8 @@ export async function POST(request: NextRequest) {
     for (const league of MAIN_LEAGUES) {
       try {
         // Usar el servicio que ya tiene rate limiting y reintentos
-        const data: any = await makeRequest({
-          endpoint: 'leagues',
+        const data = await makeRequest<LeagueApiResponse>({
+          endpoint: '/leagues',
           params: { id: league.id }
         });
         
@@ -50,7 +73,7 @@ export async function POST(request: NextRequest) {
         const leagueData = data.response[0];
         const leagueInfo = leagueData.league;
         const country = leagueData.country;
-        const season = leagueData.seasons?.find((s: any) => s.current) || leagueData.seasons?.[0];
+        const season = leagueData.seasons?.find((s) => s.current) || leagueData.seasons?.[0];
 
         if (!season) {
           errors.push(`League ${league.id}: No season data`);

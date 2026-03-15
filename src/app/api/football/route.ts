@@ -7,9 +7,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_FOOTBALL_URL || 'https://v3.football
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
-// Rate limiting
+// Rate limiting - aligned with api-football.ts (480 calls/min = 125ms between calls)
 let lastCallTime = 0;
-const MIN_DELAY = 6000; // 6 seconds between calls
+const MIN_DELAY = 125; // 125ms between calls for 480 req/min rate limit
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -42,8 +42,10 @@ export async function GET(request: NextRequest) {
     }
   });
 
-  // Build URL
-  const url = new URL(`${API_URL}${endpoint}`);
+  // Build URL - ensure proper slash handling
+  const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+  const endpointPath = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = new URL(`${baseUrl}${endpointPath}`);
   console.log('[API Route] Received params:', params);
   
   Object.entries(params).forEach(([key, value]) => {
