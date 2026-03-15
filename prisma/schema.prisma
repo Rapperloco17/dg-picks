@@ -74,11 +74,13 @@ model League {
   seasonStart DateTime?
   seasonEnd   DateTime?
   type        String?   // league, cup, etc
+  tier        Int       @default(3) // 1 = Top tier, 2 = Second tier, 3 = Lower tiers
   standings   Standing[]
   updatedAt   DateTime  @updatedAt
   
   @@index([country])
   @@index([season])
+  @@index([tier])
 }
 
 // NUEVO: Equipos con estadísticas detalladas

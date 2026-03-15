@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { 
   TrendingUp, Activity, Target, Calendar, Zap, Filter,
   ChevronLeft, ChevronRight, Trophy, Clock, RefreshCw,
-  Search, X, Globe, ChevronDown
+  Search, X, Globe, ChevronDown, Star, Award, Medal
 } from "lucide-react";
 
 // Date helpers
@@ -37,11 +37,13 @@ interface League {
   name: string;
   country: string;
   logo: string | null;
+  tier: number;
 }
 
 export default function DashboardPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedLeagues, setSelectedLeagues] = useState<number[]>([]);
+  const [selectedTiers, setSelectedTiers] = useState<number[]>([1, 2]); // Default solo Tier 1 y 2
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [matches, setMatches] = useState<Match[]>([]);
   const [leagues, setLeagues] = useState<League[]>([]);
@@ -108,6 +110,15 @@ export default function DashboardPage() {
 
   const goToToday = () => setSelectedDate(new Date());
 
+  // Tier toggle
+  const toggleTier = (tier: number) => {
+    setSelectedTiers(prev => 
+      prev.includes(tier)
+        ? prev.filter(t => t !== tier)
+        : [...prev, tier]
+    );
+  };
+
   // League toggle
   const toggleLeague = (leagueId: number) => {
     setSelectedLeagues(prev => 
@@ -117,13 +128,42 @@ export default function DashboardPage() {
     );
   };
 
-  const clearLeagueFilter = () => setSelectedLeagues([]);
+  const clearAllFilters = () => {
+    setSelectedLeagues([]);
+    setSelectedTiers([1, 2, 3]);
+    setStatusFilter('all');
+  };
+
+  // Filter leagues by tier and search
+  const filteredLeagues = useMemo(() => {
+    return leagues.filter(l => {
+      const matchesTier = selectedTiers.includes(l.tier);
+      const matchesSearch = searchLeague === '' || 
+        l.name.toLowerCase().includes(searchLeague.toLowerCase()) ||
+        l.country.toLowerCase().includes(searchLeague.toLowerCase());
+      return matchesTier && matchesSearch;
+    });
+  }, [leagues, selectedTiers, searchLeague]);
 
   // Filter matches by selected leagues
   const filteredMatches = useMemo(() => {
-    if (selectedLeagues.length === 0) return matches;
-    return matches.filter(m => selectedLeagues.includes(m.leagueId));
-  }, [matches, selectedLeagues]);
+    let filtered = matches;
+    
+    // Filter by tiers (via league lookup)
+    if (selectedTiers.length > 0 && selectedLeagues.length === 0) {
+      const tierLeagueIds = leagues
+        .filter(l => selectedTiers.includes(l.tier))
+        .map(l => l.id);
+      filtered = filtered.filter(m => tierLeagueIds.includes(m.leagueId));
+    }
+    
+    // Filter by specific leagues
+    if (selectedLeagues.length > 0) {
+      filtered = filtered.filter(m => selectedLeagues.includes(m.leagueId));
+    }
+    
+    return filtered;
+  }, [matches, selectedTiers, selectedLeagues, leagues]);
 
   // Group matches by league
   const matchesByLeague = useMemo(() => {
@@ -141,13 +181,8 @@ export default function DashboardPage() {
     return grouped;
   }, [filteredMatches]);
 
-  // Filtered leagues for search
-  const filteredLeagues = useMemo(() => {
-    return leagues.filter(l => 
-      l.name.toLowerCase().includes(searchLeague.toLowerCase()) ||
-      l.country.toLowerCase().includes(searchLeague.toLowerCase())
-    );
-  }, [leagues, searchLeague]);
+  // Check if date is today
+  const isToday = formatDate(selectedDate) === formatDate(new Date());
 
   // Status badge helper
   const getStatusBadge = (status: string) => {
@@ -171,8 +206,21 @@ export default function DashboardPage() {
     return <span className={`px-2 py-0.5 rounded text-xs font-medium ${s.color}`}>{s.text}</span>;
   };
 
-  // Check if date is today
-  const isToday = formatDate(selectedDate) === formatDate(new Date());
+  // Tier badge
+  const getTierBadge = (tier: number) => {
+    const config = {
+      1: { icon: Star, color: 'bg-yellow-500/20 text-yellow-400', label: 'Tier 1' },
+      2: { icon: Award, color: 'bg-blue-500/20 text-blue-400', label: 'Tier 2' },
+      3: { icon: Medal, color: 'bg-zinc-500/20 text-zinc-400', label: 'Tier 3' },
+    };
+    const { icon: Icon, color, label } = config[tier as keyof typeof config] || config[3];
+    return (
+      <span className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium ${color}`}>
+        <Icon className="w-3 h-3" />
+        {label}
+      </span>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -180,10 +228,9 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-zinc-100">Dashboard</h2>
-          <p className="text-zinc-500">Browse matches by date and league</p>
+          <p className="text-zinc-500">Top leagues and matches</p>
         </div>
         
-        {/* Refresh button */}
         <Button 
           variant="outline" 
           size="sm" 
@@ -260,13 +307,92 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* League Filter */}
-      <Card className="glass border-0">
+      {/* Tier Filter - MOST IMPORTANT */}
+      <Card className="glass border-0 border-l-4 border-l-amber-500">
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Trophy className="w-4 h-4 text-amber-500" />
-              <span className="text-sm font-medium text-zinc-100">Filter by League</span>
+              <span className="text-sm font-medium text-zinc-100">League Tiers</span>
+              <Badge variant="secondary" className="bg-amber-500/20 text-amber-400 text-xs">
+                Priority Filter
+              </Badge>
+            </div>
+            {(selectedTiers.length < 3 || selectedLeagues.length > 0) && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={clearAllFilters}
+                className="text-zinc-500 hover:text-zinc-100"
+              >
+                <X className="w-3 h-3 mr-1" />
+                Reset
+              </Button>
+            )}
+          </div>
+
+          {/* Tier Buttons */}
+          <div className="flex flex-wrap gap-3">
+            {/* Tier 1 */}
+            <button
+              onClick={() => toggleTier(1)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                selectedTiers.includes(1)
+                  ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400'
+                  : 'bg-[#1a1a1a] border-[#262626] text-zinc-500'
+              }`}
+            >
+              <Star className="w-4 h-4" />
+              <span className="font-medium">Tier 1</span>
+              <span className="text-xs opacity-70">(Top 5 + Champions)</span>
+            </button>
+
+            {/* Tier 2 */}
+            <button
+              onClick={() => toggleTier(2)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                selectedTiers.includes(2)
+                  ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'
+                  : 'bg-[#1a1a1a] border-[#262626] text-zinc-500'
+              }`}
+            >
+              <Award className="w-4 h-4" />
+              <span className="font-medium">Tier 2</span>
+              <span className="text-xs opacity-70">(Eredivisie, Portugal, etc)</span>
+            </button>
+
+            {/* Tier 3 */}
+            <button
+              onClick={() => toggleTier(3)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+                selectedTiers.includes(3)
+                  ? 'bg-zinc-500/20 border-zinc-500/50 text-zinc-400'
+                  : 'bg-[#1a1a1a] border-[#262626] text-zinc-500'
+              }`}
+            >
+              <Medal className="w-4 h-4" />
+              <span className="font-medium">Tier 3</span>
+              <span className="text-xs opacity-70">(Others)</span>
+            </button>
+          </div>
+
+          <p className="text-xs text-zinc-500 mt-3">
+            {selectedTiers.includes(1) && "⭐ Tier 1: Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Champions League, Libertadores, etc."}
+            {selectedTiers.includes(2) && selectedTiers.includes(1) && " | "}
+            {selectedTiers.includes(2) && "🥈 Tier 2: Eredivisie, Primeira Liga, Championship, Liga MX, Brasileirão, etc."}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* League Filter - Collapsible */}
+      <Card className="glass border-0">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-zinc-500" />
+              <span className="text-sm font-medium text-zinc-100">
+                {filteredLeagues.length} Leagues Available
+              </span>
               {selectedLeagues.length > 0 && (
                 <Badge variant="secondary" className="bg-amber-500/20 text-amber-400">
                   {selectedLeagues.length} selected
@@ -278,7 +404,7 @@ export default function DashboardPage() {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  onClick={clearLeagueFilter}
+                  onClick={() => setSelectedLeagues([])}
                   className="text-zinc-500 hover:text-zinc-100"
                 >
                   <X className="w-3 h-3 mr-1" />
@@ -290,15 +416,16 @@ export default function DashboardPage() {
                 size="sm"
                 onClick={() => setShowLeagueFilter(!showLeagueFilter)}
               >
-                {showLeagueFilter ? <ChevronDown className="w-4 h-4" /> : <Filter className="w-4 h-4" />}
+                {showLeagueFilter ? 'Hide' : 'Show'} Leagues
+                {showLeagueFilter ? <ChevronDown className="w-4 h-4 ml-1" /> : <Filter className="w-4 h-4 ml-1" />}
               </Button>
             </div>
           </div>
 
           {showLeagueFilter && (
-            <div className="mt-3 pt-3 border-t border-[#262626]">
+            <div className="mt-4 pt-4 border-t border-[#262626]">
               {/* Search */}
-              <div className="relative mb-3">
+              <div className="relative mb-4">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
                 <input
                   type="text"
@@ -311,7 +438,7 @@ export default function DashboardPage() {
 
               {/* Selected leagues pills */}
               {selectedLeagues.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-3">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {selectedLeagues.map(id => {
                     const league = leagues.find(l => l.id === id);
                     return league ? (
@@ -328,31 +455,109 @@ export default function DashboardPage() {
                 </div>
               )}
 
-              {/* League grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 max-h-64 overflow-y-auto">
-                {filteredLeagues.map(league => (
-                  <button
-                    key={league.id}
-                    onClick={() => toggleLeague(league.id)}
-                    className={`flex items-center gap-2 p-2 rounded-lg text-left transition-all ${
-                      selectedLeagues.includes(league.id)
-                        ? 'bg-amber-500/20 border border-amber-500/30'
-                        : 'bg-[#1a1a1a] border border-[#262626] hover:border-zinc-600'
-                    }`}
-                  >
-                    {league.logo && (
-                      <img src={league.logo} alt="" className="w-5 h-5 object-contain" />
-                    )}
-                    <div className="min-w-0">
-                      <p className={`text-xs font-medium truncate ${
-                        selectedLeagues.includes(league.id) ? 'text-amber-400' : 'text-zinc-300'
-                      }`}>
-                        {league.name}
-                      </p>
-                      <p className="text-[10px] text-zinc-500 truncate">{league.country}</p>
+              {/* League grid - Grouped by tier */}
+              <div className="space-y-4 max-h-80 overflow-y-auto">
+                {/* Tier 1 Leagues */}
+                {filteredLeagues.filter(l => l.tier === 1).length > 0 && (
+                  <div>
+                    <h4 className="text-xs font-bold text-yellow-500 mb-2 flex items-center gap-1">
+                      <Star className="w-3 h-3" /> TIER 1 - TOP LEAGUES
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                      {filteredLeagues.filter(l => l.tier === 1).map(league => (
+                        <button
+                          key={league.id}
+                          onClick={() => toggleLeague(league.id)}
+                          className={`flex items-center gap-2 p-2 rounded-lg text-left transition-all ${
+                            selectedLeagues.includes(league.id)
+                              ? 'bg-yellow-500/20 border border-yellow-500/30'
+                              : 'bg-[#1a1a1a] border border-[#262626] hover:border-yellow-500/30'
+                          }`}
+                        >
+                          {league.logo && (
+                            <img src={league.logo} alt="" className="w-5 h-5 object-contain" />
+                          )}
+                          <div className="min-w-0">
+                            <p className={`text-xs font-medium truncate ${
+                              selectedLeagues.includes(league.id) ? 'text-yellow-400' : 'text-zinc-300'
+                            }`}>
+                              {league.name}
+                            </p>
+                            <p className="text-[10px] text-zinc-500 truncate">{league.country}</p>
+                          </div>
+                        </button>
+                      ))}
                     </div>
-                  </button>
-                ))}
+                  </div>
+                )}
+
+                {/* Tier 2 Leagues */}
+                {filteredLeagues.filter(l => l.tier === 2).length > 0 && (
+                  <div>
+                    <h4 className="text-xs font-bold text-blue-400 mb-2 flex items-center gap-1">
+                      <Award className="w-3 h-3" /> TIER 2 - SECONDARY
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                      {filteredLeagues.filter(l => l.tier === 2).map(league => (
+                        <button
+                          key={league.id}
+                          onClick={() => toggleLeague(league.id)}
+                          className={`flex items-center gap-2 p-2 rounded-lg text-left transition-all ${
+                            selectedLeagues.includes(league.id)
+                              ? 'bg-blue-500/20 border border-blue-500/30'
+                              : 'bg-[#1a1a1a] border border-[#262626] hover:border-blue-500/30'
+                          }`}
+                        >
+                          {league.logo && (
+                            <img src={league.logo} alt="" className="w-5 h-5 object-contain" />
+                          )}
+                          <div className="min-w-0">
+                            <p className={`text-xs font-medium truncate ${
+                              selectedLeagues.includes(league.id) ? 'text-blue-400' : 'text-zinc-300'
+                            }`}>
+                              {league.name}
+                            </p>
+                            <p className="text-[10px] text-zinc-500 truncate">{league.country}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tier 3 Leagues */}
+                {filteredLeagues.filter(l => l.tier === 3).length > 0 && (
+                  <div>
+                    <h4 className="text-xs font-bold text-zinc-400 mb-2 flex items-center gap-1">
+                      <Medal className="w-3 h-3" /> TIER 3 - OTHERS
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                      {filteredLeagues.filter(l => l.tier === 3).map(league => (
+                        <button
+                          key={league.id}
+                          onClick={() => toggleLeague(league.id)}
+                          className={`flex items-center gap-2 p-2 rounded-lg text-left transition-all ${
+                            selectedLeagues.includes(league.id)
+                              ? 'bg-zinc-500/20 border border-zinc-500/30'
+                              : 'bg-[#1a1a1a] border border-[#262626] hover:border-zinc-500/30'
+                          }`}
+                        >
+                          {league.logo && (
+                            <img src={league.logo} alt="" className="w-5 h-5 object-contain" />
+                          )}
+                          <div className="min-w-0">
+                            <p className={`text-xs font-medium truncate ${
+                              selectedLeagues.includes(league.id) ? 'text-zinc-300' : 'text-zinc-400'
+                            }`}>
+                              {league.name}
+                            </p>
+                            <p className="text-[10px] text-zinc-500 truncate">{league.country}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -396,113 +601,119 @@ export default function DashboardPage() {
               <Calendar className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
               <p className="text-zinc-500">No matches found</p>
               <p className="text-sm text-zinc-600 mt-2">
-                Try changing the date or filters
+                Try selecting different tiers or dates
               </p>
             </CardContent>
           </Card>
         )}
 
         {/* Matches by League */}
-        {!loading && Object.entries(matchesByLeague).map(([leagueName, data]: [string, any]) => (
-          <Card key={leagueName} className="glass border-0 overflow-hidden">
-            <CardHeader className="pb-3 border-b border-[#262626] bg-[#1a1a1a]/50">
-              <div className="flex items-center gap-3">
-                {data.leagueLogo && (
-                  <img src={data.leagueLogo} alt="" className="w-6 h-6 object-contain" />
-                )}
-                <CardTitle className="text-base text-zinc-100">{leagueName}</CardTitle>
-                <Badge variant="secondary" className="bg-[#262626] text-zinc-400">
-                  {data.matches.length} matches
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="divide-y divide-[#262626]">
-                {data.matches.map((match: Match) => (
-                  <a
-                    key={match.id}
-                    href={`/match/${match.id}`}
-                    className="flex items-center p-4 hover:bg-[#1a1a1a] transition-colors group"
-                  >
-                    {/* Status/Time */}
-                    <div className="w-24 shrink-0">
-                      {['1H', '2H', 'ET', 'P', 'LIVE'].includes(match.status) ? (
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                          <span className="text-sm font-medium text-red-400">LIVE</span>
+        {!loading && Object.entries(matchesByLeague).map(([leagueName, data]: [string, any]) => {
+          const league = leagues.find(l => l.id === data.leagueId);
+          return (
+            <Card key={leagueName} className="glass border-0 overflow-hidden">
+              <CardHeader className="pb-3 border-b border-[#262626] bg-[#1a1a1a]/50">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {data.leagueLogo && (
+                      <img src={data.leagueLogo} alt="" className="w-6 h-6 object-contain" />
+                    )}
+                    <CardTitle className="text-base text-zinc-100">{leagueName}</CardTitle>
+                    {league && getTierBadge(league.tier)}
+                  </div>
+                  <Badge variant="secondary" className="bg-[#262626] text-zinc-400">
+                    {data.matches.length} matches
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="divide-y divide-[#262626]">
+                  {data.matches.map((match: Match) => (
+                    <a
+                      key={match.id}
+                      href={`/match/${match.id}`}
+                      className="flex items-center p-4 hover:bg-[#1a1a1a] transition-colors group"
+                    >
+                      {/* Status/Time */}
+                      <div className="w-24 shrink-0">
+                        {['1H', '2H', 'ET', 'P', 'LIVE'].includes(match.status) ? (
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                            <span className="text-sm font-medium text-red-400">LIVE</span>
+                          </div>
+                        ) : ['FT', 'AET', 'PEN'].includes(match.status) ? (
+                          <span className="text-xs text-zinc-500">Finished</span>
+                        ) : (
+                          <span className="text-sm text-zinc-400">
+                            {new Date(match.date).toLocaleTimeString('en-US', { 
+                              hour: '2-digit', 
+                              minute: '2-digit',
+                              hour12: false 
+                            })}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Teams */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          {match.homeLogo && (
+                            <img src={match.homeLogo} alt="" className="w-5 h-5 object-contain" />
+                          )}
+                          <span className={`truncate ${
+                            match.homeGoals !== null && match.awayGoals !== null && match.homeGoals > match.awayGoals
+                              ? 'text-zinc-100 font-medium'
+                              : 'text-zinc-400'
+                          }`}>
+                            {match.homeTeam}
+                          </span>
                         </div>
-                      ) : ['FT', 'AET', 'PEN'].includes(match.status) ? (
-                        <span className="text-xs text-zinc-500">Finished</span>
-                      ) : (
-                        <span className="text-sm text-zinc-400">
-                          {new Date(match.date).toLocaleTimeString('en-US', { 
-                            hour: '2-digit', 
-                            minute: '2-digit',
-                            hour12: false 
-                          })}
-                        </span>
-                      )}
-                    </div>
+                        <div className="flex items-center gap-3">
+                          {match.awayLogo && (
+                            <img src={match.awayLogo} alt="" className="w-5 h-5 object-contain" />
+                          )}
+                          <span className={`truncate ${
+                            match.homeGoals !== null && match.awayGoals !== null && match.awayGoals > match.homeGoals
+                              ? 'text-zinc-100 font-medium'
+                              : 'text-zinc-400'
+                          }`}>
+                            {match.awayTeam}
+                          </span>
+                        </div>
+                      </div>
 
-                    {/* Teams */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-2">
-                        {match.homeLogo && (
-                          <img src={match.homeLogo} alt="" className="w-5 h-5 object-contain" />
-                        )}
-                        <span className={`truncate ${
+                      {/* Score */}
+                      <div className="w-16 text-center shrink-0">
+                        <div className={`text-lg font-bold ${
                           match.homeGoals !== null && match.awayGoals !== null && match.homeGoals > match.awayGoals
-                            ? 'text-zinc-100 font-medium'
-                            : 'text-zinc-400'
+                            ? 'text-emerald-400'
+                            : 'text-zinc-500'
                         }`}>
-                          {match.homeTeam}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        {match.awayLogo && (
-                          <img src={match.awayLogo} alt="" className="w-5 h-5 object-contain" />
-                        )}
-                        <span className={`truncate ${
+                          {match.homeGoals ?? '-'}
+                        </div>
+                        <div className={`text-lg font-bold ${
                           match.homeGoals !== null && match.awayGoals !== null && match.awayGoals > match.homeGoals
-                            ? 'text-zinc-100 font-medium'
-                            : 'text-zinc-400'
+                            ? 'text-emerald-400'
+                            : 'text-zinc-500'
                         }`}>
-                          {match.awayTeam}
-                        </span>
+                          {match.awayGoals ?? '-'}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Score */}
-                    <div className="w-16 text-center shrink-0">
-                      <div className={`text-lg font-bold ${
-                        match.homeGoals !== null && match.awayGoals !== null && match.homeGoals > match.awayGoals
-                          ? 'text-emerald-400'
-                          : 'text-zinc-500'
-                      }`}>
-                        {match.homeGoals ?? '-'}
+                      {/* Status Badge */}
+                      <div className="w-24 shrink-0 text-right">
+                        {getStatusBadge(match.status)}
                       </div>
-                      <div className={`text-lg font-bold ${
-                        match.homeGoals !== null && match.awayGoals !== null && match.awayGoals > match.homeGoals
-                          ? 'text-emerald-400'
-                          : 'text-zinc-500'
-                      }`}>
-                        {match.awayGoals ?? '-'}
-                      </div>
-                    </div>
 
-                    {/* Status Badge */}
-                    <div className="w-24 shrink-0 text-right">
-                      {getStatusBadge(match.status)}
-                    </div>
-
-                    {/* Arrow */}
-                    <ChevronRight className="w-5 h-5 text-zinc-600 opacity-0 group-hover:opacity-100 transition-opacity ml-2" />
-                  </a>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                      {/* Arrow */}
+                      <ChevronRight className="w-5 h-5 text-zinc-600 opacity-0 group-hover:opacity-100 transition-opacity ml-2" />
+                    </a>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
