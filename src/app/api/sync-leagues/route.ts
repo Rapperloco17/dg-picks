@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     for (const league of MAIN_LEAGUES) {
       try {
         // Usar el servicio que ya tiene rate limiting y reintentos
-        const data = await makeRequest({
+        const data: any = await makeRequest({
           endpoint: 'leagues',
           params: { id: league.id }
         });
