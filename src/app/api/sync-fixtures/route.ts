@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
                 awayTeamName: fixture.teams.away.name,
                 homeGoals: fixture.goals.home ?? null,
                 awayGoals: fixture.goals.away ?? null,
+                rawData: fixture as any,
               },
             });
             results.synced++;

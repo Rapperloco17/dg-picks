@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
               homeTeamName: f.teams.home.name,
               awayTeamId: f.teams.away.id,
               awayTeamName: f.teams.away.name,
+              rawData: f as any,
             },
           });
           added++;
