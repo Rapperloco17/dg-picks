@@ -102,6 +102,7 @@ model Team {
   lost        Int       @default(0)
   goalsFor    Int       @default(0)
   goalsAgainst Int      @default(0)
+  points      Int       @default(0)
   
   // Estadísticas avanzadas
   avgPossession     Float?  @default(50)
