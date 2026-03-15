@@ -1,37 +1,35 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Trophy, Users, Calendar, TrendingUp, RefreshCw } from "lucide-react";
+import { ArrowLeft, Trophy, RefreshCw } from "lucide-react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-// Función para obtener liga y standings desde la base de datos
-async function getLeagueWithStandings(leagueId: number) {
-  try {
-    const league = await prisma.league.findUnique({
-      where: { id: leagueId },
-    });
+interface Standing {
+  id: string;
+  rank: number;
+  team: {
+    id: number;
+    name: string;
+  };
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDiff: number;
+  points: number;
+  form: string | null;
+}
 
-    if (!league) return null;
-
-    const standings = await prisma.standing.findMany({
-      where: { 
-        leagueId: leagueId,
-        season: league.season,
-      },
-      include: {
-        team: true,
-      },
-      orderBy: {
-        rank: 'asc',
-      },
-    });
-
-    return { league, standings };
-  } catch (error) {
-    console.error('Error fetching league:', error);
-    return null;
-  }
+interface League {
+  id: number;
+  name: string;
+  country: string;
+  season: number;
 }
 
 function getFlag(country: string) {
@@ -59,25 +57,67 @@ function getRankStyle(rank: number, totalTeams: number) {
   return "text-zinc-300";
 }
 
-interface LeaguePageProps {
-  params: Promise<{ id: string }>;
-}
-
-export default async function LeaguePage({ params }: LeaguePageProps) {
-  const { id } = await params;
-  const leagueId = parseInt(id);
+export default function LeaguePage() {
+  const params = useParams();
+  const leagueId = params.id as string;
   
-  if (isNaN(leagueId)) {
-    notFound();
+  const [league, setLeague] = useState<League | null>(null);
+  const [standings, setStandings] = useState<Standing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/standings?leagueId=${leagueId}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setLeague(data.league);
+        setStandings(data.standings);
+      } else {
+        setError(data.error || 'Failed to fetch data');
+      }
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (leagueId) {
+      fetchData();
+    }
+  }, [leagueId]);
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Link href="/leagues" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Leagues
+        </Link>
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div>
+        </div>
+      </div>
+    );
   }
 
-  const data = await getLeagueWithStandings(leagueId);
-
-  if (!data) {
-    notFound();
+  if (error || !league) {
+    return (
+      <div className="space-y-6">
+        <Link href="/leagues" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Leagues
+        </Link>
+        <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+          Error: {error || 'League not found'}
+        </div>
+      </div>
+    );
   }
-
-  const { league, standings } = data;
 
   return (
     <div className="space-y-6">
@@ -97,12 +137,17 @@ export default async function LeaguePage({ params }: LeaguePageProps) {
             </div>
           </div>
           <div className="flex gap-2">
+            <button 
+              onClick={fetchData}
+              className="p-2 rounded-lg bg-[#1a1a1a] hover:bg-[#262626] text-zinc-400 hover:text-zinc-100 transition-colors"
+            >
+              <RefreshCw className="w-5 h-5" />
+            </button>
             <form action="/api/sync-standings" method="POST">
               <button 
                 type="submit"
-                className="px-4 py-2 bg-amber-500 text-black font-medium rounded-lg hover:bg-amber-400 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-amber-500 text-black font-medium rounded-lg hover:bg-amber-400 transition-colors"
               >
-                <RefreshCw className="w-4 h-4" />
                 Sync Standings
               </button>
             </form>
@@ -116,14 +161,6 @@ export default async function LeaguePage({ params }: LeaguePageProps) {
           <TabsTrigger value="standings" className="data-[state=active]:bg-amber-500 data-[state=active]:text-black">
             <Trophy className="w-4 h-4 mr-2" />
             Standings
-          </TabsTrigger>
-          <TabsTrigger value="matches" className="data-[state=active]:bg-amber-500 data-[state=active]:text-black">
-            <Calendar className="w-4 h-4 mr-2" />
-            Matches
-          </TabsTrigger>
-          <TabsTrigger value="stats" className="data-[state=active]:bg-amber-500 data-[state=active]:text-black">
-            <TrendingUp className="w-4 h-4 mr-2" />
-            Stats
           </TabsTrigger>
         </TabsList>
 
@@ -207,40 +244,8 @@ export default async function LeaguePage({ params }: LeaguePageProps) {
                       </tbody>
                     </table>
                   </div>
-                  
-                  {/* Legend */}
-                  <div className="flex gap-6 p-4 border-t border-[#262626] text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded bg-amber-500/20" />
-                      <span className="text-zinc-400">Champions League</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded bg-orange-400/20" />
-                      <span className="text-zinc-400">Europa League</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded bg-red-400/20" />
-                      <span className="text-zinc-400">Relegation</span>
-                    </div>
-                  </div>
                 </>
               )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="matches" className="mt-6">
-          <Card className="glass border-0">
-            <CardContent className="p-8 text-center">
-              <p className="text-zinc-500">Matches will appear here when connected to the database.</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="stats" className="mt-6">
-          <Card className="glass border-0">
-            <CardContent className="p-8 text-center">
-              <p className="text-zinc-500">League statistics will appear here when connected to the database.</p>
             </CardContent>
           </Card>
         </TabsContent>
