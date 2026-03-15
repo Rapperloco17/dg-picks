@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Sidebar } from "@/components/sidebar";
+import { Header } from "@/components/header";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { AppLayout } from "@/components/layout/app-layout";
-import { LocalDataProvider } from "@/services/local-data-provider";
-import { AutoSync } from "@/components/auto-sync";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DG Picks - Análisis Deportivo Profesional",
-  description: "Sistema avanzado de análisis deportivo con predicciones basadas en datos, seguimiento de picks y estadísticas detalladas.",
+  title: "DG Picks - Professional Football Analytics",
+  description: "AI-powered football predictions and live betting analytics",
 };
 
 export default function RootLayout({
@@ -27,24 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <LocalDataProvider>
-          <AppLayout>
-            {children}
-            <AutoSync />
-          </AppLayout>
-        </LocalDataProvider>
-        <Toaster 
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: '#0f172a',
-              border: '1px solid #1e293b',
-              color: '#f1f5f9',
-            },
-          }}
-        />
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="flex h-screen bg-[#0a0a0a]">
+          <Sidebar />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <Header />
+            <main className="flex-1 overflow-y-auto p-6">
+              {children}
+            </main>
+          </div>
+        </div>
       </body>
     </html>
   );
