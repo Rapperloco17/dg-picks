@@ -2,123 +2,109 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { makeRequest } from '@/services/api-football';
 
-// Type definitions for API-Football leagues response
-interface LeagueApiResponse {
-  response: Array<{
-    league: {
-      id: number;
-      name: string;
-      type: string;
-      logo: string;
-    };
-    country: {
-      name: string;
-      code: string | null;
-      flag: string | null;
-    };
-    seasons: Array<{
-      year: number;
-      start: string;
-      end: string;
-      current: boolean;
-    }>;
-  }>;
-}
-
-// Lista de ligas principales
-const MAIN_LEAGUES = [
-  { id: 39, name: 'Premier League' },
-  { id: 140, name: 'La Liga' },
-  { id: 135, name: 'Serie A' },
-  { id: 78, name: 'Bundesliga' },
-  { id: 61, name: 'Ligue 1' },
-  { id: 88, name: 'Eredivisie' },
-  { id: 94, name: 'Primeira Liga' },
-  { id: 2, name: 'Champions League' },
-  { id: 3, name: 'Europa League' },
-  { id: 848, name: 'Conference League' },
-  { id: 45, name: 'FA Cup' },
-  { id: 46, name: 'Carabao Cup' },
-  { id: 143, name: 'Copa del Rey' },
-  { id: 137, name: 'Coppa Italia' },
-  { id: 81, name: 'DFB Pokal' },
-  { id: 66, name: 'Coupe de France' },
-  { id: 16, name: 'CONCACAF Champions' },
-  { id: 128, name: 'Argentina Liga Profesional' },
-  { id: 71, name: 'Brazil Serie A' },
-  { id: 262, name: 'Liga MX' },
-  { id: 358, name: 'MLS' },
-  { id: 203, name: 'Süper Lig' },
-  { id: 144, name: 'Jupiler Pro League' },
+// MEGA LIST: 80+ ligas y copas
+const ALL_LEAGUES = [
+  // ===== INGLATERRA (12) =====
+  39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 54,
+  // ===== ESPAÑA (8) =====
+  140, 141, 143, 142, 556, 82, 83, 117,
+  // ===== ITALIA (7) =====
+  135, 136, 137, 138, 157, 158, 159,
+  // ===== ALEMANIA (6) =====
+  78, 79, 80, 81, 529, 83,
+  // ===== FRANCIA (6) =====
+  61, 62, 63, 66, 65, 53,
+  // ===== PORTUGAL (4) =====
+  94, 95, 96, 97,
+  // ===== HOLANDA (4) =====
+  88, 89, 90, 91,
+  // ===== EUROPA (8) =====
+  2, 3, 848, 4, 5, 6, 7, 8,
+  // ===== CONCACAF (6) =====
+  16, 17, 18, 31, 32, 22,
+  // ===== SUDAMÉRICA (6) =====
+  13, 11, 44, 45, 129, 246,
+  // ===== AMÉRICAS (17) =====
+  128, 130, 131, 71, 72, 73, 75, 239, 240, 265, 266, 262, 263, 265, 358, 255, 345,
+  // ===== RESTO EUROPA (35) =====
+  203, 204, 205, 144, 145, 113, 114, 103, 104, 119, 120, 106, 107, 179, 180, 181, 182,
+  169, 170, 172, 192, 193, 197, 198, 207, 208, 210, 211, 235, 236, 244, 245, 253, 254,
+  271, 286, 287, 293, 294,
+  // ===== ASIA (12) =====
+  98, 99, 100, 292, 307, 308, 309, 300, 301, 302, 317, 318,
+  // ===== ÁFRICA (5) =====
+  216, 217, 218, 219, 233,
 ];
+
+const UNIQUE_LEAGUES = [...new Set(ALL_LEAGUES)];
 
 export async function POST(request: NextRequest) {
   try {
     let synced = 0;
     let errors: string[] = [];
+    let skipped = 0;
 
-    for (const league of MAIN_LEAGUES) {
+    for (const leagueId of UNIQUE_LEAGUES) {
       try {
-        // Usar el servicio que ya tiene rate limiting y reintentos
-        const data = await makeRequest<LeagueApiResponse>({
+        const data: any = await makeRequest({
           endpoint: '/leagues',
-          params: { id: league.id }
+          params: { id: leagueId }
         });
-        
+
         if (!data.response || data.response.length === 0) {
-          errors.push(`League ${league.id}: No data found`);
+          skipped++;
           continue;
         }
 
         const leagueData = data.response[0];
-        const leagueInfo = leagueData.league;
+        const league = leagueData.league;
         const country = leagueData.country;
-        const season = leagueData.seasons?.find((s) => s.current) || leagueData.seasons?.[0];
+        const season = leagueData.seasons?.find((s: any) => s.current) || leagueData.seasons?.[0];
 
         if (!season) {
-          errors.push(`League ${league.id}: No season data`);
+          skipped++;
           continue;
         }
 
         await prisma.league.upsert({
-          where: { id: leagueInfo.id },
+          where: { id: league.id },
           update: {
-            name: leagueInfo.name,
+            name: league.name,
             country: country?.name || 'Unknown',
             countryCode: country?.code || null,
-            logo: leagueInfo.logo || null,
+            logo: league.logo || null,
             flag: country?.flag || null,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
-            type: leagueInfo.type,
+            type: league.type,
           },
           create: {
-            id: leagueInfo.id,
-            name: leagueInfo.name,
+            id: league.id,
+            name: league.name,
             country: country?.name || 'Unknown',
             countryCode: country?.code || null,
-            logo: leagueInfo.logo || null,
+            logo: league.logo || null,
             flag: country?.flag || null,
             season: season.year,
             seasonStart: season.start ? new Date(season.start) : null,
             seasonEnd: season.end ? new Date(season.end) : null,
-            type: leagueInfo.type,
+            type: league.type,
           },
         });
 
         synced++;
-        
       } catch (error: any) {
-        errors.push(`League ${league.id}: ${error.message}`);
+        errors.push(`League ${leagueId}: ${error.message}`);
       }
     }
 
     return NextResponse.json({
       success: true,
       synced,
-      total: MAIN_LEAGUES.length,
-      errors: errors.length > 0 ? errors : undefined,
+      skipped,
+      total: UNIQUE_LEAGUES.length,
+      errors: errors.length > 0 ? errors.slice(0, 10) : undefined,
     });
 
   } catch (error: any) {
@@ -128,8 +114,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({ 
-    message: 'POST to sync main leagues from API-Football',
-    leagues: MAIN_LEAGUES.length,
-    list: MAIN_LEAGUES.map(l => l.name)
+    message: 'POST to sync 80+ leagues and cups from API-Football',
+    leagues: UNIQUE_LEAGUES.length,
   });
 }
