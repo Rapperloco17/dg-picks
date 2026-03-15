@@ -3,39 +3,16 @@ import { prisma } from '@/lib/prisma';
 
 const API_BASE = 'https://v3.football.api-sports.io';
 
-// TODAS las ligas - 90+ competiciones
-const ALL_LEAGUES = [
-  // INGLATERRA
-  39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 54,
-  // ESPAÑA
-  140, 141, 143, 142, 556, 82, 83, 117,
-  // ITALIA
-  135, 136, 137, 138, 157, 158, 159,
-  // ALEMANIA
-  78, 79, 80, 81, 529, 83,
-  // FRANCIA
-  61, 62, 63, 66, 65, 53,
-  // PORTUGAL
-  94, 95, 96, 97,
-  // HOLANDA
-  88, 89, 90, 91,
-  // EUROPA
-  2, 3, 848, 4, 5, 6, 7, 8,
-  // CONCACAF
-  16, 17, 18, 31, 32, 22,
-  // SUDAMÉRICA
-  13, 11, 44, 45, 129, 246,
-  // AMÉRICAS
-  128, 130, 131, 71, 72, 73, 75, 239, 240, 265, 266, 262, 263, 265, 358, 255, 345,
-  // RESTO EUROPA
-  203, 204, 205, 144, 145, 113, 114, 103, 104, 119, 120, 106, 107, 179, 180, 181, 182, 169, 170, 172, 192, 193, 197, 198, 207, 208, 210, 211, 235, 236, 244, 245, 253, 254, 271, 286, 287, 293, 294,
-  // ASIA
-  98, 99, 100, 292, 307, 308, 309, 98, 99, 307, 308, 300, 301, 302,
-  // ÁFRICA
-  216, 217, 218, 219, 233,
+// Lista de ligas principales (las que sabemos que funcionan)
+const MAIN_LEAGUES = [
+  39, 140, 135, 78, 61,  // Top 5 Europe
+  88, 94, 203, 144,      // Netherlands, Portugal, Turkey, Belgium
+  2, 3, 848,             // European cups
+  128, 71, 262, 358,     // Argentina, Brazil, Mexico, USA
+  16,                    // CONCACAF Champions
+  45, 46,                // FA Cup, Carabao Cup
+  143, 137, 81, 66,      // Copa del Rey, Coppa Italia, DFB Pokal, Coupe de France
 ];
-
-const UNIQUE_LEAGUES = [...new Set(ALL_LEAGUES)];
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,7 +21,7 @@ export async function POST(request: NextRequest) {
     
     if (!API_KEY) {
       return NextResponse.json({ 
-        error: 'API_KEY not found. Set FOOTBALL_API_KEY',
+        error: 'API_KEY not found',
       }, { status: 500 });
     }
 
@@ -52,21 +29,21 @@ export async function POST(request: NextRequest) {
     let errors: string[] = [];
     let skipped = 0;
 
-    for (const leagueId of UNIQUE_LEAGUES) {
+    for (const leagueId of MAIN_LEAGUES) {
       try {
-        const response = await fetch(`${API_BASE}/leagues?id=${leagueId}`, {
+        const url = `${API_BASE}/leagues?id=${leagueId}`;
+        const response = await fetch(url, {
           headers: {
             'x-rapidapi-key': API_KEY,
             'x-rapidapi-host': 'v3.football.api-sports.io',
           },
+          // Agregar timeout
+          signal: AbortSignal.timeout(10000),
         });
 
         if (!response.ok) {
-          if (response.status === 429) {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            continue;
-          }
-          errors.push(`League ${leagueId}: HTTP ${response.status}`);
+          const errorText = await response.text().catch(() => 'Unknown error');
+          errors.push(`League ${leagueId}: HTTP ${response.status} - ${errorText.slice(0, 100)}`);
           continue;
         }
 
@@ -87,8 +64,7 @@ export async function POST(request: NextRequest) {
           continue;
         }
 
-        // Usar datos del país si están disponibles, si no inferir de la liga
-        const countryName = country?.name || league.country || 'Unknown';
+        const countryName = country?.name || 'Unknown';
         const flag = country?.flag || null;
 
         await prisma.league.upsert({
@@ -119,10 +95,12 @@ export async function POST(request: NextRequest) {
         });
 
         synced++;
-        await new Promise(resolve => setTimeout(resolve, 150));
+        
+        // Delay más largo para evitar rate limits
+        await new Promise(resolve => setTimeout(resolve, 300));
         
       } catch (error: any) {
-        errors.push(`League ${leagueId}: ${error.message}`);
+        errors.push(`League ${leagueId}: ${error.message || 'Unknown error'}`);
       }
     }
 
@@ -130,8 +108,8 @@ export async function POST(request: NextRequest) {
       success: true,
       synced,
       skipped,
-      total: UNIQUE_LEAGUES.length,
-      errors: errors.length > 0 ? errors.slice(0, 5) : undefined,
+      total: MAIN_LEAGUES.length,
+      errors: errors.length > 0 ? errors : undefined,
     });
 
   } catch (error: any) {
@@ -141,7 +119,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({ 
-    message: 'POST to sync 90+ leagues and cups from API-Football',
-    leagues: UNIQUE_LEAGUES.length,
+    message: 'POST to sync main leagues from API-Football',
+    leagues: MAIN_LEAGUES.length,
   });
 }
