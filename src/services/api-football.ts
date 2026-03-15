@@ -15,11 +15,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_FOOTBALL_URL || 'https://v3.football
 // Check if running on client side
 const isClient = typeof window !== 'undefined';
 
-// Rate limiting configuration - 500 req/min plan
+// Rate limiting configuration - MEGA Plan: 750 req/min, 150k/day
+// Usamos 600 req/min para estar seguros (100ms entre calls = 600 req/min)
 const RATE_LIMIT = {
-  callsPerMinute: 480,     // 480 calls per minute (safe under 500 limit)
-  delayBetweenCalls: 125,  // 125ms between calls
+  callsPerMinute: 600,     // 600 calls per minute (safe under 750 limit)
+  delayBetweenCalls: 100,  // 100ms entre calls
   maxRetries: 3,           // Retry failed calls up to 3 times
+  retryDelayOn429: 30000,  // Esperar 30s si hay rate limit
 };
 
 // Track API calls for rate limiting
@@ -118,8 +120,8 @@ export async function makeRequest<T>({ endpoint, params = {}, retryCount = 0 }: 
         
         // Check for rate limit error and retry
         if (response.status === 429 && retryCount < RATE_LIMIT.maxRetries) {
-          console.log(`[Rate Limit] Hit 429, retrying in 10s... (attempt ${retryCount + 1})`);
-          await delay(10000);
+          console.log(`[Rate Limit] Hit 429, retrying in 30s... (attempt ${retryCount + 1})`);
+          await delay(RATE_LIMIT.retryDelayOn429);
           return makeRequest({ endpoint, params, retryCount: retryCount + 1 });
         }
         
@@ -185,8 +187,8 @@ export async function makeRequest<T>({ endpoint, params = {}, retryCount = 0 }: 
 
       if (!response.ok) {
         if (response.status === 429 && retryCount < RATE_LIMIT.maxRetries) {
-          console.log(`[Rate Limit] Hit 429, retrying in 10s... (attempt ${retryCount + 1})`);
-          await delay(10000);
+          console.log(`[Rate Limit] Hit 429, retrying in 30s... (attempt ${retryCount + 1})`);
+          await delay(RATE_LIMIT.retryDelayOn429);
           return makeRequest({ endpoint, params, retryCount: retryCount + 1 });
         }
         
