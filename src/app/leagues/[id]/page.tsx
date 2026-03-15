@@ -57,6 +57,12 @@ function getRankStyle(rank: number, totalTeams: number) {
   return "text-zinc-300";
 }
 
+// Verificar si temporada es vieja
+function isOldSeason(season: number): boolean {
+  const currentYear = new Date().getFullYear();
+  return currentYear - season > 1;
+}
+
 export default function LeaguePage() {
   const params = useParams();
   const leagueId = params.id as string;
@@ -154,6 +160,19 @@ export default function LeaguePage() {
           </div>
         </div>
       </div>
+
+      {/* Warning si temporada es vieja */}
+      {isOldSeason(league.season) && (
+        <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-between">
+          <div>
+            <p className="text-yellow-400 font-medium">⚠️ Old Season Data</p>
+            <p className="text-sm text-yellow-500/70">
+              This league shows Season {league.season} which is outdated. 
+              Click "Sync Standings" to update to the current season.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Tabs */}
       <Tabs defaultValue="standings" className="w-full">

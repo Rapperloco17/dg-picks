@@ -35,19 +35,48 @@ interface StandingsApiResponse {
   }>;
 }
 
+// Helper para obtener temporada actual
+function getCurrentSeason(): number {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  
+  // En Europa: temporada empieza en Julio/Agosto
+  // Si estamos antes de Julio, estamos en la temporada del año pasado
+  if (month < 7) {
+    return year - 1;
+  }
+  return year;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    const currentSeason = getCurrentSeason();
+    
     // Get all leagues from DB
     const leagues = await prisma.league.findMany();
     let synced = 0;
     let errors: string[] = [];
+    let seasonUpdated = 0;
 
     for (const league of leagues) {
       try {
+        // Si la temporada de la liga es muy vieja (más de 1 año), actualizarla
+        let seasonToUse = league.season;
+        if (currentSeason - league.season > 1) {
+          seasonToUse = currentSeason;
+          // Actualizar la liga con temporada nueva
+          await prisma.league.update({
+            where: { id: league.id },
+            data: { season: currentSeason }
+          });
+          seasonUpdated++;
+        }
+
         // Get standings for this league using the shared service with rate limiting
         const data = await makeRequest<StandingsApiResponse>({
           endpoint: '/standings',
-          params: { league: league.id, season: league.season }
+          params: { league: league.id, season: seasonToUse }
         });
         
         if (!data.response || data.response.length === 0) {
@@ -139,6 +168,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       synced,
+      seasonUpdated,
+      currentSeason,
       total: leagues.length,
       errors: errors.length > 0 ? errors : undefined,
     });
