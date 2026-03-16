@@ -1,14 +1,30 @@
 "use client";
 
-import { Search, Bell, Calendar } from "lucide-react";
+import { Search, Bell, Calendar, Menu } from "lucide-react";
 import { format } from "date-fns";
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
   return (
-    <header className="h-16 bg-[#0f0f0f] border-b border-[#262626] flex items-center justify-between px-6">
-      {/* Search */}
-      <div className="flex-1 max-w-md">
-        <div className="relative">
+    <header className="h-16 bg-[#0f0f0f] border-b border-[#262626] flex items-center justify-between px-4 lg:px-6">
+      {/* Left section - Botón menú en móvil + Search */}
+      <div className="flex items-center gap-3 flex-1 max-w-md">
+        {/* Botón menú hamburguesa - solo visible en móvil */}
+        {onMenuClick && (
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-[#1a1a1a] transition-colors"
+            aria-label="Abrir menú"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
+
+        {/* Search */}
+        <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
           <input
             type="text"
@@ -19,9 +35,9 @@ export function Header() {
       </div>
 
       {/* Right section */}
-      <div className="flex items-center gap-4">
-        {/* Date */}
-        <div className="flex items-center gap-2 text-zinc-400 text-sm">
+      <div className="flex items-center gap-2 sm:gap-4">
+        {/* Date - oculta en pantallas muy pequeñas */}
+        <div className="hidden sm:flex items-center gap-2 text-zinc-400 text-sm">
           <Calendar className="w-4 h-4" />
           <span>{format(new Date(), "MMM d, yyyy")}</span>
         </div>
@@ -33,12 +49,12 @@ export function Header() {
         </button>
 
         {/* User */}
-        <div className="flex items-center gap-3 pl-4 border-l border-[#262626]">
+        <div className="flex items-center gap-3 pl-2 sm:pl-4 border-l border-[#262626]">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-medium text-zinc-100">Admin</p>
             <p className="text-xs text-zinc-500">Pro Plan</p>
           </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-black font-bold text-sm">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-black font-bold text-sm">
             A
           </div>
         </div>
