@@ -3,7 +3,10 @@ import { Inter } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "DG Picks - Professional Football Analytics",
@@ -17,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} font-sans`}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

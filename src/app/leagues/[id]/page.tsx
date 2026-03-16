@@ -1,274 +1,264 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Trophy, RefreshCw } from "lucide-react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface Standing {
-  id: string;
   rank: number;
   team: {
     id: number;
     name: string;
+    logo: string;
   };
+  points: number;
   played: number;
   won: number;
-  drawn: number;
+  draw: number;
   lost: number;
   goalsFor: number;
   goalsAgainst: number;
-  goalDiff: number;
-  points: number;
-  form: string | null;
+  goalDifference: number;
+  form: string;
+  winRate: string;
+  goalsPerGame: string;
+  concededPerGame: string;
 }
 
-interface League {
+interface LeagueInfo {
   id: number;
   name: string;
   country: string;
+  logo: string;
   season: number;
 }
 
-function getFlag(country: string) {
-  const flags: Record<string, string> = {
-    'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Spain': '🇪🇸', 'Italy': '🇮🇹', 'Germany': '🇩🇪',
-    'France': '🇫🇷', 'Netherlands': '🇳🇱', 'Portugal': '🇵🇹', 'Europe': '🇪🇺',
-  };
-  return flags[country] || '🏆';
+// Form indicator component
+function FormIndicator({ form }: { form: string }) {
+  const results = form?.slice(-5).split('') || [];
+  
+  return (
+    <div className="flex gap-1">
+      {results.map((result, idx) => (
+        <div
+          key={idx}
+          className={cn(
+            "w-5 h-5 rounded text-xs font-bold flex items-center justify-center",
+            result === 'W' && "bg-emerald-500/20 text-emerald-400",
+            result === 'D' && "bg-zinc-500/20 text-zinc-400",
+            result === 'L' && "bg-red-500/20 text-red-400"
+          )}
+        >
+          {result}
+        </div>
+      ))}
+    </div>
+  );
 }
 
-function getFormColor(result: string) {
-  switch (result) {
-    case "W": return "bg-green-500/20 text-green-500";
-    case "D": return "bg-zinc-500/20 text-zinc-400";
-    case "L": return "bg-red-500/20 text-red-500";
-    default: return "bg-zinc-500/20 text-zinc-400";
-  }
+// Position indicator
+function PositionIndicator({ rank }: { rank: number }) {
+  let color = "bg-zinc-800 text-zinc-400";
+  if (rank === 1) color = "bg-yellow-500/20 text-yellow-400";
+  else if (rank <= 4) color = "bg-emerald-500/20 text-emerald-400";
+  else if (rank >= 18) color = "bg-red-500/20 text-red-400";
+  
+  return (
+    <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm", color)}>
+      {rank}
+    </div>
+  );
 }
 
-function getRankStyle(rank: number, totalTeams: number) {
-  if (rank === 1) return "text-amber-500 font-bold";
-  if (rank <= 4) return "text-blue-400";
-  if (rank === 5) return "text-orange-400";
-  if (rank > totalTeams - 3) return "text-red-400";
-  return "text-zinc-300";
-}
-
-// Verificar si temporada es vieja
-function isOldSeason(season: number): boolean {
-  const currentYear = new Date().getFullYear();
-  return currentYear - season > 1;
-}
-
-export default function LeaguePage() {
+export default function LeagueDetailPage() {
   const params = useParams();
   const leagueId = params.id as string;
   
-  const [league, setLeague] = useState<League | null>(null);
   const [standings, setStandings] = useState<Standing[]>([]);
+  const [league, setLeague] = useState<LeagueInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/standings?leagueId=${leagueId}`);
-      const data = await response.json();
-      
-      if (data.success) {
-        setLeague(data.league);
-        setStandings(data.standings);
-      } else {
-        setError(data.error || 'Failed to fetch data');
-      }
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState<"standings" | "fixtures" | "stats">("standings");
 
   useEffect(() => {
+    const fetchStandings = async () => {
+      try {
+        const res = await fetch(`/api/standings?league=${leagueId}`);
+        const data = await res.json();
+        if (data.success) {
+          setStandings(data.standings);
+          setLeague(data.league);
+        }
+      } catch (error) {
+        console.error("Error fetching standings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (leagueId) {
-      fetchData();
+      fetchStandings();
     }
   }, [leagueId]);
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <Link href="/leagues" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Leagues
-        </Link>
-        <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !league) {
-    return (
-      <div className="space-y-6">
-        <Link href="/leagues" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Leagues
-        </Link>
-        <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
-          Error: {error || 'League not found'}
-        </div>
+      <div className="flex items-center justify-center h-96">
+        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Back & Header */}
-      <div>
-        <Link href="/leagues" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 mb-4">
-          <ArrowLeft className="w-4 h-4" />
-          Back to Leagues
-        </Link>
-        
-        <div className="flex items-start justify-between">
+      {/* League Header */}
+      {league && (
+        <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6">
           <div className="flex items-center gap-4">
-            <div className="text-6xl">{getFlag(league.country)}</div>
+            <img src={league.logo} alt={league.name} className="w-16 h-16 object-contain" />
             <div>
-              <h2 className="text-3xl font-bold text-zinc-100">{league.name}</h2>
+              <h1 className="text-2xl font-bold text-white">{league.name}</h1>
               <p className="text-zinc-500">{league.country} • Season {league.season}</p>
             </div>
-          </div>
-          <div className="flex gap-2">
-            <button 
-              onClick={fetchData}
-              className="p-2 rounded-lg bg-[#1a1a1a] hover:bg-[#262626] text-zinc-400 hover:text-zinc-100 transition-colors"
-            >
-              <RefreshCw className="w-5 h-5" />
-            </button>
-            <form action="/api/sync-standings" method="POST">
-              <button 
-                type="submit"
-                className="px-4 py-2 bg-amber-500 text-black font-medium rounded-lg hover:bg-amber-400 transition-colors"
-              >
-                Sync Standings
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      {/* Warning si temporada es vieja */}
-      {isOldSeason(league.season) && (
-        <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-between">
-          <div>
-            <p className="text-yellow-400 font-medium">⚠️ Old Season Data</p>
-            <p className="text-sm text-yellow-500/70">
-              This league shows Season {league.season} which is outdated. 
-              Click "Sync Standings" to update to the current season.
-            </p>
           </div>
         </div>
       )}
 
       {/* Tabs */}
-      <Tabs defaultValue="standings" className="w-full">
-        <TabsList className="bg-[#141414] border border-[#262626]">
-          <TabsTrigger value="standings" className="data-[state=active]:bg-amber-500 data-[state=active]:text-black">
-            <Trophy className="w-4 h-4 mr-2" />
-            Standings
-          </TabsTrigger>
-        </TabsList>
+      <div className="flex gap-2">
+        {["standings", "fixtures", "stats"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab as any)}
+            className={cn(
+              "px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 capitalize",
+              activeTab === tab 
+                ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" 
+                : "text-zinc-400 hover:text-zinc-100 hover:bg-white/5"
+            )}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
 
-        <TabsContent value="standings" className="mt-6">
-          <Card className="glass border-0">
-            <CardHeader>
-              <CardTitle className="text-zinc-100">League Table</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              {standings.length === 0 ? (
-                <div className="p-8 text-center">
-                  <p className="text-zinc-500 mb-4">No standings data available.</p>
-                  <form action="/api/sync-standings" method="POST">
-                    <button 
-                      type="submit"
-                      className="px-6 py-3 bg-amber-500 text-black font-bold rounded-lg hover:bg-amber-400 transition-colors"
-                    >
-                      🚀 Sync Standings Now
-                    </button>
-                  </form>
+      {/* Standings Table */}
+      {activeTab === "standings" && (
+        <div className="bg-zinc-900/40 border border-white/5 rounded-2xl overflow-hidden">
+          {/* Header */}
+          <div className="grid grid-cols-12 gap-4 p-4 border-b border-white/5 text-xs text-zinc-500 uppercase tracking-wider">
+            <div className="col-span-1">#</div>
+            <div className="col-span-4">Team</div>
+            <div className="col-span-1 text-center">P</div>
+            <div className="col-span-1 text-center">W</div>
+            <div className="col-span-1 text-center">D</div>
+            <div className="col-span-1 text-center">L</div>
+            <div className="col-span-1 text-center">GD</div>
+            <div className="col-span-1 text-center">PTS</div>
+            <div className="col-span-1 hidden lg:block">Form</div>
+          </div>
+
+          {/* Rows */}
+          <div className="divide-y divide-white/5">
+            {standings.map((team) => (
+              <a
+                key={team.team.id}
+                href={`/teams/${team.team.id}`}
+                className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-white/5 transition-colors"
+              >
+                <div className="col-span-1">
+                  <PositionIndicator rank={team.rank} />
                 </div>
-              ) : (
-                <>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-[#262626] text-xs text-zinc-500 uppercase">
-                          <th className="px-4 py-3 text-left w-12">#</th>
-                          <th className="px-4 py-3 text-left">Team</th>
-                          <th className="px-4 py-3 text-center">P</th>
-                          <th className="px-4 py-3 text-center">W</th>
-                          <th className="px-4 py-3 text-center">D</th>
-                          <th className="px-4 py-3 text-center">L</th>
-                          <th className="px-4 py-3 text-center">GF</th>
-                          <th className="px-4 py-3 text-center">GA</th>
-                          <th className="px-4 py-3 text-center">GD</th>
-                          <th className="px-4 py-3 text-center">Form</th>
-                          <th className="px-4 py-3 text-center font-bold text-amber-500">Pts</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {standings.map((standing) => (
-                          <tr 
-                            key={standing.id} 
-                            className="border-b border-[#262626] hover:bg-[#1a1a1a] transition-colors"
-                          >
-                            <td className={`px-4 py-3 ${getRankStyle(standing.rank, standings.length)}`}>
-                              {standing.rank}
-                            </td>
-                            <td className="px-4 py-3">
-                              <Link href={`/teams/${standing.team.id}`} className="font-medium text-zinc-100 hover:text-amber-500 transition-colors">
-                                {standing.team.name}
-                              </Link>
-                            </td>
-                            <td className="px-4 py-3 text-center text-zinc-400">{standing.played}</td>
-                            <td className="px-4 py-3 text-center text-green-400">{standing.won}</td>
-                            <td className="px-4 py-3 text-center text-zinc-400">{standing.drawn}</td>
-                            <td className="px-4 py-3 text-center text-red-400">{standing.lost}</td>
-                            <td className="px-4 py-3 text-center text-zinc-400">{standing.goalsFor}</td>
-                            <td className="px-4 py-3 text-center text-zinc-400">{standing.goalsAgainst}</td>
-                            <td className="px-4 py-3 text-center text-zinc-300">
-                              {standing.goalDiff > 0 ? `+${standing.goalDiff}` : standing.goalDiff}
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex justify-center gap-1">
-                                {standing.form?.split("").map((result, i) => (
-                                  <span 
-                                    key={i} 
-                                    className={`w-6 h-6 rounded text-xs flex items-center justify-center font-bold ${getFormColor(result)}`}
-                                  >
-                                    {result}
-                                  </span>
-                                )) || '-'}
-                              </div>
-                            </td>
-                            <td className="px-4 py-3 text-center font-bold text-amber-500 text-lg">
-                              {standing.points}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                <div className="col-span-4 flex items-center gap-3">
+                  <img src={team.team.logo} alt="" className="w-8 h-8 object-contain" />
+                  <span className="text-white font-medium truncate">{team.team.name}</span>
+                </div>
+                <div className="col-span-1 text-center text-zinc-400">{team.played}</div>
+                <div className="col-span-1 text-center text-emerald-400">{team.won}</div>
+                <div className="col-span-1 text-center text-zinc-400">{team.draw}</div>
+                <div className="col-span-1 text-center text-red-400">{team.lost}</div>
+                <div className="col-span-1 text-center text-white font-medium">
+                  {team.goalDifference > 0 ? `+${team.goalDifference}` : team.goalDifference}
+                </div>
+                <div className="col-span-1 text-center text-white font-bold">{team.points}</div>
+                <div className="col-span-1 hidden lg:block">
+                  <FormIndicator form={team.form} />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Stats Summary */}
+      {activeTab === "stats" && standings.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Top Scorers */}
+          <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6">
+            <h3 className="text-white font-semibold mb-4">Top Attacking Teams</h3>
+            <div className="space-y-3">
+              {[...standings]
+                .sort((a, b) => b.goalsFor - a.goalsFor)
+                .slice(0, 5)
+                .map((team) => (
+                  <div key={team.team.id} className="flex items-center gap-3">
+                    <img src={team.team.logo} alt="" className="w-6 h-6 object-contain" />
+                    <span className="text-white flex-1">{team.team.name}</span>
+                    <span className="text-emerald-400 font-bold">{team.goalsFor} goals</span>
                   </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                ))}
+            </div>
+          </div>
+
+          {/* Best Defense */}
+          <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6">
+            <h3 className="text-white font-semibold mb-4">Best Defense</h3>
+            <div className="space-y-3">
+              {[...standings]
+                .sort((a, b) => a.goalsAgainst - b.goalsAgainst)
+                .slice(0, 5)
+                .map((team) => (
+                  <div key={team.team.id} className="flex items-center gap-3">
+                    <img src={team.team.logo} alt="" className="w-6 h-6 object-contain" />
+                    <span className="text-white flex-1">{team.team.name}</span>
+                    <span className="text-blue-400 font-bold">{team.goalsAgainst} conceded</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          {/* Best Win Rate */}
+          <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6">
+            <h3 className="text-white font-semibold mb-4">Best Win Rate</h3>
+            <div className="space-y-3">
+              {[...standings]
+                .filter(t => t.played >= 5)
+                .sort((a, b) => parseFloat(b.winRate) - parseFloat(a.winRate))
+                .slice(0, 5)
+                .map((team) => (
+                  <div key={team.team.id} className="flex items-center gap-3">
+                    <img src={team.team.logo} alt="" className="w-6 h-6 object-contain" />
+                    <span className="text-white flex-1">{team.team.name}</span>
+                    <span className="text-yellow-400 font-bold">{team.winRate}%</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          {/* Form Table */}
+          <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6">
+            <h3 className="text-white font-semibold mb-4">Current Form</h3>
+            <div className="space-y-3">
+              {standings.slice(0, 5).map((team) => (
+                <div key={team.team.id} className="flex items-center gap-3">
+                  <img src={team.team.logo} alt="" className="w-6 h-6 object-contain" />
+                  <span className="text-white flex-1">{team.team.name}</span>
+                  <FormIndicator form={team.form} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
