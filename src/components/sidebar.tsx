@@ -20,6 +20,8 @@ const navigation = [
   { name: "Leagues", href: "/leagues", icon: Trophy },
   { name: "Live Matches", href: "/live", icon: Zap },
   { name: "Predictions", href: "/predictions", icon: Target },
+  { name: "Picks", href: "/picks", icon: Target },
+  { name: "Sharp Picks", href: "/sharp-picks", icon: Zap },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
