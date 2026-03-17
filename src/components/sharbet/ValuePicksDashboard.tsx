@@ -31,6 +31,8 @@ interface Pick {
   bookmaker: string;
   isSharp: boolean;
   stakeRecommendation: string;
+  trueProbability: number;
+  impliedProbability: number;
   analysis: {
     match: {
       homeTeamName: string;
