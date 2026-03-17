@@ -84,22 +84,16 @@ export async function POST(req: NextRequest) {
  */
 export async function GET() {
   try {
-    const stats = await prisma.$transaction([
+    const [totalPicks, sharpPicks, totalAnalyses] = await prisma.$transaction([
       prisma.sharpBetPick.count({ where: { status: 'ACTIVE' } }),
       prisma.sharpBetPick.count({ where: { isSharp: true, status: 'ACTIVE' } }),
-      prisma.sharpBetAnalysis.count(),
-      prisma.sharpBetPick.groupBy({
-        by: ['market'],
-        where: { status: 'ACTIVE' },
-        _count: true
-      })
+      prisma.sharpBetAnalysis.count()
     ]);
 
     return NextResponse.json({
-      totalPicks: stats[0],
-      sharpPicks: stats[1],
-      totalAnalyses: stats[2],
-      byMarket: stats[3]
+      totalPicks,
+      sharpPicks,
+      totalAnalyses
     });
   } catch (error) {
     console.error('Error getting stats:', error);
