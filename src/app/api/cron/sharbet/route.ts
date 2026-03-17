@@ -11,7 +11,7 @@ const CONFIG = { THRESHOLD: 0.05 };
  * Se ejecuta cada 30 minutos via Railway Cron
  * 
  * Configuración en Railway:
- * - Cron Schedule: */30 * * * *
+ * - Cron Schedule: 0,30 * * * *
  * - URL: /api/cron/sharbet
  */
 export async function GET(req: NextRequest) {
