@@ -16,7 +16,8 @@ import {
   Wallet,
   Brain,
   Clock,
-  TrendingUp as TrendingUpIcon
+  TrendingUp as TrendingUpIcon,
+  Zap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,7 @@ const navigation = [
   { name: 'Partidos', href: '/matches', icon: Calendar },
   { name: 'Historial', href: '/matches/history', icon: Clock },
   { name: 'Picks', href: '/picks', icon: Target },
+  { name: 'Sharp Picks', href: '/sharp-picks', icon: Zap },
   { name: 'Ligas', href: '/leagues', icon: Trophy },
   { name: 'Estadísticas', href: '/stats', icon: BarChart3 },
   { name: 'Paper Trading', href: '/paper-trading', icon: TrendingUp },

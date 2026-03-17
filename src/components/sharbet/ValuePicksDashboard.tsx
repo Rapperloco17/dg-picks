@@ -4,8 +4,21 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Target, Percent, RefreshCw, Filter, Zap } from 'lucide-react';
+import { 
+  TrendingUp, 
+  Target, 
+  Percent, 
+  RefreshCw, 
+  Filter, 
+  Zap, 
+  Play, 
+  Calendar,
+  BarChart3,
+  CheckCircle2,
+  AlertCircle
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 interface Pick {
   id: string;
@@ -17,6 +30,7 @@ interface Pick {
   confidence: number;
   bookmaker: string;
   isSharp: boolean;
+  stakeRecommendation: string;
   analysis: {
     match: {
       homeTeamName: string;
@@ -30,13 +44,30 @@ interface Pick {
   };
 }
 
+interface Stats {
+  totalPicks: number;
+  sharpPicks: number;
+  totalAnalyses: number;
+  avgEdge: string;
+  bestEdge: string;
+}
+
 export function ValuePicksDashboard() {
   const [picks, setPicks] = useState<Pick[]>([]);
   const [loading, setLoading] = useState(true);
+  const [analyzing, setAnalyzing] = useState(false);
   const [filter, setFilter] = useState<'all' | 'sharp' | 'high'>('all');
+  const [stats, setStats] = useState<Stats>({
+    totalPicks: 0,
+    sharpPicks: 0,
+    totalAnalyses: 0,
+    avgEdge: '0',
+    bestEdge: '0%'
+  });
 
   useEffect(() => {
     fetchPicks();
+    fetchStats();
   }, []);
 
   const fetchPicks = async () => {
@@ -45,10 +76,64 @@ export function ValuePicksDashboard() {
       const res = await fetch('/api/sharbet/picks?limit=30');
       const data = await res.json();
       setPicks(data.picks || []);
+      
+      // Calcular stats locales
+      const picksList = data.picks || [];
+      if (picksList.length > 0) {
+        setStats(prev => ({
+          ...prev,
+          totalPicks: picksList.length,
+          sharpPicks: picksList.filter((p: Pick) => p.isSharp).length,
+          avgEdge: (picksList.reduce((a: number, p: Pick) => a + p.edge, 0) / picksList.length * 100).toFixed(1),
+          bestEdge: `+${(Math.max(...picksList.map((p: Pick) => p.edge)) * 100).toFixed(0)}%`
+        }));
+      }
     } catch (error) {
       console.error('Error fetching picks:', error);
+      toast.error('Error al cargar picks');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/sharbet/analyze');
+      const data = await res.json();
+      setStats(prev => ({
+        ...prev,
+        totalAnalyses: data.totalAnalyses || 0
+      }));
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
+  const analyzeMatches = async () => {
+    try {
+      setAnalyzing(true);
+      toast.info('Analizando partidos... esto puede tomar unos minutos');
+      
+      const res = await fetch('/api/sharbet/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ analyzeAll: false })
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        toast.success(`Análisis completo: ${data.analyzed} partidos, ${data.picks} picks encontrados`);
+        fetchPicks();
+        fetchStats();
+      } else {
+        toast.error('Error en el análisis');
+      }
+    } catch (error) {
+      console.error('Error analyzing:', error);
+      toast.error('Error al analizar partidos');
+    } finally {
+      setAnalyzing(false);
     }
   };
 
@@ -57,17 +142,6 @@ export function ValuePicksDashboard() {
     if (filter === 'high') return p.edge >= 0.08;
     return true;
   });
-
-  const stats = {
-    total: picks.length,
-    sharp: picks.filter(p => p.isSharp).length,
-    avgEdge: picks.length > 0 
-      ? (picks.reduce((a, p) => a + p.edge, 0) / picks.length * 100).toFixed(1) 
-      : '0',
-    bestEdge: picks.length > 0 
-      ? `+${(Math.max(...picks.map(p => p.edge)) * 100).toFixed(0)}%` 
-      : '0%'
-  };
 
   return (
     <div className="space-y-6">
@@ -79,30 +153,42 @@ export function ValuePicksDashboard() {
             Valor Picks
           </h2>
           <p className="text-muted-foreground">
-            Modelo Poisson + deteccion de edge en mercados
+            Modelo Poisson + detección de edge en mercados
           </p>
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={fetchPicks} 
-          disabled={loading}
-        >
-          <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} />
-          Actualizar
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={fetchPicks} 
+            disabled={loading}
+          >
+            <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} />
+            Actualizar
+          </Button>
+          <Button 
+            variant="default" 
+            size="sm" 
+            onClick={analyzeMatches}
+            disabled={analyzing}
+            className="bg-green-600 hover:bg-green-700"
+          >
+            <Play className={cn("w-4 h-4 mr-2", analyzing && "animate-pulse")} />
+            {analyzing ? 'Analizando...' : 'Analizar Partidos'}
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <StatCard 
           title="Total Picks" 
-          value={stats.total.toString()} 
+          value={stats.totalPicks.toString()} 
           icon={<Target className="w-4 h-4" />}
         />
         <StatCard 
           title="Sharp Picks" 
-          value={stats.sharp.toString()} 
+          value={stats.sharpPicks.toString()} 
           icon={<Zap className="w-4 h-4 text-yellow-500" />}
           highlight 
         />
@@ -117,10 +203,15 @@ export function ValuePicksDashboard() {
           icon={<TrendingUp className="w-4 h-4 text-green-500" />}
           highlight 
         />
+        <StatCard 
+          title="Análisis" 
+          value={stats.totalAnalyses.toString()} 
+          icon={<BarChart3 className="w-4 h-4" />}
+        />
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button 
           variant={filter === 'all' ? 'default' : 'outline'} 
           size="sm"
@@ -146,16 +237,60 @@ export function ValuePicksDashboard() {
         </Button>
       </div>
 
+      {/* Status */}
+      {analyzing && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-3">
+          <RefreshCw className="w-5 h-5 text-blue-500 animate-spin" />
+          <div>
+            <p className="font-medium text-blue-900">Analizando partidos...</p>
+            <p className="text-sm text-blue-700">Calculando xG y detectando valor en mercados</p>
+          </div>
+        </div>
+      )}
+
       {/* Picks List */}
       <div className="space-y-4">
         {filteredPicks.map((pick) => (
           <PickCard key={pick.id} pick={pick} />
         ))}
         {filteredPicks.length === 0 && !loading && (
-          <div className="text-center py-12 text-muted-foreground">
-            No hay picks disponibles con los filtros seleccionados
+          <div className="text-center py-12 text-muted-foreground bg-muted/50 rounded-lg border border-dashed">
+            <Target className="w-12 h-12 mx-auto mb-3 opacity-50" />
+            <p className="text-lg font-medium">No hay picks disponibles</p>
+            <p className="text-sm">Haz clic en "Analizar Partidos" para buscar valor</p>
           </div>
         )}
+      </div>
+
+      {/* Info Cards */}
+      <div className="grid md:grid-cols-2 gap-4 mt-8">
+        <Card className="bg-muted/50">
+          <CardHeader>
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-green-500" />
+              ¿Cómo funciona?
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground space-y-2">
+            <p>1. <strong>Modelo Poisson:</strong> Calcula probabilidades reales basadas en xG</p>
+            <p>2. <strong>Detección de Edge:</strong> Compara probabilidades vs odds del mercado</p>
+            <p>3. <strong>Stake Recommendation:</strong> Sugiere stake basado en confianza</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-muted/50">
+          <CardHeader>
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-blue-500" />
+              Métricas
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground space-y-2">
+            <p><strong>Edge:</strong> Diferencia entre probabilidad real y odds</p>
+            <p><strong>Sharp Pick:</strong> Edge mayor al 10%</p>
+            <p><strong>Confianza:</strong> Escala 1-10 basada en edge y probabilidad</p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
@@ -238,7 +373,7 @@ function PickCard({ pick }: { pick: Pick }) {
               <p className="text-xs text-muted-foreground">Edge</p>
               <p className="text-2xl font-bold text-green-600">{pick.edgePercentage}</p>
               <p className="text-xs text-muted-foreground">
-                True: {(pick.analysis.homeXg * 100).toFixed(0)}%
+                True: {(pick.trueProbability * 100).toFixed(1)}%
               </p>
             </div>
             <div>
@@ -262,7 +397,7 @@ function PickCard({ pick }: { pick: Pick }) {
                 variant={pick.edge >= 0.08 ? 'default' : 'secondary'}
                 className="mt-1"
               >
-                {pick.edge >= 0.08 ? '3-4%' : pick.edge >= 0.06 ? '2%' : '1%'}
+                {pick.stakeRecommendation}
               </Badge>
             </div>
           </div>
