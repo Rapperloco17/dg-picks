@@ -80,10 +80,21 @@ function TierBadge({ tier }: { tier: number }) {
   );
 }
 
+// Format time helper
+const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString('en-US', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    hour12: false 
+  });
+};
+
 // Match Card Component
 function MatchCard({ match }: { match: Match }) {
   const isLive = match.status === 'LIVE' || match.status === 'IN_PLAY';
   const isFinished = match.status === 'FINISHED';
+  const isScheduled = match.status === 'SCHEDULED' || match.status === 'NS';
   
   return (
     <a 
@@ -97,13 +108,20 @@ function MatchCard({ match }: { match: Match }) {
           )}
           <span className="text-xs text-zinc-500">{match.league}</span>
         </div>
-        {isLive && (
-          <span className="flex items-center gap-1.5 text-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-red-400 font-medium">LIVE</span>
-          </span>
-        )}
-        {isFinished && <span className="text-xs text-zinc-600">FT</span>}
+        <div className="flex items-center gap-2">
+          {isScheduled && (
+            <span className="text-xs text-zinc-400 font-medium">
+              {formatTime(match.date)}
+            </span>
+          )}
+          {isLive && (
+            <span className="flex items-center gap-1.5 text-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-red-400 font-medium">LIVE</span>
+            </span>
+          )}
+          {isFinished && <span className="text-xs text-zinc-600">FT</span>}
+        </div>
       </div>
       
       <div className="flex items-center justify-between">
