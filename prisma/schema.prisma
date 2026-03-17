@@ -35,6 +35,9 @@ model Match {
   homeScoreP   Int?
   awayScoreP   Int?
   
+  // SharpBet relation
+  sharpBetAnalysis SharpBetAnalysis?
+  
   // Estadísticas enriquecidas
   homeCorners  Int?     @default(0)
   awayCorners  Int?     @default(0)
