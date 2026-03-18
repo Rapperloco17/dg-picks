@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "node scripts/prebuild.js && prisma generate && next build",
     "start": "next start -p ${PORT:-3000}",
     "lint": "eslint",
     "db:seed": "ts-node scripts/seed-database.ts",

@@ -1,0 +1,265 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Match {
+  id          String   @id @default(uuid())
+  fixtureId   Int      @unique
+  leagueId    Int
+  leagueName  String
+  season      Int
+  round       String?
+  date        DateTime
+  timestamp   Int
+  timezone    String
+  status      String
+  
+  homeTeamId   Int
+  homeTeamName String
+  awayTeamId   Int
+  awayTeamName String
+  
+  homeGoals    Int?
+  awayGoals    Int?
+  homeScoreHT  Int?
+  awayScoreHT  Int?
+  homeScoreFT  Int?
+  awayScoreFT  Int?
+  homeScoreET  Int?
+  awayScoreET  Int?
+  homeScoreP   Int?
+  awayScoreP   Int?
+  
+  sharpBetAnalysis SharpBetAnalysis?
+  
+  homeCorners  Int?     @default(0)
+  awayCorners  Int?     @default(0)
+  homeYellowCards Int?  @default(0)
+  awayYellowCards Int?  @default(0)
+  homeRedCards    Int?  @default(0)
+  awayRedCards    Int?  @default(0)
+  homePossession  Float? @default(50)
+  awayPossession  Float? @default(50)
+  homeShots       Int?   @default(0)
+  awayShots       Int?   @default(0)
+  homeShotsOnTarget Int? @default(0)
+  awayShotsOnTarget Int? @default(0)
+  
+  rawData     Json     @default("{}")
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([leagueId])
+  @@index([date])
+  @@index([status])
+  @@index([homeTeamId])
+  @@index([awayTeamId])
+}
+
+model League {
+  id          Int       @id @unique
+  name        String
+  country     String
+  countryCode String?
+  logo        String?
+  flag        String?
+  season      Int
+  seasonStart DateTime?
+  seasonEnd   DateTime?
+  type        String?
+  tier        Int       @default(3)
+  standings   Standing[]
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([country])
+  @@index([season])
+  @@index([tier])
+}
+
+model Team {
+  id          Int       @id @unique
+  name        String
+  code        String?
+  country     String?
+  founded     Int?
+  logo        String?
+  venueName   String?
+  venueCity   String?
+  
+  form        String?
+  
+  played      Int       @default(0)
+  won         Int       @default(0)
+  drawn       Int       @default(0)
+  lost        Int       @default(0)
+  goalsFor    Int       @default(0)
+  goalsAgainst Int      @default(0)
+  points      Int       @default(0)
+  
+  avgPossession     Float?  @default(50)
+  avgCornersFor     Float?  @default(0)
+  avgCornersAgainst Float?  @default(0)
+  avgYellowCards    Float?  @default(0)
+  avgShots          Float?  @default(0)
+  avgShotsOnTarget  Float?  @default(0)
+  
+  standings Standing[]
+  updatedAt DateTime @updatedAt
+  
+  @@index([name])
+  @@index([country])
+}
+
+model Standing {
+  id           String   @id @default(uuid())
+  league       League   @relation(fields: [leagueId], references: [id])
+  leagueId     Int
+  team         Team     @relation(fields: [teamId], references: [id])
+  teamId       Int
+  season       Int
+  
+  rank         Int
+  
+  played       Int      @default(0)
+  won          Int      @default(0)
+  drawn        Int      @default(0)
+  lost         Int      @default(0)
+  goalsFor     Int      @default(0)
+  goalsAgainst Int      @default(0)
+  goalDiff     Int      @default(0)
+  points       Int      @default(0)
+  
+  form         String?
+  description  String?
+  
+  updatedAt    DateTime @updatedAt
+  
+  @@unique([leagueId, teamId, season])
+  @@index([leagueId, season])
+  @@index([rank])
+}
+
+model LiveMatch {
+  id              String   @id @default(uuid())
+  fixtureId       Int      @unique
+  leagueId        Int
+  leagueName      String
+  
+  homeTeamId      Int
+  homeTeamName    String
+  awayTeamId      Int
+  awayTeamName    String
+  
+  homeGoals       Int      @default(0)
+  awayGoals       Int      @default(0)
+  
+  elapsed         Int      @default(0)
+  status          String
+  
+  homePossession  Int?     @default(50)
+  awayPossession  Int?     @default(50)
+  homeShots       Int?     @default(0)
+  awayShots       Int?     @default(0)
+  homeShotsOnTarget Int?   @default(0)
+  awayShotsOnTarget Int?   @default(0)
+  homeCorners     Int?     @default(0)
+  awayCorners     Int?     @default(0)
+  homeYellowCards Int?     @default(0)
+  awayYellowCards Int?     @default(0)
+  homeRedCards    Int?     @default(0)
+  awayRedCards    Int?     @default(0)
+  
+  homeOdds        Float?
+  drawOdds        Float?
+  awayOdds        Float?
+  over25Odds      Float?
+  under25Odds     Float?
+  bttsYesOdds     Float?
+  bttsNoOdds      Float?
+  
+  mlPrediction    Json?    @default("{}")
+  
+  lastUpdated     DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  
+  @@index([leagueId])
+  @@index([status])
+  @@index([lastUpdated])
+}
+
+model ModelStats {
+  id            String   @id @default(uuid())
+  version       String   @unique
+  trainedAt     DateTime @default(now())
+  matchesCount  Int
+  accuracy      Float
+  rmse          Float
+  features      Json     @default("{}")
+  weights       Json     @default("{}")
+  
+  @@index([trainedAt])
+}
+
+model SharpBetAnalysis {
+  id          String   @id @default(uuid())
+  matchId     String   @unique
+  match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  fixtureId   Int      @unique
+  homeXg      Float    @default(0)
+  awayXg      Float    @default(0)
+  expectedTotal Float  @default(0)
+  probHome    Float    @default(0)
+  probDraw    Float    @default(0)
+  probAway    Float    @default(0)
+  probOver15  Float    @default(0)
+  probOver25  Float    @default(0)
+  probOver35  Float    @default(0)
+  probBttsYes Float    @default(0)
+  probBttsNo  Float    @default(0)
+  confidence  Int      @default(5)
+  calculatedAt DateTime @default(now())
+  expiresAt   DateTime
+  picks       SharpBetPick[]
+  @@index([calculatedAt])
+  @@index([expiresAt])
+}
+
+model SharpBetPick {
+  id          String   @id @default(uuid())
+  analysisId  String
+  analysis    SharpBetAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  market      String
+  selection   String
+  odds        Float
+  bookmaker   String   @default("average")
+  trueProbability Float @default(0)
+  impliedProbability Float @default(0)
+  edge        Float    @default(0)
+  edgePercentage String @default("0%")
+  confidence  Int      @default(5)
+  stakeRecommendation String @default("1%")
+  status      String   @default("ACTIVE")
+  result      String?
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+  isSharp     Boolean  @default(false)
+  @@index([status, edge])
+  @@index([createdAt])
+}
+
+model SyncLog {
+  id          String   @id @default(uuid())
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  status      String
+  newMatches  Int      @default(0)
+  errors      String?
+  
+  @@index([startedAt])
+}
