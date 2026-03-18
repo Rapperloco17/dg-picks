@@ -20,30 +20,41 @@ import {
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
-interface Pick {
+interface Match {
   id: string;
-  market: string;
-  selection: string;
-  odds: number;
-  edge: number;
-  edgePercentage: string;
-  confidence: number;
-  bookmaker: string;
-  isSharp: boolean;
-  stakeRecommendation: string;
-  trueProbability: number;
-  impliedProbability: number;
-  analysis: {
-    match: {
-      homeTeamName: string;
-      awayTeamName: string;
-      leagueName: string;
-      date: string;
-    };
-    expectedTotal: number;
+  homeTeamName: string;
+  awayTeamName: string;
+  leagueName: string;
+  date: string;
+  predictions: {
+    '1': number;
+    'X': number;
+    '2': number;
+    over_25: number;
+    btts_yes: number;
+  } | null;
+  sharpBetAnalysis: {
     homeXg: number;
     awayXg: number;
-  };
+    expectedTotal: number;
+    probHome: number;
+    probDraw: number;
+    probAway: number;
+    probOver25: number;
+    probBttsYes: number;
+    picks: Array<{
+      id: string;
+      market: string;
+      selection: string;
+      odds: number;
+      edge: number;
+      edgePercentage: string;
+      confidence: number;
+      isSharp: boolean;
+      stakeRecommendation: string;
+      trueProbability: number;
+    }>;
+  } | null;
 }
 
 interface Stats {
@@ -55,7 +66,7 @@ interface Stats {
 }
 
 export function ValuePicksDashboard() {
-  const [picks, setPicks] = useState<Pick[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
   const [filter, setFilter] = useState<'all' | 'sharp' | 'high'>('all');
@@ -68,78 +79,74 @@ export function ValuePicksDashboard() {
   });
 
   useEffect(() => {
-    fetchPicks();
-    fetchStats();
+    fetchData();
   }, []);
 
-  const fetchPicks = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/sharbet/picks?limit=30');
+      const res = await fetch('/api/predictions/today');
+      if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
-      setPicks(data.picks || []);
       
-      // Calcular stats locales
-      const picksList = data.picks || [];
-      if (picksList.length > 0) {
+      setMatches(data.matches || []);
+      
+      // Calcular stats de picks
+      const allPicks: Array<any> = [];
+      for (const match of data.matches || []) {
+        if (match.sharpBetAnalysis?.picks) {
+          for (const pick of match.sharpBetAnalysis.picks) {
+            allPicks.push({ ...pick, match });
+          }
+        }
+      }
+      
+      if (allPicks.length > 0) {
         setStats(prev => ({
           ...prev,
-          totalPicks: picksList.length,
-          sharpPicks: picksList.filter((p: Pick) => p.isSharp).length,
-          avgEdge: (picksList.reduce((a: number, p: Pick) => a + p.edge, 0) / picksList.length * 100).toFixed(1),
-          bestEdge: `+${(Math.max(...picksList.map((p: Pick) => p.edge)) * 100).toFixed(0)}%`
+          totalPicks: allPicks.length,
+          sharpPicks: allPicks.filter((p: any) => p.isSharp).length,
+          avgEdge: (allPicks.reduce((a: number, p: any) => a + p.edge, 0) / allPicks.length * 100).toFixed(1),
+          bestEdge: `+${(Math.max(...allPicks.map((p: any) => p.edge)) * 100).toFixed(0)}%`
         }));
       }
     } catch (error) {
-      console.error('Error fetching picks:', error);
-      toast.error('Error al cargar picks');
+      console.error('Error fetching data:', error);
+      toast.error('Error al cargar datos');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchStats = async () => {
-    try {
-      const res = await fetch('/api/sharbet/analyze');
-      const data = await res.json();
-      setStats(prev => ({
-        ...prev,
-        totalAnalyses: data.totalAnalyses || 0
-      }));
-    } catch (error) {
-      console.error('Error fetching stats:', error);
     }
   };
 
   const analyzeMatches = async () => {
     try {
       setAnalyzing(true);
-      toast.info('Analizando partidos... esto puede tomar unos minutos');
+      toast.info('Analizando partidos...');
       
-      const res = await fetch('/api/sharbet/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ analyzeAll: false })
-      });
+      // El análisis ya se hace automáticamente en GET /api/predictions/today
+      // Solo recargamos los datos
+      await fetchData();
       
-      const data = await res.json();
-      
-      if (data.success) {
-        toast.success(`Análisis completo: ${data.analyzed} partidos, ${data.picks} picks encontrados`);
-        fetchPicks();
-        fetchStats();
-      } else {
-        toast.error('Error en el análisis');
-      }
+      toast.success('Análisis completo');
     } catch (error) {
       console.error('Error analyzing:', error);
-      toast.error('Error al analizar partidos');
+      toast.error('Error al analizar');
     } finally {
       setAnalyzing(false);
     }
   };
 
-  const filteredPicks = picks.filter(p => {
+  // Extraer todos los picks de los matches
+  const allPicks: Array<any> = [];
+  for (const match of matches) {
+    if (match.sharpBetAnalysis?.picks) {
+      for (const pick of match.sharpBetAnalysis.picks) {
+        allPicks.push({ ...pick, match });
+      }
+    }
+  }
+
+  const filteredPicks = allPicks.filter((p: any) => {
     if (filter === 'sharp') return p.isSharp;
     if (filter === 'high') return p.edge >= 0.08;
     return true;
@@ -162,7 +169,7 @@ export function ValuePicksDashboard() {
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={fetchPicks} 
+            onClick={fetchData} 
             disabled={loading}
           >
             <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} />
@@ -206,8 +213,8 @@ export function ValuePicksDashboard() {
           highlight 
         />
         <StatCard 
-          title="Análisis" 
-          value={stats.totalAnalyses.toString()} 
+          title="Partidos" 
+          value={matches.length.toString()} 
           icon={<BarChart3 className="w-4 h-4" />}
         />
       </div>
@@ -252,14 +259,14 @@ export function ValuePicksDashboard() {
 
       {/* Picks List */}
       <div className="space-y-4">
-        {filteredPicks.map((pick) => (
+        {filteredPicks.map((pick: any) => (
           <PickCard key={pick.id} pick={pick} />
         ))}
         {filteredPicks.length === 0 && !loading && (
           <div className="text-center py-12 text-muted-foreground bg-muted/50 rounded-lg border border-dashed">
             <Target className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p className="text-lg font-medium">No hay picks disponibles</p>
-            <p className="text-sm">Haz clic en "Analizar Partidos" para buscar valor</p>
+            <p className="text-sm">Haz clic en &quot;Analizar Partidos&quot; para buscar valor</p>
           </div>
         )}
       </div>
@@ -326,8 +333,9 @@ function StatCard({ title, value, icon, highlight = false }: {
   );
 }
 
-function PickCard({ pick }: { pick: Pick }) {
-  const match = pick.analysis.match;
+function PickCard({ pick }: { pick: any }) {
+  const match = pick.match;
+  const analysis = match.sharpBetAnalysis;
   
   return (
     <Card className={cn(
@@ -353,10 +361,12 @@ function PickCard({ pick }: { pick: Pick }) {
             <h3 className="text-lg font-bold">
               {match.homeTeamName} vs {match.awayTeamName}
             </h3>
-            <div className="text-xs text-muted-foreground mt-1">
-              xG: {pick.analysis.homeXg.toFixed(2)} - {pick.analysis.awayXg.toFixed(2)} | 
-              Total: {pick.analysis.expectedTotal.toFixed(2)}
-            </div>
+            {analysis && (
+              <div className="text-xs text-muted-foreground mt-1">
+                xG: {analysis.homeXg.toFixed(2)} - {analysis.awayXg.toFixed(2)} | 
+                Total: {analysis.expectedTotal.toFixed(2)}
+              </div>
+            )}
           </div>
 
           {/* Pick Details */}
@@ -369,7 +379,6 @@ function PickCard({ pick }: { pick: Pick }) {
             <div>
               <p className="text-xs text-muted-foreground">Odds</p>
               <p className="text-2xl font-bold text-blue-600">@{pick.odds}</p>
-              <p className="text-xs text-muted-foreground">{pick.bookmaker}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Edge</p>
