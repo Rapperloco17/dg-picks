@@ -5,44 +5,97 @@ export const dynamic = 'force-dynamic';
 
 const TOP_LEAGUES = [39, 140, 61, 78, 135, 262, 2, 3, 848, 531];
 
-export async function POST() {
+// Fechas con partidos reales disponibles en API-Football (2025)
+const AVAILABLE_DATES = [
+  '2025-03-15', // Sábado - muchos partidos
+  '2025-03-16', // Domingo
+  '2025-03-12', // Miércoles - Champions
+  '2025-03-11', // Martes - Champions
+  '2025-03-09', // Premier League
+  '2025-03-08', // Varios
+];
+
+export async function POST(request: Request) {
   try {
-    // Fecha con partidos reales disponibles en API-Football
-    const today = '2025-03-12';
+    const body = await request.json().catch(() => ({}));
+    const dateParam = body.date;
+    
+    // Usar fecha proporcionada o buscar una con partidos
+    let today = dateParam;
+    let matches: any[] = [];
+    let usedDate = '';
+    
     const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
     
     if (!API_KEY) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
-    // Limpiar partidos antiguos de prueba (fechas 2026)
+    // Si el usuario proporciona una fecha específica, usarla
+    if (today) {
+      usedDate = today;
+      const response = await fetch(
+        `https://v3.football.api-sports.io/fixtures?date=${today}`,
+        {
+          headers: {
+            'x-rapidapi-host': 'v3.football.api-sports.io',
+            'x-rapidapi-key': API_KEY
+          }
+        }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        matches = data.response || [];
+      }
+    } else {
+      // Buscar en fechas disponibles hasta encontrar partidos
+      for (const date of AVAILABLE_DATES) {
+        const response = await fetch(
+          `https://v3.football.api-sports.io/fixtures?date=${date}`,
+          {
+            headers: {
+              'x-rapidapi-host': 'v3.football.api-sports.io',
+              'x-rapidapi-key': API_KEY
+            }
+          }
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          matches = data.response || [];
+          
+          // Filtrar ligas top
+          const filtered = matches.filter((m: any) => 
+            TOP_LEAGUES.includes(m.league.id)
+          );
+          
+          if (filtered.length > 0) {
+            usedDate = date;
+            break;
+          }
+        }
+      }
+    }
+
+    if (matches.length === 0) {
+      return NextResponse.json({ 
+        success: false,
+        error: 'No se encontraron partidos en las fechas disponibles',
+        triedDates: AVAILABLE_DATES
+      }, { status: 404 });
+    }
+
+    // Limpiar partidos antiguos
     await prisma.match.deleteMany({
       where: {
         date: {
-          gt: new Date('2026-01-01')
+          lt: new Date('2025-01-01')
         }
       }
     });
 
-    // Obtener partidos reales desde API-Football
-    const response = await fetch(
-      `https://v3.football.api-sports.io/fixtures?date=${today}`,
-      {
-        headers: {
-          'x-rapidapi-host': 'v3.football.api-sports.io',
-          'x-rapidapi-key': API_KEY
-        }
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const matches = data.response || [];
-
-    // Filtrar solo ligas top
+    // Filtrar ligas top
     const filteredMatches = matches.filter((m: any) => 
       TOP_LEAGUES.includes(m.league.id)
     );
@@ -97,12 +150,12 @@ export async function POST() {
 
     return NextResponse.json({
       success: true,
-      date: today,
+      date: usedDate,
       totalFromAPI: matches.length,
       filtered: filteredMatches.length,
       created,
       updated,
-      message: `${created + updated} partidos reales sincronizados`
+      message: `${created + updated} partidos reales sincronizados (${usedDate})`
     });
   } catch (error) {
     console.error('Sync error:', error);
@@ -114,20 +167,17 @@ export async function POST() {
 }
 
 export async function GET() {
-  const today = new Date();
-  const start = new Date(today);
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(today);
-  end.setHours(23, 59, 59, 999);
-
-  const count = await prisma.match.count({
-    where: {
-      date: { gte: start, lte: end }
-    }
+  const count = await prisma.match.count();
+  
+  const latest = await prisma.match.findFirst({
+    orderBy: { date: 'desc' },
+    select: { date: true, homeTeamName: true, awayTeamName: true }
   });
 
   return NextResponse.json({
-    matchesToday: count,
-    date: today.toISOString().split('T')[0]
+    totalMatches: count,
+    latestMatch: latest,
+    availableDates: AVAILABLE_DATES,
+    note: 'API-Football tiene datos hasta marzo 2025'
   });
 }
