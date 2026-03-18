@@ -9,16 +9,53 @@ import {
   Target, 
   Percent, 
   RefreshCw, 
-  Filter, 
   Zap, 
-  Play, 
-  Calendar,
+  Play,
   BarChart3,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Calendar
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+
+interface Match {
+  id: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  leagueName: string;
+  date: string;
+  predictions: {
+    '1': number;
+    'X': number;
+    '2': number;
+    over_25: number;
+    btts_yes: number;
+  } | null;
+  sharpBetAnalysis: {
+    homeXg: number;
+    awayXg: number;
+    expectedTotal: number;
+    probHome: number;
+    probDraw: number;
+    probAway: number;
+    probOver25: number;
+    probBttsYes: number;
+    picks: Array<{
+      id: string;
+      market: string;
+      selection: string;
+      odds: number;
+      edge: number;
+      edgePercentage: string;
+      confidence: number;
+      isSharp: boolean;
+      stakeRecommendation: string;
+      trueProbability: number;
+      impliedProbability: number;
+    }>;
+  } | null;
+}
 
 interface Pick {
   id: string;
@@ -28,21 +65,21 @@ interface Pick {
   edge: number;
   edgePercentage: string;
   confidence: number;
-  bookmaker: string;
   isSharp: boolean;
   stakeRecommendation: string;
   trueProbability: number;
   impliedProbability: number;
-  analysis: {
-    match: {
-      homeTeamName: string;
-      awayTeamName: string;
-      leagueName: string;
-      date: string;
-    };
-    expectedTotal: number;
+  match: {
+    id: string;
+    homeTeamName: string;
+    awayTeamName: string;
+    leagueName: string;
+    date: string;
+  };
+  analysis?: {
     homeXg: number;
     awayXg: number;
+    expectedTotal: number;
   };
 }
 
@@ -55,6 +92,7 @@ interface Stats {
 }
 
 export function ValuePicksDashboard() {
+  const [matches, setMatches] = useState<Match[]>([]);
   const [picks, setPicks] = useState<Pick[]>([]);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
@@ -68,78 +106,82 @@ export function ValuePicksDashboard() {
   });
 
   useEffect(() => {
-    fetchPicks();
-    fetchStats();
+    fetchData();
   }, []);
 
-  const fetchPicks = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/sharbet/picks?limit=30');
+      const res = await fetch('/api/predictions/today');
+      if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
-      setPicks(data.picks || []);
       
-      // Calcular stats locales
-      const picksList = data.picks || [];
-      if (picksList.length > 0) {
+      setMatches(data.matches || []);
+      
+      // Extraer todos los picks de los matches
+      const allPicks: Pick[] = [];
+      for (const match of data.matches || []) {
+        if (match.sharpBetAnalysis?.picks) {
+          for (const pick of match.sharpBetAnalysis.picks) {
+            allPicks.push({
+              ...pick,
+              match: {
+                id: match.id,
+                homeTeamName: match.homeTeamName,
+                awayTeamName: match.awayTeamName,
+                leagueName: match.leagueName,
+                date: match.date
+              },
+              analysis: {
+                homeXg: match.sharpBetAnalysis.homeXg,
+                awayXg: match.sharpBetAnalysis.awayXg,
+                expectedTotal: match.sharpBetAnalysis.expectedTotal
+              }
+            });
+          }
+        }
+      }
+      
+      setPicks(allPicks);
+      
+      // Calcular stats
+      if (allPicks.length > 0) {
         setStats(prev => ({
           ...prev,
-          totalPicks: picksList.length,
-          sharpPicks: picksList.filter((p: Pick) => p.isSharp).length,
-          avgEdge: (picksList.reduce((a: number, p: Pick) => a + p.edge, 0) / picksList.length * 100).toFixed(1),
-          bestEdge: `+${(Math.max(...picksList.map((p: Pick) => p.edge)) * 100).toFixed(0)}%`
+          totalPicks: allPicks.length,
+          sharpPicks: allPicks.filter((p: Pick) => p.isSharp).length,
+          avgEdge: (allPicks.reduce((a: number, p: Pick) => a + p.edge, 0) / allPicks.length * 100).toFixed(1),
+          bestEdge: `+${(Math.max(...allPicks.map((p: Pick) => p.edge)) * 100).toFixed(0)}%`,
+          totalAnalyses: data.matches?.length || 0
         }));
       }
     } catch (error) {
-      console.error('Error fetching picks:', error);
-      toast.error('Error al cargar picks');
+      console.error('Error fetching data:', error);
+      toast.error('Error al cargar datos');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchStats = async () => {
-    try {
-      const res = await fetch('/api/sharbet/analyze');
-      const data = await res.json();
-      setStats(prev => ({
-        ...prev,
-        totalAnalyses: data.totalAnalyses || 0
-      }));
-    } catch (error) {
-      console.error('Error fetching stats:', error);
     }
   };
 
   const analyzeMatches = async () => {
     try {
       setAnalyzing(true);
-      toast.info('Analizando partidos... esto puede tomar unos minutos');
+      toast.info('Analizando partidos...');
       
-      const res = await fetch('/api/sharbet/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ analyzeAll: false })
-      });
+      // El análisis ya se hace automáticamente en GET /api/predictions/today
+      // Solo recargamos los datos
+      await fetchData();
       
-      const data = await res.json();
-      
-      if (data.success) {
-        toast.success(`Análisis completo: ${data.analyzed} partidos, ${data.picks} picks encontrados`);
-        fetchPicks();
-        fetchStats();
-      } else {
-        toast.error('Error en el análisis');
-      }
+      toast.success('Análisis completo');
     } catch (error) {
       console.error('Error analyzing:', error);
-      toast.error('Error al analizar partidos');
+      toast.error('Error al analizar');
     } finally {
       setAnalyzing(false);
     }
   };
 
-  const filteredPicks = picks.filter(p => {
+  const filteredPicks = picks.filter((p: Pick) => {
     if (filter === 'sharp') return p.isSharp;
     if (filter === 'high') return p.edge >= 0.08;
     return true;
@@ -152,17 +194,17 @@ export function ValuePicksDashboard() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <TrendingUp className="text-green-500" />
-            Valor Picks
+            Sharp Picks Pro
           </h2>
           <p className="text-muted-foreground">
-            Modelo Poisson + detección de edge en mercados
+            Modelo Poisson + Detección de Valor
           </p>
         </div>
         <div className="flex gap-2">
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={fetchPicks} 
+            onClick={fetchData} 
             disabled={loading}
           >
             <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} />
@@ -176,7 +218,7 @@ export function ValuePicksDashboard() {
             className="bg-green-600 hover:bg-green-700"
           >
             <Play className={cn("w-4 h-4 mr-2", analyzing && "animate-pulse")} />
-            {analyzing ? 'Analizando...' : 'Analizar Partidos'}
+            {analyzing ? 'Analizando...' : 'Analizar'}
           </Button>
         </div>
       </div>
@@ -184,12 +226,12 @@ export function ValuePicksDashboard() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <StatCard 
-          title="Total Picks" 
+          title="Picks Hoy" 
           value={stats.totalPicks.toString()} 
           icon={<Target className="w-4 h-4" />}
         />
         <StatCard 
-          title="Sharp Picks" 
+          title="Sharp" 
           value={stats.sharpPicks.toString()} 
           icon={<Zap className="w-4 h-4 text-yellow-500" />}
           highlight 
@@ -206,8 +248,8 @@ export function ValuePicksDashboard() {
           highlight 
         />
         <StatCard 
-          title="Análisis" 
-          value={stats.totalAnalyses.toString()} 
+          title="Partidos" 
+          value={matches.length.toString()} 
           icon={<BarChart3 className="w-4 h-4" />}
         />
       </div>
@@ -245,7 +287,7 @@ export function ValuePicksDashboard() {
           <RefreshCw className="w-5 h-5 text-blue-500 animate-spin" />
           <div>
             <p className="font-medium text-blue-900">Analizando partidos...</p>
-            <p className="text-sm text-blue-700">Calculando xG y detectando valor en mercados</p>
+            <p className="text-sm text-blue-700">Calculando xG y detectando valor</p>
           </div>
         </div>
       )}
@@ -259,7 +301,7 @@ export function ValuePicksDashboard() {
           <div className="text-center py-12 text-muted-foreground bg-muted/50 rounded-lg border border-dashed">
             <Target className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p className="text-lg font-medium">No hay picks disponibles</p>
-            <p className="text-sm">Haz clic en "Analizar Partidos" para buscar valor</p>
+            <p className="text-sm">Haz clic en &quot;Analizar&quot; para buscar valor</p>
           </div>
         )}
       </div>
@@ -274,9 +316,9 @@ export function ValuePicksDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-2">
-            <p>1. <strong>Modelo Poisson:</strong> Calcula probabilidades reales basadas en xG</p>
-            <p>2. <strong>Detección de Edge:</strong> Compara probabilidades vs odds del mercado</p>
-            <p>3. <strong>Stake Recommendation:</strong> Sugiere stake basado en confianza</p>
+            <p>1. <strong>Modelo Poisson:</strong> Calcula xG y probabilidades reales</p>
+            <p>2. <strong>Detección de Edge:</strong> Compara con odds del mercado</p>
+            <p>3. <strong>Stake:</strong> Sugiere stake basado en confianza</p>
           </CardContent>
         </Card>
 
@@ -288,9 +330,9 @@ export function ValuePicksDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-2">
-            <p><strong>Edge:</strong> Diferencia entre probabilidad real y odds</p>
-            <p><strong>Sharp Pick:</strong> Edge mayor al 10%</p>
-            <p><strong>Confianza:</strong> Escala 1-10 basada en edge y probabilidad</p>
+            <p><strong>Edge:</strong> Ventaja sobre el mercado</p>
+            <p><strong>Sharp:</strong> Edge mayor al 10%</p>
+            <p><strong>Confianza:</strong> Escala 1-10</p>
           </CardContent>
         </Card>
       </div>
@@ -327,8 +369,6 @@ function StatCard({ title, value, icon, highlight = false }: {
 }
 
 function PickCard({ pick }: { pick: Pick }) {
-  const match = pick.analysis.match;
-  
   return (
     <Card className={cn(
       "border-l-4 transition-shadow hover:shadow-md",
@@ -345,18 +385,20 @@ function PickCard({ pick }: { pick: Pick }) {
                   SHARP
                 </Badge>
               )}
-              <Badge variant="outline">{match.leagueName}</Badge>
+              <Badge variant="outline">{pick.match.leagueName}</Badge>
               <span className="text-xs text-muted-foreground">
-                {new Date(match.date).toLocaleDateString()}
+                {new Date(pick.match.date).toLocaleDateString()}
               </span>
             </div>
             <h3 className="text-lg font-bold">
-              {match.homeTeamName} vs {match.awayTeamName}
+              {pick.match.homeTeamName} vs {pick.match.awayTeamName}
             </h3>
-            <div className="text-xs text-muted-foreground mt-1">
-              xG: {pick.analysis.homeXg.toFixed(2)} - {pick.analysis.awayXg.toFixed(2)} | 
-              Total: {pick.analysis.expectedTotal.toFixed(2)}
-            </div>
+            {pick.analysis && (
+              <div className="text-xs text-muted-foreground mt-1">
+                xG: {pick.analysis.homeXg.toFixed(2)} - {pick.analysis.awayXg.toFixed(2)} | 
+                Total: {pick.analysis.expectedTotal.toFixed(2)}
+              </div>
+            )}
           </div>
 
           {/* Pick Details */}
@@ -369,7 +411,6 @@ function PickCard({ pick }: { pick: Pick }) {
             <div>
               <p className="text-xs text-muted-foreground">Odds</p>
               <p className="text-2xl font-bold text-blue-600">@{pick.odds}</p>
-              <p className="text-xs text-muted-foreground">{pick.bookmaker}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Edge</p>
