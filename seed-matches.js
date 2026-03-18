@@ -8,8 +8,7 @@ const mockMatches = [
     leagueId: 39,
     leagueName: 'Premier League',
     season: 2024,
-    date: new Date(), // Hoy
-    timestamp: Math.floor(Date.now() / 1000),
+    round: 'Jornada 28',
     timezone: 'UTC',
     status: 'SCHEDULED',
     homeTeamId: 33,
@@ -18,15 +17,14 @@ const mockMatches = [
     awayTeamName: 'Newcastle',
     homeGoals: null,
     awayGoals: null,
-    rawData: {}
+    rawData: '{}'
   },
   {
     fixtureId: 100002,
     leagueId: 140,
     leagueName: 'La Liga',
     season: 2024,
-    date: new Date(Date.now() + 2 * 60 * 60 * 1000), // En 2 horas
-    timestamp: Math.floor(Date.now() / 1000) + 7200,
+    round: 'Jornada 28',
     timezone: 'UTC',
     status: 'SCHEDULED',
     homeTeamId: 529,
@@ -35,15 +33,14 @@ const mockMatches = [
     awayTeamName: 'Atletico Madrid',
     homeGoals: null,
     awayGoals: null,
-    rawData: {}
+    rawData: '{}'
   },
   {
     fixtureId: 100003,
     leagueId: 135,
     leagueName: 'Serie A',
     season: 2024,
-    date: new Date(Date.now() + 4 * 60 * 60 * 1000), // En 4 horas
-    timestamp: Math.floor(Date.now() / 1000) + 14400,
+    round: 'Jornada 28',
     timezone: 'UTC',
     status: 'SCHEDULED',
     homeTeamId: 489,
@@ -52,15 +49,14 @@ const mockMatches = [
     awayTeamName: 'Napoli',
     homeGoals: null,
     awayGoals: null,
-    rawData: {}
+    rawData: '{}'
   },
   {
     fixtureId: 100004,
     leagueId: 78,
     leagueName: 'Bundesliga',
     season: 2024,
-    date: new Date(Date.now() + 6 * 60 * 60 * 1000), // En 6 horas
-    timestamp: Math.floor(Date.now() / 1000) + 21600,
+    round: 'Jornada 26',
     timezone: 'UTC',
     status: 'SCHEDULED',
     homeTeamId: 157,
@@ -69,15 +65,14 @@ const mockMatches = [
     awayTeamName: 'Borussia Dortmund',
     homeGoals: null,
     awayGoals: null,
-    rawData: {}
+    rawData: '{}'
   },
   {
     fixtureId: 100005,
     leagueId: 262,
     leagueName: 'Liga MX',
     season: 2024,
-    date: new Date(Date.now() + 8 * 60 * 60 * 1000), // En 8 horas
-    timestamp: Math.floor(Date.now() / 1000) + 28800,
+    round: 'Jornada 12',
     timezone: 'UTC',
     status: 'SCHEDULED',
     homeTeamId: 2282,
@@ -86,19 +81,33 @@ const mockMatches = [
     awayTeamName: 'Chivas',
     homeGoals: null,
     awayGoals: null,
-    rawData: {}
+    rawData: '{}'
   }
 ];
 
 async function seed() {
   console.log('Creando partidos de prueba...\n');
   
-  for (const match of mockMatches) {
+  const now = new Date();
+  
+  for (let i = 0; i < mockMatches.length; i++) {
+    const base = mockMatches[i];
+    const date = new Date(now);
+    date.setHours(12 + i * 2, 0, 0, 0);
+    
     try {
       const created = await prisma.match.upsert({
-        where: { fixtureId: match.fixtureId },
-        update: match,
-        create: match
+        where: { fixtureId: base.fixtureId },
+        update: {
+          ...base,
+          date,
+          timestamp: Math.floor(date.getTime() / 1000)
+        },
+        create: {
+          ...base,
+          date,
+          timestamp: Math.floor(date.getTime() / 1000)
+        }
       });
       console.log(`✅ ${created.homeTeamName} vs ${created.awayTeamName}`);
     } catch (e) {
