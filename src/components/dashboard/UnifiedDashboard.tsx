@@ -373,20 +373,26 @@ export function UnifiedDashboard() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {matches
-                  .flatMap(m => m.valueBets.map(v => ({ ...v, match: `${m.homeTeam} vs ${m.awayTeam}` })))
+                  .flatMap(m => m.valueBets.map(v => ({ ...v, match: `${m.homeTeam} vs ${m.awayTeam}`, league: m.league })))
                   .sort((a, b) => b.edge - a.edge)
                   .slice(0, 5)
                   .map(bet => (
-                    <div key={bet.id} className="p-3 bg-slate-800/50 rounded-lg">
-                      <p className="text-sm text-slate-400 mb-1">{bet.match}</p>
+                    <div key={bet.id} className="p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors">
+                      <div className="flex items-center justify-between mb-1">
+                        <Badge variant="outline" className="text-[10px] border-slate-600 text-slate-400">
+                          {bet.league}
+                        </Badge>
+                        <span className="text-xs font-bold text-green-400">+{(bet.edge * 100).toFixed(0)}% edge</span>
+                      </div>
+                      <p className="text-sm text-slate-300 mb-1 truncate">{bet.match}</p>
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-white font-medium">{bet.market}</p>
                           <p className="text-sm text-slate-400">{bet.selection}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-white">@{bet.odds}</p>
-                          <p className="text-sm text-green-400">+{(bet.edge * 100).toFixed(0)}% edge</p>
+                          <p className="text-xl font-bold text-white">@{bet.odds}</p>
+                          <p className="text-xs text-slate-500">Stake {bet.stake}</p>
                         </div>
                       </div>
                       <Button 
@@ -395,7 +401,7 @@ export function UnifiedDashboard() {
                         onClick={() => addToCart(bet)}
                         disabled={cart.some(b => b.id === bet.id)}
                       >
-                        {cart.some(b => b.id === bet.id) ? '✓ Agregado' : '+ Agregar'}
+                        {cart.some(b => b.id === bet.id) ? '✓ Agregado' : '+ Agregar al Parlay'}
                       </Button>
                     </div>
                   ))}
@@ -424,9 +430,10 @@ export function UnifiedDashboard() {
                     </div>
                     <div className="space-y-1 mb-3">
                       {parlay.picks.map((pick, i) => (
-                        <p key={i} className="text-sm text-slate-400 truncate">
-                          • {pick.selection} @{pick.odds}
-                        </p>
+                        <div key={i} className="text-sm">
+                          <p className="text-slate-500 truncate">{pick.match}</p>
+                          <p className="text-slate-300">→ {pick.selection} <span className="text-green-400">@{pick.odds}</span></p>
+                        </div>
                       ))}
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t border-slate-700">
