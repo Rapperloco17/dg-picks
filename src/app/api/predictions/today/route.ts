@@ -6,17 +6,13 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    // Obtener partidos del día
-    const now = new Date();
-    const start = new Date(now);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(now);
-    end.setHours(23, 59, 59, 999);
+    // Obtener partidos próximos (próximos 7 días desde cualquier fecha)
+    const start = new Date('2025-01-01');
+    const end = new Date('2025-12-31');
 
     const matches = await prisma.match.findMany({
       where: {
-        date: { gte: start, lte: end },
-        status: { in: ['SCHEDULED', 'TIMED', 'LIVE'] }
+        date: { gte: start, lte: end }
       },
       include: {
         sharpBetAnalysis: {

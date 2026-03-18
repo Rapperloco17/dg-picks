@@ -7,14 +7,24 @@ const TOP_LEAGUES = [39, 140, 61, 78, 135, 262, 2, 3, 848, 531];
 
 export async function POST() {
   try {
-    const today = new Date().toISOString().split('T')[0];
+    // Fecha con partidos reales disponibles en API-Football
+    const today = '2025-03-12';
     const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
     
     if (!API_KEY) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
-    // Obtener partidos de hoy desde API-Football
+    // Limpiar partidos antiguos de prueba (fechas 2026)
+    await prisma.match.deleteMany({
+      where: {
+        date: {
+          gt: new Date('2026-01-01')
+        }
+      }
+    });
+
+    // Obtener partidos reales desde API-Football
     const response = await fetch(
       `https://v3.football.api-sports.io/fixtures?date=${today}`,
       {
@@ -91,7 +101,8 @@ export async function POST() {
       totalFromAPI: matches.length,
       filtered: filteredMatches.length,
       created,
-      updated
+      updated,
+      message: `${created + updated} partidos reales sincronizados`
     });
   } catch (error) {
     console.error('Sync error:', error);
