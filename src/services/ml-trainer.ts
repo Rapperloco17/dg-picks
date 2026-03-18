@@ -919,15 +919,15 @@ export async function trainAndSaveModel(): Promise<TrainedModel> {
         accuracy: model.metrics.accuracy,
         rmse: model.metrics.loss,
         features: model.featureImportance as any,
-        weights: {},
+        weights: "{}",
       },
       create: {
         version: 'latest',
         matchesCount: model.metrics.trainingSamples + model.metrics.testSamples,
         accuracy: model.metrics.accuracy,
         rmse: model.metrics.loss,
-        features: model.featureImportance as any,
-        weights: {},
+        features: JSON.stringify(model.featureImportance),
+        weights: "{}",
       },
     });
   }

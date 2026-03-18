@@ -91,7 +91,7 @@ export async function POST() {
           ...base,
           date,
           timestamp: Math.floor(date.getTime() / 1000),
-          rawData: base,
+          rawData: JSON.stringify(base),
         }
       });
       

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -52,8 +52,8 @@ model Match {
   homeShotsOnTarget Int? @default(0)
   awayShotsOnTarget Int? @default(0)
   
-  // Raw data completo
-  rawData     Json
+  // Raw data completo (SQLite no soporta Json nativo, lo guardamos como String)
+  rawData     String   @default("{}")
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -77,7 +77,7 @@ model League {
   seasonStart DateTime?
   seasonEnd   DateTime?
   type        String?   // league, cup, etc
-  tier        Int       @default(3) // 1 = Top tier, 2 = Second tier, 3 = Lower tiers
+  tier        Int       @default(3)
   standings   Standing[]
   updatedAt   DateTime  @updatedAt
   
@@ -97,10 +97,8 @@ model Team {
   venueName   String?
   venueCity   String?
   
-  // Forma reciente (últimos 5 partidos)
   form        String?   // Ej: "WWDLL"
   
-  // Estadísticas de la temporada
   played      Int       @default(0)
   won         Int       @default(0)
   drawn       Int       @default(0)
@@ -109,7 +107,6 @@ model Team {
   goalsAgainst Int      @default(0)
   points      Int       @default(0)
   
-  // Estadísticas avanzadas
   avgPossession     Float?  @default(50)
   avgCornersFor     Float?  @default(0)
   avgCornersAgainst Float?  @default(0)
@@ -133,10 +130,8 @@ model Standing {
   teamId       Int
   season       Int
   
-  // Posición
   rank         Int
   
-  // Estadísticas
   played       Int      @default(0)
   won          Int      @default(0)
   drawn        Int      @default(0)
@@ -146,10 +141,7 @@ model Standing {
   goalDiff     Int      @default(0)
   points       Int      @default(0)
   
-  // Forma
-  form         String?  // "WWDLL"
-  
-  // Description (para clasificación a torneos)
+  form         String?
   description  String?
   
   updatedAt    DateTime @updatedAt
@@ -171,15 +163,12 @@ model LiveMatch {
   awayTeamId      Int
   awayTeamName    String
   
-  // Marcador
   homeGoals       Int      @default(0)
   awayGoals       Int      @default(0)
   
-  // Tiempo
-  elapsed         Int      @default(0)  // Minutos
-  status          String   // LIVE, HT, FT, etc
+  elapsed         Int      @default(0)
+  status          String
   
-  // Estadísticas en vivo
   homePossession  Int?     @default(50)
   awayPossession  Int?     @default(50)
   homeShots       Int?     @default(0)
@@ -193,7 +182,6 @@ model LiveMatch {
   homeRedCards    Int?     @default(0)
   awayRedCards    Int?     @default(0)
   
-  // Momios (odds) en vivo
   homeOdds        Float?
   drawOdds        Float?
   awayOdds        Float?
@@ -202,10 +190,8 @@ model LiveMatch {
   bttsYesOdds     Float?
   bttsNoOdds      Float?
   
-  // Predicción ML
-  mlPrediction    Json?    // {homeWin: 0.45, draw: 0.30, awayWin: 0.25, suggestedBet: "over2.5"}
+  mlPrediction    String?  @default("{}")
   
-  // Última actualización
   lastUpdated     DateTime @updatedAt
   createdAt       DateTime @default(now())
   
@@ -221,8 +207,8 @@ model ModelStats {
   matchesCount  Int
   accuracy      Float
   rmse          Float
-  features      Json
-  weights       Json
+  features      String   @default("{}")
+  weights       String   @default("{}")
   
   @@index([trainedAt])
 }
@@ -233,55 +219,53 @@ model SharpBetAnalysis {
   matchId     String   @unique
   match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
   fixtureId   Int      @unique
-  homeXg      Float    @map("home_xg")
-  awayXg      Float    @map("away_xg")
-  expectedTotal Float  @map("expected_total")
-  probHome    Float    @map("prob_home")
-  probDraw    Float    @map("prob_draw")
-  probAway    Float    @map("prob_away")
-  probOver15  Float    @map("prob_over_15")
-  probOver25  Float    @map("prob_over_25")
-  probOver35  Float    @map("prob_over_35")
-  probBttsYes Float    @map("prob_btts_yes")
-  probBttsNo  Float    @map("prob_btts_no")
+  homeXg      Float    @default(0)
+  awayXg      Float    @default(0)
+  expectedTotal Float  @default(0)
+  probHome    Float    @default(0)
+  probDraw    Float    @default(0)
+  probAway    Float    @default(0)
+  probOver15  Float    @default(0)
+  probOver25  Float    @default(0)
+  probOver35  Float    @default(0)
+  probBttsYes Float    @default(0)
+  probBttsNo  Float    @default(0)
   confidence  Int      @default(5)
-  calculatedAt DateTime @default(now()) @map("calculated_at")
-  expiresAt   DateTime @map("expires_at")
+  calculatedAt DateTime @default(now())
+  expiresAt   DateTime
   picks       SharpBetPick[]
   @@index([calculatedAt])
   @@index([expiresAt])
-  @@map("sharbet_analysis")
 }
 
 model SharpBetPick {
   id          String   @id @default(uuid())
-  analysisId  String   @map("analysis_id")
+  analysisId  String
   analysis    SharpBetAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
   market      String
   selection   String
   odds        Float
   bookmaker   String   @default("average")
-  trueProbability Float @map("true_probability")
-  impliedProbability Float @map("implied_probability")
-  edge        Float
-  edgePercentage String @map("edge_percentage")
-  confidence  Int
-  stakeRecommendation String @map("stake_recommendation")
+  trueProbability Float @default(0)
+  impliedProbability Float @default(0)
+  edge        Float    @default(0)
+  edgePercentage String @default("0%")
+  confidence  Int      @default(5)
+  stakeRecommendation String @default("1%")
   status      String   @default("ACTIVE")
   result      String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  expiresAt   DateTime @map("expires_at")
-  isSharp     Boolean  @default(false) @map("is_sharp")
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+  isSharp     Boolean  @default(false)
   @@index([status, edge])
   @@index([createdAt])
-  @@map("sharbet_picks")
 }
 
 model SyncLog {
   id          String   @id @default(uuid())
   startedAt   DateTime @default(now())
   endedAt     DateTime?
-  status      String   // running, completed, error
+  status      String
   newMatches  Int      @default(0)
   errors      String?
   

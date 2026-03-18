@@ -60,7 +60,7 @@ async function trainInitialModel() {
         accuracy: model.metrics.accuracy,
         rmse: model.metrics.loss,
         features: model.featureImportance as any,
-        weights: {},
+        weights: "{}",
       }
     });
 

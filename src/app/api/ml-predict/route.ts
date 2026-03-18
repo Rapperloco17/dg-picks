@@ -95,8 +95,8 @@ export async function POST(request: NextRequest) {
     const homeMatches = await prisma.match.findMany({
       where: { 
         OR: [
-          { homeTeamName: { contains: homeTeam, mode: 'insensitive' } },
-          { awayTeamName: { contains: homeTeam, mode: 'insensitive' } }
+          { homeTeamName: { contains: homeTeam } },
+          { awayTeamName: { contains: homeTeam } }
         ],
         status: 'FT'
       },
@@ -107,8 +107,8 @@ export async function POST(request: NextRequest) {
     const awayMatches = await prisma.match.findMany({
       where: { 
         OR: [
-          { homeTeamName: { contains: awayTeam, mode: 'insensitive' } },
-          { awayTeamName: { contains: awayTeam, mode: 'insensitive' } }
+          { homeTeamName: { contains: awayTeam } },
+          { awayTeamName: { contains: awayTeam } }
         ],
         status: 'FT'
       },
